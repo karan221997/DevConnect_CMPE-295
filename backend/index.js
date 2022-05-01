@@ -1,31 +1,44 @@
 const express = require('express');
-require('dotenv').config();
 const app = express();
 const port = process.env.port || 3001;
 const axios = require("axios");
 const http = require("http");
 const cors = require("cors");
 const connectMongo = require("./utils/mongoose");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
-app.use(
-    cors({
-      origin: "*",
-      methods: ["GET", "POST"],
-      credentials: true,
-    })
-  );
+const userRoute = require("./routes/users");
+const authRoute = require("./routes/auth");
 
+dotenv.config();
 
+connectMongo();
 
-  connectMongo();
+//middleware
+// app.use(
+//     cors({
+//       origin: "*",
+//       methods: ["GET", "POST"],
+//       credentials: true,
+//     })
+//   );
+
+  app.use(express.json());
+  app.use(helmet());
+  app.use(morgan("common"));
+  app.use("/api/users", userRoute);
+  app.use("/api/auth", authRoute);
 
 app.get("/", (req, res) => {
-    res.status(200).send("DevConnect Server Started");
+    res.status(200).send("DevConnect-backend Server Started");
   });
 
   app.listen(port, () => {
   console.log(
-    `Express Server for Devconnect started at http://localhost:${port}`
+    `Express Backend Server for Devconnect started at http://localhost:${port}`
   );
 });
 
