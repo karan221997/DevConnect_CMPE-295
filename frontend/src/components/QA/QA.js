@@ -15,7 +15,7 @@ export default function SimpleAccordion() {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography><b>How to return the response from an asynchronous call?</b></Typography>
+          <Typography><b>Q. How to return the response from an asynchronous call?</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -34,7 +34,7 @@ All three are available in current browsers, and node 7+.
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography><b>Event binding on dynamically created elements?</b></Typography>
+          <Typography><b>Q. Event binding on dynamically created elements?</b></Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
