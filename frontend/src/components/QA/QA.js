@@ -6,11 +6,14 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TopNavBar from '../TopNavBar/TopNavBar';
 
+
+
 export default function SimpleAccordion() {
   return (
     <div>
       <TopNavBar/>
         <h1>Question and Answer Forum</h1>
+        
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -29,6 +32,7 @@ Promises with then() (ES2015+, available in older browsers if you use one of the
 All three are available in current browsers, and node 7+.
           </Typography>
         </AccordionDetails>
+       
       </Accordion>
       <Accordion>
         <AccordionSummary
@@ -50,6 +54,7 @@ I have found this plugin (jQuery Live Query Plugin), but before I add another 5k
           </Typography>
         </AccordionDetails>
       </Accordion>
+      
     </div>
   );
 }
