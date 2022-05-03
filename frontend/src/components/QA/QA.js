@@ -4,12 +4,14 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import TopNavBar from '../TopNavBar/TopNavBar';
 
 
 
 export default function SimpleAccordion() {
   return (
     <div>
+      <TopNavBar/>
         <h1>Question and Answer Forum</h1>
         
       <Accordion>
