@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import "./login.css";
+import { useRef } from "react";
+import {loginCall} from "../../apiCalls";
+import { AuthContext } from '../../context/AuthContext';
 
-export default function Login(){
-    return(
-        <div className="login">
+export default function Login() {
+
+  const email = useRef();
+  const password = useRef();
+  const {user,isFetching,error,dispatch} = useContext(AuthContext);
+
+  const handleClick = (e) => {
+
+    e.preventDefault();
+    console.log("clicked submit of login");
+    console.log("email:" + email.current.value);
+    console.log("password:" + password.current.value);
+    loginCall({email:email.current.value,password:password.current.value},dispatch);
+  }
+
+
+console.log(user);
+  return (
+    <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
           <h1 className="loginLogo">DevConnect</h1>
@@ -11,19 +30,19 @@ export default function Login(){
             One Bug At A Time.
           </span>
         </div>
-        <div className="loginRight">
-          <div className="loginBox">
-            <input placeholder="Email" className="loginInput" />
-            <input placeholder="Password" className="loginInput" />
+        <div className="loginRight" onSubmit={handleClick}>
+          <form className="loginBox">
+            <input placeholder="Email" type="email" required ref={email} className="loginInput" />
+            <input placeholder="Password" type="password" ref={password} required className="loginInput" />
             <button className="loginButton">Log In</button>
             <span className="loginForgot">Forgot Password?</span>
             <span className="adminLogin">Admin Login?</span>
             <button className="loginRegisterButton">
               Create a New Account
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
-    )
+  )
 }
