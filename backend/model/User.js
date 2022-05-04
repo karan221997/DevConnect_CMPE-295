@@ -1,30 +1,32 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-    Username: {
+    userName: {
         type: String,
         required: true,
-        min:3,
-        max:20,
+        max: 20,
         unique: true
+    },
+    phoneNumber: {
+        type: String,
+        max: 20
     },
     email: {
         type: String,
         required: true,
-        max:50,
+        max: 50,
         unique: true
     },
     password: {
         type: String,
-        min:8,
-        max:20,
+        max: 20,
         required: true
     },
     profilePicture: {
         type: String,
         default: ""
     },
-     coverPicture: {
+    coverPicture: {
         type: String,
         default: ""
     },
@@ -46,15 +48,15 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    description : {
+    description: {
         type: String,
-        max : 100,
+        max: 100,
         default: ""
     },
-    location : {
+    location: {
         type: String,
         default: ""
     }
-}, {timestamps: true} );
+}, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);

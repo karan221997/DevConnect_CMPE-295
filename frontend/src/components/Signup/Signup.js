@@ -1,6 +1,52 @@
 import "./signup.css";
+import { useRef,useContext } from "react";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Signup() {
+
+  const userName = useRef();
+  const phoneNumber = useRef();
+  const email = useRef();
+  const password = useRef();
+  const passwordAgain = useRef();
+  const navigate = useNavigate();
+  const {user} = useContext(AuthContext);
+  
+
+  const handleClick = async (e) => {
+
+    e.preventDefault();
+    console.log("clicked submit of signup");
+    console.log("email:" + email.current.value);
+    console.log("password:" + password.current.value);
+
+    if (password.current.value !== passwordAgain.current.value) {
+      console.log("password not matched");
+      passwordAgain.current.setCustomValidity("Passwords does not match");
+    } else {
+      const user = {
+        email:email.current.value,
+        userName: userName.current.value,
+        phoneNumber: phoneNumber.current.value,
+        password: password.current.value,
+        passwordAgain: passwordAgain.current.value
+      }
+      try {
+         await axios.post("/api/auth/register", user);
+        navigate("/login");
+      } catch (err) {
+        console.log(err);
+      }
+
+
+    }
+
+
+
+  }
+
   return (
     <div className="login">
       <div className="loginWrapper">
@@ -11,17 +57,17 @@ export default function Signup() {
           </span>
         </div>
         <div className="loginRight">
-          <div className="loginBox">
-            <input placeholder="Username" className="loginInput" />
-            <input placeholder="Phone Number" className="loginInput" />
-            <input placeholder="Email" className="loginInput" />
-            <input placeholder="Password" className="loginInput" />
-            <input placeholder="Password Again" className="loginInput" />
-            <button className="loginButton">Sign Up</button>
+          <form className="loginBox" onSubmit={handleClick}>
+            <input placeholder="Username" ref={userName} required className="loginInput" />
+            <input placeholder="Phone Number" ref={phoneNumber} required className="loginInput" />
+            <input placeholder="Email" type="email" ref={email} required className="loginInput" />
+            <input placeholder="Password" type="password" ref={password} required className="loginInput" />
+            <input placeholder="Password Again" type="password" ref={passwordAgain} required className="loginInput" />
+            <button className="loginButton" type="submit">Sign Up</button>
             <button className="loginRegisterButton">
               Log into Account
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>

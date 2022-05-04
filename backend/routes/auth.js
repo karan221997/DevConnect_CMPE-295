@@ -7,12 +7,19 @@ const bcrypt = require('bcrypt');
 router.post("/register", async (req, res) => {
     try{
         //generate password
+        console.log("inside register api");
+        console.log(req.body);
+        console.log(req.body.userName);
+        console.log(req.body.email);
+        console.log(req.body.password);
+        console.log(req.body.phoneNumber);
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(req.body.password, salt);
 
         //create new user
         const user =  await new User({
-            Username: req.body.Username,
+            userName: req.body.userName,
+            phoneNumber:req.body.phoneNumber,
             email: req.body.email,
             password: hashPassword,
             profilePicture: req.body.profilePicture,
@@ -22,12 +29,16 @@ router.post("/register", async (req, res) => {
             following: req.body.following,
             isAdmin: req.body.isAdmin
     });
+    console.log("============================");
+    console.log(user.userName);
 
         //save user and return response
         const savedUser = await user.save();
+        console.log("user registered");
         res.status(200).json(savedUser);
     }
     catch(err){
+        console.log(err);
         res.json({message: err});
     }
 

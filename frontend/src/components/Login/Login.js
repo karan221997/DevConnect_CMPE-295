@@ -20,7 +20,7 @@ export default function Login() {
   }
 
 
-console.log(user);
+
   return (
     <div className="login">
       <div className="loginWrapper">
