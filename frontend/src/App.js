@@ -13,16 +13,10 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/qa" element={<QA />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
-
-          {/* <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
-          <Route exact path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-          <Route exact path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
+          <Route exact path="/login" element={user ? <Dashboard /> : <Login />} />
+          <Route exact path="/signup" element={user ? <Navigate to="/login" /> : <Signup />} />
           <Route exact path="/dashboard" element={user ? <Dashboard /> : <Login />} />
-          <Route exact path="/qa" element={<QA />} /> */}
+          <Route exact path="/qa" element={<QA />} />
         </Routes>
       </BrowserRouter>
     </div>

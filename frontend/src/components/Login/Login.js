@@ -10,7 +10,7 @@ export default function Login() {
   const password = useRef();
   const {user,isFetching,error,dispatch} = useContext(AuthContext);
 
-  const handleClick = (e) => {
+  const handleLoginClick = (e) => {
 
     e.preventDefault();
     console.log("clicked submit of login");
@@ -30,7 +30,7 @@ export default function Login() {
             One Bug At A Time.
           </span>
         </div>
-        <div className="loginRight" onSubmit={handleClick}>
+        <div className="loginRight" onSubmit={handleLoginClick}>
           <form className="loginBox">
             <input placeholder="Email" type="email" required ref={email} className="loginInput" />
             <input placeholder="Password" type="password" ref={password} required className="loginInput" />

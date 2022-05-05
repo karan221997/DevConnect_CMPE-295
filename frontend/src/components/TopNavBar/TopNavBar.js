@@ -1,5 +1,6 @@
-import React from "react";
+import React  from "react";
 import "./TopNavBar.css";
+
 import {
   Search,
   Person,
@@ -7,7 +8,19 @@ import {
   Notifications,
   HomeRounded,
 } from "@mui/icons-material";
+import { useNavigate } from 'react-router-dom';
 function TopNavBar() {
+
+  
+  const navigate = useNavigate();
+
+  const handleLogoutClick = (e) => {
+
+    e.preventDefault();
+    localStorage.clear();
+    navigate("/login");
+    window.location.reload();
+  }
   return (
     <div>
       <div id="topbarContainer" className="topbarContainer">
@@ -51,6 +64,11 @@ function TopNavBar() {
             alt="avatar1"
             className="topbarImg"
           />
+        </div>
+        <div>
+          <button onClick={handleLogoutClick}>
+            Logout
+          </button>
         </div>
       </div>
     </div>
