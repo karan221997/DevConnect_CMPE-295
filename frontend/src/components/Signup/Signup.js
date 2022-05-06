@@ -12,7 +12,7 @@ export default function Signup() {
   const password = useRef();
   const passwordAgain = useRef();
   const navigate = useNavigate();
-  const {user} = useContext(AuthContext);
+
   
 
   const handleClick = async (e) => {
@@ -53,7 +53,7 @@ export default function Signup() {
         <div className="loginLeft">
           <h1 className="loginLogo">DevConnect</h1>
           <span className="loginDesc">
-            One Bug At A Time
+          Making Developers Life Easy.<br></br> One Bug At A Time.
           </span>
         </div>
         <div className="loginRight">
@@ -64,7 +64,7 @@ export default function Signup() {
             <input placeholder="Password" type="password" ref={password} required className="loginInput" />
             <input placeholder="Password Again" type="password" ref={passwordAgain} required className="loginInput" />
             <button className="loginButton" type="submit">Sign Up</button>
-            <button className="loginRegisterButton">
+            <button className="loginRegisterButton" onClick={()=> navigate("/Login")}>
               Log into Account
             </button>
           </form>

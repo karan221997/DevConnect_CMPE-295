@@ -3,12 +3,14 @@ import "./login.css";
 import { useRef } from "react";
 import {loginCall} from "../../apiCalls";
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
   const email = useRef();
   const password = useRef();
   const {user,isFetching,error,dispatch} = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLoginClick = (e) => {
 
@@ -27,7 +29,7 @@ export default function Login() {
         <div className="loginLeft">
           <h1 className="loginLogo">DevConnect</h1>
           <span className="loginDesc">
-            One Bug At A Time.
+            Making Developers Life Easy.<br></br> One Bug At A Time.
           </span>
         </div>
         <div className="loginRight" onSubmit={handleLoginClick}>
@@ -37,7 +39,7 @@ export default function Login() {
             <button className="loginButton">Log In</button>
             <span className="loginForgot">Forgot Password?</span>
             <span className="adminLogin">Admin Login?</span>
-            <button className="loginRegisterButton">
+            <button className="loginRegisterButton" onClick={()=> navigate("/Signup")}>
               Create a New Account
             </button>
           </form>
