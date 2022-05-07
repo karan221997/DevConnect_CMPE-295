@@ -38,7 +38,7 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-
+//group the user is following
     following: {
         type: Array,
         default: []
