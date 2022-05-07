@@ -6,23 +6,39 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    desc:   {
+    email:   {
         type: String,
         max : 500,
-        default: ""
+        required: true
 
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    text: {
+        type: String,
+        default: ""
     },
     image: {
         type: String,
         default: ""
     },
-    likes: {
-        type: Array,
-        default: []
+    upVotes: {
+        type: Number,
+        default: 0
     },
-    comments: {
-        type: Array,
-        default: []
+    downVotes: {
+        type: Number,
+        default: 0
+    },
+    communityId: {
+        type: String,
+        required:true
+    },
+    communityName: {
+        type: String,
+        required:true
     }
   
 }, {timestamp : true} );
