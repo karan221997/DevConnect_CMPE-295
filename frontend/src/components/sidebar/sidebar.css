@@ -6,7 +6,6 @@
   position: sticky;
   top: 50px;
   overflow-y: scroll;
-
 }
 
 ::-webkit-scrollbar {
@@ -38,7 +37,7 @@
 
 .sidebarIcon {
   margin-right: 15px;
-   cursor: pointer;
+  cursor: pointer;
 }
 
 .sidebarButton {
@@ -58,6 +57,19 @@
   margin: 0;
   list-style: none;
 }
-
-
-
+/* .modal-container {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+} */
+.modal-content {
+  width: 100% !important ;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+.modal-dialog {
+  width: 100%;
+}
