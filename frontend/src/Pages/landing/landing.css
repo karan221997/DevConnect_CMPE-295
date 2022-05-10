@@ -47,13 +47,13 @@
 }
 
 .leftboxIcon{
-    margin-top: 10%;
+    margin-top: 2%;
    /* fill: rgb(242, 116, 13)*/;
     fill: rgb(35, 38, 41);
 }
 
 .textInsideboxLeft{
-    margin-top: 25%;
+    margin-top: 15%;
     margin-left: 20%;
     margin-right: 20%;
     position: absolute;
@@ -97,12 +97,12 @@
     align-items:  center;
 }
 .rightboxIcon{
-    margin-top: 10%;
+    margin-top: 2%;
    /* fill: rgb(242, 116, 13)*/;
     fill: rgb(35, 38, 41);
 }
 .textInsideboxRight{
-    margin-top: 25%;
+    margin-top: 15%;
     margin-left: 20%;
     margin-right: 20%;
     position: absolute;

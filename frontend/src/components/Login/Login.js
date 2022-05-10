@@ -4,8 +4,8 @@ import './login.css';
 import Landingtopbar from '../../components/landingtopbar/Landingtopbar';
 //react import
 import { AuthContext } from '../../context/AuthContext';
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext ,useEffect } from 'react';
+import { useNavigate  } from 'react-router-dom';
 import { loginCall } from "../../apiCalls";
 //material UI components import
 import TextField from '@mui/material/TextField';
@@ -36,7 +36,11 @@ const theme = createTheme({
 
 
 
+
+
 export default function Login() {
+
+   const navigate = useNavigate();
 
     //main state
     const [email, setEmail] = useState("");
@@ -49,7 +53,6 @@ export default function Login() {
     const [errorPassword, setErrorPassword] = useState(false);
 
     const { user, isFetching, error, dispatch } = useContext(AuthContext);
-    const navigate = useNavigate();
     
     const setEmailHandler = (e) => {
         setEmail(e.target.value);
@@ -57,7 +60,7 @@ export default function Login() {
     const setPasswordHandler = (e) => {
         setPassword(e.target.value);
     }
-    const loginHandler = () => {
+    const loginHandler = async() => {
         //validation 
         if (email === "") {
             setErrorMessageEmail("Email is required");
@@ -85,8 +88,8 @@ export default function Login() {
             setErrorMessagePassword("");
             setErrorEmail(false);
             setErrorPassword(false);
-            console.log("login success");
-            loginCall({ email: email, password: password }, dispatch);
+            const status =  await loginCall({ email: email, password: password }, dispatch);
+            navigate("/dashboard");
             console.log(email);
             console.log(password);
         }
