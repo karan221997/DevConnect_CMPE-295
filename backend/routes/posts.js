@@ -40,7 +40,7 @@ router.post("/getAllPost", async (req, res) => {
         // const allPosts = await Post.find().where('communityId').in(userDetails).exec();
         // res.status(200).json(allPosts);
 
-        const allPosts=await Post.find()
+        const allPosts=await Post.find().sort({ _id: -1 });
         res.status(200).json(allPosts);
         
     }
