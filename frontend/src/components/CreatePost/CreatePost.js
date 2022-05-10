@@ -9,6 +9,7 @@ import { textAlign } from "@mui/system";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import {  Modal } from "react-bootstrap";
 
 
 
@@ -24,6 +25,14 @@ function CreatePost(props) {
   const [selectedCommunity, setSelectedCommunity] = React.useState('');
   const [communityId, setCommunityId] = React.useState(0);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => 
+  {
+  setShow(false);
+  window.location.reload()
+  
+  }
 
 
 
@@ -55,6 +64,7 @@ function CreatePost(props) {
        } catch (err) {
          console.log(err);
        }
+       handleClose();
        navigate("/dashboard");
 
     }
