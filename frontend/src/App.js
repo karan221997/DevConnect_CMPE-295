@@ -10,6 +10,7 @@ import Dashboard from "./Pages/dashboard/Dashboard";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import { useContext } from "react";
+import Landing from "./Pages/landing/Landing";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./Pages/messenger/Messenger";
 import CreatePost from "./components/CreatePost/CreatePost";
@@ -20,6 +21,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route
+            exact
+            path="/"
+            element={<Landing/>}
+          />
           <Route
             exact
             path="/login"
