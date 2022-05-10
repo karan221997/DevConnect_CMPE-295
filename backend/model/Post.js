@@ -6,17 +6,21 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email:   {
+    postCreatorEmail:   {
         type: String,
         max : 500,
         required: true
 
     },
-    name: {
+    postCreatorUserName: {
         type: String,
         required: true
     },
-    text: {
+    postTitle: {
+        type: String,
+        required: true
+    },
+    postText: {
         type: String,
         default: ""
     },

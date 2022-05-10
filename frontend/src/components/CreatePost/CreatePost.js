@@ -6,9 +6,69 @@ import LinkOutlinedIcon from "@mui/icons-material/LinkOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import HelpCenterOutlinedIcon from "@mui/icons-material/HelpCenterOutlined";
 import { textAlign } from "@mui/system";
+import { useEffect, useState } from 'react';
+import axios from "axios";
+
+
+
 
 function CreatePost(props) {
   const [type, setType] = React.useState("text");
+  const [postTitle, setPostTitle] = React.useState('');
+  const [postText, setPostText] = React.useState('');
+  const [userId, setUserId] = React.useState('');
+  const [userName, setUserName] = React.useState('');
+  const [userEmail, setUserEmail] = React.useState('');
+  const [selectedCommunity, setSelectedCommunity] = React.useState('');
+  const [communityId, setCommunityId] = React.useState(0);
+
+
+  useEffect(() => {
+    let userDetails=localStorage.getItem('user')
+    let userObject=JSON.parse(userDetails)
+    
+    setUserId(userObject._id)
+    setUserName(userObject.userName)
+    setUserEmail(userObject.email)
+    
+    }, []); 
+
+  const handleAddPost = async (e) => {
+    
+
+    if(communityId==1)
+    {
+      await setSelectedCommunity("ReactJS");
+    }
+    if(communityId==2)
+    {
+      await setSelectedCommunity("NodeJS")
+    }
+    if(communityId==3)
+    {
+      await setSelectedCommunity("Java")
+    }
+
+    let data=
+        {
+            userId:userId,
+            userName:userName,
+            email:userEmail,
+            title:postTitle,
+            text:postText,
+            communityName:selectedCommunity,
+            communityId:communityId
+        }
+        try {
+        const response=await axios.post("/api/posts/addPost", data);
+        console.log("ADDED POPS")
+       } catch (err) {
+         console.log(err);
+       }
+    
+    }
+
+
   return (
     <div>
       <div className="container">
@@ -21,9 +81,22 @@ function CreatePost(props) {
               <select
                 className="form-control"
                 style={{ marginTop: "10px", marginBottom: "10px" }}
+                onChange={(event, newValue) => {
+                  console.log(event.target.value)
+                  setCommunityId(event.target.value)
+              }}
               >
                 <option selected disabled>
                   Select Community
+                </option>
+                <option value="1" id="1">
+                  ReactJS
+                </option>
+                <option value="2" id="2">
+                  NodeJS
+                </option>
+                <option value="3" id="3">
+                  Java
                 </option>
               </select>
               <hr />
@@ -66,6 +139,7 @@ function CreatePost(props) {
                         className="form-control"
                         style={{ marginTop: "5px" }}
                         placeholder="URL"
+                      
                       ></input>
                     </div>
                   );
@@ -77,6 +151,9 @@ function CreatePost(props) {
                         className="form-control"
                         style={{ marginTop: "5px", marginBottom: "10px" }}
                         placeholder="Title"
+                        onChange={(e) => {
+                          setPostTitle(e.target.value);
+                      }}
                       ></input>
                       <textarea
                         id="w3review"
@@ -84,6 +161,9 @@ function CreatePost(props) {
                         rows="4"
                         cols="50"
                         placeholder="Enter Question "
+                        onChange={(e) => {
+                          setPostText(e.target.value);
+                      }}
                       ></textarea>
                     </div>
                   );
@@ -138,6 +218,7 @@ function CreatePost(props) {
                   <button
                     className="btnCreatePost"
                     style={{ textAlign: "center" }}
+                    onClick={handleAddPost}
                   >
                     <HelpCenterOutlinedIcon htmlColor="white" />
                     Post Question
