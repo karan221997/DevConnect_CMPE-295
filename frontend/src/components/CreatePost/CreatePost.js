@@ -8,6 +8,8 @@ import HelpCenterOutlinedIcon from "@mui/icons-material/HelpCenterOutlined";
 import { textAlign } from "@mui/system";
 import { useEffect, useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -21,6 +23,8 @@ function CreatePost(props) {
   const [userEmail, setUserEmail] = React.useState('');
   const [selectedCommunity, setSelectedCommunity] = React.useState('');
   const [communityId, setCommunityId] = React.useState(0);
+  const navigate = useNavigate();
+
 
 
   useEffect(() => {
@@ -35,20 +39,6 @@ function CreatePost(props) {
 
   const handleAddPost = async (e) => {
     
-
-    if(communityId==1)
-    {
-      await setSelectedCommunity("ReactJS");
-    }
-    if(communityId==2)
-    {
-      await setSelectedCommunity("NodeJS")
-    }
-    if(communityId==3)
-    {
-      await setSelectedCommunity("Java")
-    }
-
     let data=
         {
             userId:userId,
@@ -65,7 +55,8 @@ function CreatePost(props) {
        } catch (err) {
          console.log(err);
        }
-    
+       navigate("/dashboard");
+
     }
 
 
@@ -82,20 +73,20 @@ function CreatePost(props) {
                 className="form-control"
                 style={{ marginTop: "10px", marginBottom: "10px" }}
                 onChange={(event, newValue) => {
+                  setSelectedCommunity(event.target.value)
                   console.log(event.target.value)
-                  setCommunityId(event.target.value)
               }}
               >
                 <option selected disabled>
                   Select Community
                 </option>
-                <option value="1" id="1">
+                <option value="ReactJS" id="1">
                   ReactJS
                 </option>
-                <option value="2" id="2">
+                <option value="NodeJS" id="2">
                   NodeJS
                 </option>
-                <option value="3" id="3">
+                <option value="Java" id="3">
                   Java
                 </option>
               </select>

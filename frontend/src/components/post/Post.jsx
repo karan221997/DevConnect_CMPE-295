@@ -83,6 +83,10 @@ export default function Post() {
         </div>
         <br/>
         <div className="potCenter">
+        <span className="postTitle">
+                 <h5>{row.postTitle}</h5>
+                 <br/>
+              </span>
               <span className="postText">
                  {row.postText}
               </span>
@@ -100,7 +104,9 @@ export default function Post() {
           <div className="postBottomRight">
                   {/* <span className="postCommentText"> {post.comments} comments</span> */}
           </div>
+          
         </div>
+        <hr/>
       </div>
 
       );

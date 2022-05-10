@@ -16,10 +16,19 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import { Users } from "../../dummyData.js";
 import Closedevelopers from "../closedevlopers/Closedevelopers";
 import CreatePost from "../CreatePost/CreatePost";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Sidebar() {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const navigate = useNavigate();
+
+  const handleClose = () => 
+  {
+  setShow(false);
+  window.location.reload()
+  
+  }
   const handleShow = () => setShow(true);
   return (
     <div className="sidebar">
