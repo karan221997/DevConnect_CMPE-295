@@ -16,7 +16,7 @@ export default function Feed() {
         const user = JSON.parse(localStorage.getItem('user'));
        console.log("email is: " + JSON.stringify(user.email));
        const result =  await axios.post("api/posts/getAllPost",JSON.stringify(user.email))
-       console.log("posts are",result.data.posts);
+     //  console.log("posts are",result.data.posts[0].createdAt);
        setPosts(result.data.posts);
     }
     fetchPosts();
