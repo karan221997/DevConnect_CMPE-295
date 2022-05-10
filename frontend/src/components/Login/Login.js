@@ -60,7 +60,7 @@ export default function Login() {
     const setPasswordHandler = (e) => {
         setPassword(e.target.value);
     }
-    const loginHandler = async() => {
+    const loginHandler = () => {
         //validation 
         if (email === "") {
             setErrorMessageEmail("Email is required");
@@ -88,8 +88,7 @@ export default function Login() {
             setErrorMessagePassword("");
             setErrorEmail(false);
             setErrorPassword(false);
-            const status =  await loginCall({ email: email, password: password }, dispatch);
-            navigate("/dashboard");
+            loginCall({ email: email, password: password }, dispatch);
             console.log(email);
             console.log(password);
         }
