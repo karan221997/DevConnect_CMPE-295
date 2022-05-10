@@ -21,7 +21,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route
+        
+             <Route
             exact
             path="/"
             element={<Landing/>}
@@ -29,8 +30,7 @@ function App() {
           <Route
             exact
             path="/login"
-            element={user ? <Dashboard /> : <Login />}
-          />
+            element={ user ? <Navigate to="/dashboard" /> : <Login />}         />
           <Route
             exact
             path="/signup"
@@ -39,11 +39,10 @@ function App() {
           <Route
             exact
             path="/dashboard"
-            element={user ? <Dashboard /> : <Login />}
+            element={user ?<Dashboard/>:<Navigate to="/login" />}
           />
           <Route exact path="/messenger" element={<Messenger />} />
-          {/* <Route exact path="/createPost" element={<CreatePost />} />
-          <Route exact path="/Dashboard" element={<Dashboard />} /> */}
+         
         </Routes>
       </BrowserRouter>
     </div>
