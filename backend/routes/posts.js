@@ -18,8 +18,8 @@ router.post("/addPost", async (req, res) => {
             communityId:req.body.communityId,
             communityName:req.body.communityName
         })
-        await post.save();
-        res.status(200).json({message:"Added Post Succesfully"});
+        const savedPost =await post.save();
+        res.status(200).json(savedPost);
     }
     catch(err){
         res.status(500).json({message: err});
@@ -32,7 +32,13 @@ router.post("/getAllPost", async (req, res) => {
     try{
         console.log("Inside get all post");
         console.log(req.body);
-        const posts = await Post.find();
+        const posts = await Post.aggregate([
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            }
+        ]);
         res.status(200).json({posts});
     }
     catch(err){
