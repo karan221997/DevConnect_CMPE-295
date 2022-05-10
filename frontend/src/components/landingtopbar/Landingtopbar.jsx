@@ -33,7 +33,7 @@ export default function Landingtopbar() {
                             '& > :not(style)': { m:2 ,width: '15ch',border :'1px solid black'},
                         }}
                     >
-                     <Button variant="outlined" size='large'  onClick={()=> navigate("/Login")}>Login</Button>      
+                     <Button variant="outlined" size='large'  onClick={()=> navigate("/login")}>Login</Button>      
                      <Button variant="contained" size='large'  onClick={()=> navigate("/Signup")}>Sign UP</Button>
                      
                </Box> 

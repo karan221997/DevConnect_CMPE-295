@@ -172,7 +172,7 @@ export default function Login() {
                         <span className="loginbottomText">
                             forget password ?
                         </span>
-                        <span className="loginbottomText" onClick={()=> navigate("/Signup")}>
+                        <span className="loginbottomText" onClick={()=> navigate("/signup")}>
                             Create a new account ?
                         </span>
                     </ThemeProvider>

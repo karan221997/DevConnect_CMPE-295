@@ -38,7 +38,7 @@ const PostSchema = new mongoose.Schema({
     },
     communityId: {
         type: String,
-        required:true
+        // required:true
     },
     communityName: {
         type: String,
