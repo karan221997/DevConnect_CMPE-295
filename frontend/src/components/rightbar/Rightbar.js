@@ -16,8 +16,10 @@ export default function Rightbar({profile}) {
                 <b>Meta</b> and <b>3 other </b> companies posted job today.
               </span>
        </div>
-            <Addvertisement/>
-          <h4 className="rightbarTittle">Online Devloper Friends</h4>
+            <div className="addvertisementSection">
+              <Addvertisement />
+            </div>
+          <span className="rightbarTittle">Online Developer Friends</span>
           <ul className="rightbarDeveloperList">
             {Users.map((u) => ( <Onlineusers key={u.id} user={u} /> ))}        
           </ul>
