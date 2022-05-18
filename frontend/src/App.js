@@ -7,6 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Dashboard from "./Pages/dashboard/Dashboard";
+import Profile from "./Pages/profile/Profile";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import { useContext } from "react";
@@ -41,6 +42,12 @@ function App() {
             path="/dashboard"
             element={user ?<Dashboard/>:<Navigate to="/login" />}
           />
+           <Route
+            exact
+            path="/profile"
+            element={<Profile/>}
+          />
+                
           <Route exact path="/messenger" element={<Messenger />} />
          
         </Routes>

@@ -2,7 +2,7 @@
 import "./topbar.css";
 //react imports
 import React from "react";
-import { useState, useContext } from 'react';
+import { useState, useContext ,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 //material UI icons
 import { Search, Person, Chat, Notifications } from '@mui/icons-material';
@@ -13,6 +13,14 @@ import MenuItem from '@mui/material/MenuItem';
 function TopNavBar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [userName , setUserName] = useState("");
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    setUserName(user.userName);
+  }, []);
+
+  
   const open = Boolean(anchorEl);
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -28,6 +36,19 @@ function TopNavBar() {
     window.location.reload();
 
   }
+
+  const handleProfileClick = (e) => {
+    e.preventDefault();
+    handleClose();
+    navigate("/profile");
+  }
+
+  const handleHomepageClick = (e) => {
+    e.preventDefault();
+    navigate("/dashboard");
+  }
+
+  
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
@@ -41,7 +62,7 @@ function TopNavBar() {
       </div>
       <div className="topbarRight">
         <div className="topbarLinks">
-          <span className="topbarLink">Homepage</span>
+          <span className="topbarLink" onClick={handleHomepageClick}>Homepage</span>
           <span className="topbarLink">Timeline</span>
         </div>
         <div className="topbarIcons">
@@ -57,8 +78,8 @@ function TopNavBar() {
             <Notifications />
             <span className="topbarIconBadge">2</span>
           </div>
-
         </div>
+        <span className="topbarUsername">{userName}</span>
         <img src="/assets/person/1.jpg" alt="" className="topbarImg"
           aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -74,7 +95,7 @@ function TopNavBar() {
             'aria-labelledby': 'basic-button',
           }}
          >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
           <MenuItem onClick={handleClose}>My account</MenuItem>
           <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
       </Menu>

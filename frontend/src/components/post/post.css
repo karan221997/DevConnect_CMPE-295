@@ -69,14 +69,14 @@
 
 .postBottomLeft{
     display: flex;
+    justify-content: space-between;
     align-items: center;   
 }
 
 .likeIcon{
-    width: 24px;
-    height: 24px;
-    margin-right: 5px;
-    cursor: pointer;
+  margin-left: 0;
+  margin-right: 0;
+   cursor: pointer;
 }
 
 .postLikeCounter{
