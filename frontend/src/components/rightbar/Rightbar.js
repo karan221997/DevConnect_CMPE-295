@@ -6,6 +6,7 @@ import Addvertisement from '../addvertisement/Addvertisement';
 import {Room} from '@mui/icons-material';
 export default function Rightbar({profile}) {
 
+  
   const HomeRightbar = () => {
 
     return (
@@ -38,7 +39,7 @@ export default function Rightbar({profile}) {
             </div>
              <div className="rightbarInfoItem">
                 <span className="rightbarInfoKey">location :</span>
-                <span className="rightbarInfoValue"><Room classname="rightbarInfoValueIcon"/>New york</span>
+                <span className="rightbarInfoValue"><Room className="rightbarInfoValueIcon"/>New york</span>
             </div>
              <div className="rightbarInfoItem">
                 <span className="rightbarInfoKey">looking for :</span>
@@ -87,7 +88,7 @@ export default function Rightbar({profile}) {
   return (
     <div className="rightbar">
        <div className="rightbarWrapper">
-          <HomeRightbar />
+         {profile === "home" ? <HomeRightbar /> : <ProfileRightbar />}
        </div>
     </div>
   );

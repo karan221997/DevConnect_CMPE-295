@@ -1,16 +1,13 @@
 import './post.css';
 import {MoreVert} from '@mui/icons-material';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RoomIcon from '@mui/icons-material/Room';
 import {Users} from "../../dummyData.js";
 
 
 export default function Post({post}) {
-
-console.log("current date is: ", new Date());
-
 const timeElasped = new Date(post.createdAt).getTime() - new Date().getTime();
 const timeElaspedInMinutes = timeElasped / 60000;
 const timeElaspedInMinutesRounded = Math.round(timeElaspedInMinutes)*-1;
@@ -72,13 +69,12 @@ if (timeElaspedInWeeksRounded > 0) {
           </div>
           <div className="postBottom">
                 <div className="postBottomLeft">
-                    <ThumbUpIcon  htmlColor="#0066ff" className="likeIcon"/>
-                    <ThumbDownIcon   htmlColor="#ff3300" className="likeIcon"/>
-                     <span className="postLikeCounter"> {post.upVotes} upvotes and {post.DownVote ? post.DownVote : 0} downvote </span>
-           
+                    <ArrowDropUpIcon  htmlColor="#0066ff"    className="likeIcon" sx={{ fontSize: 40}}/>
+                    <ArrowDropDownIcon   htmlColor="#ff3300"  className="likeIcon" sx={{ fontSize: 40}}/>
+                     <span className="postLikeCounter"> {post.upVotes} upvotes and {post.DownVote ? post.DownVote : 0} downvote </span>     
                 </div>
             <div className="postBottomRight">
-                    <span className="postCommentText"> {post.commentCount ? post.commentCount : 0} comments</span>
+                <span className="postCommentText"> {post.commentCount ? post.commentCount : 0} comments</span>
             </div>
           </div>
         </div>

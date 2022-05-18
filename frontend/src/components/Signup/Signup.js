@@ -3,7 +3,7 @@ import '../Login/login.css';
 //react imports
 import { useContext ,useState} from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../context/AuthContext";
 //components import
 import Landingtopbar from '../../components/landingtopbar/Landingtopbar';
@@ -11,6 +11,7 @@ import Landingtopbar from '../../components/landingtopbar/Landingtopbar';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 
 //material UI icons import
 import LoginIcon from '@mui/icons-material/Login';
@@ -51,6 +52,9 @@ export default function Signup() {
   const [errorMessageEmail, setErrorMessageEmail] = useState("");
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const [errorMessagePasswordAgain, setErrorMessagePasswordAgain] = useState("");
+  //generic error from backend 
+    const [AlertMessage, setAlertMessage] = useState("");
+    const [AlertValue, setAlertValue] = useState(false);
  
  //error states
   const [errorUserName, setErrorUserName] = useState(false);
@@ -60,32 +64,48 @@ export default function Signup() {
   const [errorPasswordAgain, setErrorPasswordAgain] = useState(false);
 
 
+
+
   //setting up context
   const UsernameHandler = (e) => {
+    setAlertValue(false);
+    setAlertMessage("");
+    setErrorUserName(false);
+    setErrorMessageUserName("");
     setUserName(e.target.value);
   }
   const PhoneNumberHandler = (e) => {
+    setAlertValue(false);
+    setAlertMessage("");
+    setErrorPhoneNumber(false);
+    setErrorMessagePhoneNumber("");
     setPhoneNumber(e.target.value);
   }
   const EmailHandler = (e) => {
+    setAlertValue(false);
+    setAlertMessage("");
+    setErrorEmail(false);
+    setErrorMessageEmail("");
     setEmail(e.target.value);
   }
   const PasswordHandler = (e) => {
+    setAlertValue(false);
+    setAlertMessage("");
+    setErrorPassword(false);
+    setErrorMessagePassword("");
     setPassword(e.target.value);
   }
   const PasswordAgainHandler = (e) => {
+    setAlertValue(false);
+    setAlertMessage("");
+    setErrorPasswordAgain(false);
+    setErrorMessagePasswordAgain("");
     setPasswordAgain(e.target.value);
   }
 
 //submitting context
 
 const SignupHandler = async() => {
-  console.log("clicked submit of signup");
-  console.log("username:" + userName);
-  console.log("email:" + email);
-  console.log("phoneNumber:" + phoneNumber);
-  console.log("password Again:" + passwordAgain);
-  console.log("password:" + password);
   
   //validations 
   
@@ -114,33 +134,77 @@ const SignupHandler = async() => {
 
   }
   else{
-    //all fields are filled
-    if(password !== passwordAgain){
-      setErrorMessagePasswordAgain("Passwords do not match");
-      setErrorPasswordAgain(true);
-    }
+        //all fields are filled
+        if(password !== passwordAgain){
+          setErrorMessagePasswordAgain("Passwords do not match");
+          setErrorPasswordAgain(true);
+        }
+
     else{
        //all fields are filled and passwords match
-       //setting up the data to be sent to the server
-       //signing up user
-        const user = {
-              email:email,
+      //check the fields are valid
+          if(!(/^[a-zA-Z0-9]+$/.test(userName))){
+            setErrorMessageUserName("UserName can only contain letters and numbers");
+            setErrorUserName(true);
+          }
+          if(!(/^[0-9]+$/.test(phoneNumber))){
+            setErrorMessagePhoneNumber("Phone Number can only contain numbers");
+            setErrorPhoneNumber(true);
+          }
+          if(!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))){
+            setErrorMessageEmail("Email is not valid");
+            setErrorEmail(true);
+          }
+          if(!(/^[a-zA-Z0-9]+$/.test(password))){
+            setErrorMessagePassword("Password can only contain letters and numbers");
+            setErrorPassword(true);
+          }
+      else{
+        //all fields are valid
+        //send the data to the server
+            const data = {
               userName: userName,
               phoneNumber: phoneNumber,
-              password: password,
-              passwordAgain: passwordAgain
+              email: email,
+              password: password
             }
-            try {
-              await axios.post("/api/auth/register", user);
-              navigate("/login");
-            } catch (err) {
-              console.log(err);
+            try{
+             
+              const result = await axios.post("/api/auth/register", data);
+              if(result.status === 200){
+                //success
+                //send the user to the login page with a success message
+                console.log("success");
+               navigate("/login", { state: { 
+                   successMessage: "Registration Successful" ,
+                   signupState :"true"
+               } });
+                //success setting all errors false
+                setAlertValue(false);
+                setAlertMessage("");
+                setErrorEmail(false);
+                setErrorMessageEmail("");
+                setErrorPassword(false);
+                setErrorMessagePassword("");
+                setErrorPasswordAgain(false);
+                setErrorMessagePasswordAgain("");
+                setErrorUserName(false);
+                setErrorMessageUserName("");
+                setErrorPhoneNumber(false);
+                setErrorMessagePhoneNumber("");
+              }
+                
             }
+              catch(err){
+                setAlertMessage(err.response.data.message);
+                setAlertValue(true);
+                
+              }
+          }
     }
-  }
-
- 
+  } //bigger else end
 }
+
 
     return (
         <>
@@ -237,14 +301,19 @@ const SignupHandler = async() => {
                         onChange={PasswordAgainHandler}
                          />    
                           <Button variant="contained" endIcon={<LoginIcon />}
-                            sx={{
-                                '& > not(style)': { m: 2,
-                                 width: '100%' ,
-                                  marginLeft: '10px',
-                                   },
+                            style={{
+                            width: '43ch'
                             }}
                             onClick={SignupHandler}
                           >SignUp</Button> 
+
+                           {AlertValue && 
+                            <Alert severity="error"
+                            variant='outlined'
+                            style={{ width: '43ch' }}
+                            >
+                             {AlertMessage}
+                            </Alert>}
                             
                       </Box> 
                       <span className="loginbottomText" onClick={()=> navigate("/Login")}>

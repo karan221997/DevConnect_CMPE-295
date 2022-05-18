@@ -14,9 +14,7 @@ export default function Feed() {
   useEffect(() => {
       async function fetchPosts() {
         const user = JSON.parse(localStorage.getItem('user'));
-       console.log("email is: " + JSON.stringify(user.email));
        const result =  await axios.post("api/posts/getAllPost",JSON.stringify(user.email))
-     //  console.log("posts are",result.data.posts[0].createdAt);
        setPosts(result.data.posts);
     }
     fetchPosts();
@@ -27,7 +25,7 @@ export default function Feed() {
     <div className="feed">
         <div className="feedWrapper">
            {posts.map((p) => (
-             <Post key={p.id} post={p}/>
+             <Post key={p._id} post={p}/>
             ))}  
         </div>
     </div>

@@ -16,7 +16,7 @@ export default function Dashboard() {
             <div className="dashboardContainter">
                 <Sidebar />
                 <Feed/>
-                <Rightbar/>
+                <Rightbar profile={"home"}/>
             </div>       
         </>
     );

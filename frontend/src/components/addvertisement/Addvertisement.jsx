@@ -3,10 +3,6 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { grey, red } from '@mui/material/colors';
@@ -29,22 +25,22 @@ const themeColor = createTheme({
 const images = [
   {
       
-   
+    label: 'Image 1',
     imgPath:
       'https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2021/02/T-Mobile-header.jpg?w=2000&quality=82&strip=all&ssl=1',
   },
   {
-   
+    label: 'Image 2',
     imgPath:
       'https://i.ytimg.com/vi/kfaIZsWoIr8/maxresdefault.jpg',
   },
   {
-   
+    label: 'Image 3',
     imgPath:
       'http://highergroundtv.com/wp-content/uploads/2015/04/iWatchHG1.jpg',
   },
   {
-    
+    label: 'Image 4',
     imgPath:
       'https://cdn.arstechnica.net/wp-content/uploads/2019/04/Oculus-Quest-2-760x380.jpg',
   },
@@ -52,20 +48,7 @@ const images = [
 
 export default function Addvertisement() {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step) => {
-    setActiveStep(step);
-  };
 
   return (
     <div className='rightbarAd'>
@@ -88,15 +71,10 @@ export default function Addvertisement() {
         }}
       >
       </Paper>
-      <AutoPlaySwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
+      <AutoPlaySwipeableViews>
+        {images.map((step ,key) => (
           <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
+            { (
               <Box
                 component="img"
                 sx={{
@@ -110,16 +88,10 @@ export default function Addvertisement() {
                 src={step.imgPath}
                 alt={step.label}
               />
-            ) : null}
+            ) }
           </div>
         ))}
       </AutoPlaySwipeableViews>
-      <MobileStepper
-        steps={maxSteps}
-        position="static"
-        variant="none" 
-      />
-     
     </Box>
     </ThemeProvider>
     </div>

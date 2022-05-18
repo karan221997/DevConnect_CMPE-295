@@ -7,6 +7,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useState, useContext ,useEffect } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import { loginCall } from "../../apiCalls";
+import {useLocation} from 'react-router-dom';
 //material UI components import
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -14,6 +15,7 @@ import Box from '@mui/material/Box';
 //material UI styling
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey, red } from '@mui/material/colors';
+import Alert from '@mui/material/Alert';
 //Material UI icons
 import LoginIcon from '@mui/icons-material/Login';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
@@ -42,6 +44,15 @@ export default function Login() {
 
    const navigate = useNavigate();
 
+   
+
+    //sucess alter message
+    const [successAlert, setSuccessAlert] = useState(false);
+    const [successAlertMessage, setSuccessAlertMessage] = useState("");
+
+          //get props from login page
+          const location = useLocation();
+
     //main state
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -51,16 +62,30 @@ export default function Login() {
     const [errorMessagePassword, setErrorMessagePassword] = useState("");
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
+    const [AlertMessage, setAlertMessage] = useState("");
+    const [AlertValue, setAlertValue] = useState(false);
 
-    const { user, isFetching, error, dispatch } = useContext(AuthContext);
+    const {dispatch } = useContext(AuthContext);
+
+    //useeffect to check if user is cooming from signup page
+    useEffect(() => { 
+        if(location.state){
+            setSuccessAlert(true);
+            setSuccessAlertMessage("You have successfully signed up. Please login to continue");
+        }
+    });
     
     const setEmailHandler = (e) => {
+        setAlertValue(false);
+        setAlertMessage("");
         setEmail(e.target.value);
     }
     const setPasswordHandler = (e) => {
+        setAlertValue(false);
+        setAlertMessage("");
         setPassword(e.target.value);
     }
-    const loginHandler = () => {
+    const loginHandler =  async () => {
         //validation 
         if (email === "") {
             setErrorMessageEmail("Email is required");
@@ -84,13 +109,22 @@ export default function Login() {
             setErrorPassword(true);
         }
         if (email !== "" && password !== "") {
+
             setErrorMessageEmail("");
             setErrorMessagePassword("");
             setErrorEmail(false);
             setErrorPassword(false);
-            loginCall({ email: email, password: password }, dispatch);
-            console.log(email);
-            console.log(password);
+            const res = await loginCall({ email: email, password: password }, dispatch);
+            console.log("res is ",res);
+            if (res.status !== 200) {
+               // res.response.data.message
+                setAlertValue(true);
+                setAlertMessage(res.response.data.message);
+            }else{
+                setAlertValue(false);
+                setAlertMessage("");
+            }
+
         }
 
     }
@@ -146,8 +180,16 @@ export default function Login() {
                             }}
                             noValidate
                             autoComplete="off">
+                             {successAlert && 
+                            <Alert severity="success"
+                            variant='outlined'
+                            style={{ width: '43ch' }}
+                            >
+                             {successAlertMessage}
+                            </Alert>}
+                            
                             <TextField id="outlined-basic"
-                                label="Email or Username"
+                                label="Email "
                                 variant="outlined"
                                 error={errorEmail}
                                 onChange={setEmailHandler}
@@ -159,17 +201,17 @@ export default function Login() {
                                 error={errorPassword}
                                 onChange={setPasswordHandler}
                                 helperText={errorMessagePassword} />
-                            <Button variant="contained" endIcon={<LoginIcon />}
-                                sx={{
-                                    '& > not(style)': {
-                                        m: 2,
-                                        width: '100%',
-                                        marginLeft: '10px',
-                                    },
-                                }}
+                             <Button variant="contained"  endIcon={<LoginIcon />}
+                               style={{ width: '43ch' }}
                                 onClick={loginHandler}
                             >Login</Button>
-
+                            {AlertValue && 
+                            <Alert severity="error"
+                            variant='outlined'
+                            style={{ width: '43ch' }}
+                            >
+                             {AlertMessage}
+                            </Alert>}
                         </Box>
                         <span className="loginbottomText">
                             forget password ?
