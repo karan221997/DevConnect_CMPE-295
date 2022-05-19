@@ -45,7 +45,7 @@ if (timeElaspedInWeeksRounded > 0) {
         <div className="postWrapper">
           <div className="postTop">
                 <div className="postTopLeft">
-                    <img src="/assets/person/1.jpg" alt="" className="postProfileImg" />
+                    <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="postProfileImg" />
                     <span className="postUsername">
                     {post.postCreatorUserName}
                     </span>
