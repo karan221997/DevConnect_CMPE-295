@@ -128,4 +128,31 @@ router.put("/:id/unfollow", async (req, res) => {
 
 });
 
+//serach users
+router.get("/:name/search", async (req, res) => {
+    try{
+        const users = await User.find({userName: {$regex: req.params.name, $options: 'i'}});
+        res.status(200).json({message: "Users found", users});
+
+    }
+    catch(err){
+        res.status(500).json({message: err});
+    }
+
+}
+);
+
+//get all users
+router.get("/", async (req, res) => {
+    try{
+        const users = await User.find();
+        res.status(200).json({message: "Users found", users});
+
+    }
+    catch(err){
+        res.status(500).json({message: err});
+    }
+}
+);
+
 module.exports = router;

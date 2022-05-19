@@ -115,7 +115,6 @@ export default function Login() {
             setErrorEmail(false);
             setErrorPassword(false);
             const res = await loginCall({ email: email, password: password }, dispatch);
-            console.log("res is ",res);
             if (res.status !== 200) {
                // res.response.data.message
                 setAlertValue(true);

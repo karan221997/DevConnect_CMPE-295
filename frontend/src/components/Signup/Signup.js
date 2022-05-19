@@ -179,25 +179,33 @@ const SignupHandler = async() => {
                    successMessage: "Registration Successful" ,
                    signupState :"true"
                } });
-                //success setting all errors false
+                
+                setUserName("");
+                setPhoneNumber("");
+                setEmail("");
+                setPassword("");
+                setPasswordAgain("");
+                setErrorUserName(false);
+                setErrorPhoneNumber(false);
+                setErrorEmail(false);
+                setErrorPassword(false);
+                setErrorPasswordAgain(false);
+                setErrorMessageUserName("");
+                setErrorMessagePhoneNumber("");
+                setErrorMessageEmail("");
+                setErrorMessagePassword("");
+                setErrorMessagePasswordAgain("");
                 setAlertValue(false);
                 setAlertMessage("");
-                setErrorEmail(false);
-                setErrorMessageEmail("");
-                setErrorPassword(false);
-                setErrorMessagePassword("");
-                setErrorPasswordAgain(false);
-                setErrorMessagePasswordAgain("");
-                setErrorUserName(false);
-                setErrorMessageUserName("");
-                setErrorPhoneNumber(false);
-                setErrorMessagePhoneNumber("");
+                
+               
               }
                 
             }
               catch(err){
-                setAlertMessage(err.response.data.message);
                 setAlertValue(true);
+                setAlertMessage(err.response.data.message);
+                
                 
               }
           }

@@ -2,9 +2,21 @@
 import './profile.css';
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+//material UI 
 import Rightbar from "../../components/rightbar/Rightbar";
 import Feed from "../../components/feed/Feed";
+
+//react components import
+ import{useLocation} from "react-router-dom";
+
+import { Users } from '../../dummyData';
+
 export default function Profile() {
+          //get props from profile topbar page
+           const location = useLocation();
+           console.log("received propos are",location.state.user.email);
+
+
   return (
      <>
             <Topbar />
@@ -13,8 +25,8 @@ export default function Profile() {
                   <div className="profileRight">
                       <div className="profileRightTop">
                           <div className="profileCover">
-                            <img src="/assets/post/9.jpg" alt="" className="profileCoverImg" />
-                            <img src="/assets/person/1.jpg" alt="" className="profileUserImg" />
+                            <img src="/assets/person/defaultCoverPicture.jpg" alt="" className="profileCoverImg" />
+                            <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="profileUserImg" />
                           </div>
 
                           <div className="profileInfo">
