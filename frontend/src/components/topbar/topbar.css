@@ -98,3 +98,9 @@
     object-fit: cover;
     cursor: pointer;
 }
+
+.topbarUsername{
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+}

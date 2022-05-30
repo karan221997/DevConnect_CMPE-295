@@ -4,7 +4,7 @@ import "./topbar.css";
 import React from "react";
 import axios from "axios";
 
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 //material UI icons
 import { Search, Person, Chat, Notifications } from '@mui/icons-material';
@@ -15,7 +15,6 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey, red } from '@mui/material/colors';
-
 import Usersearch from "../usersearch/Usersearch";
 
 //creating theme to override material UI colors
@@ -37,13 +36,19 @@ function TopNavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [userName, setUserName] = useState("");
   const [userdata, setUserdata] = useState([]);
+  const [searchPopper, setSearchPopper] = useState(false);
+  const [searchText, setSearchText] = useState(" ");
 
-   useEffect(() => {
+
+  useEffect(() => {
     async function fetchUser() {
       const user = JSON.parse(localStorage.getItem('user'));
       setUserName(user.userName);
       const result = await axios.get("api/users/");
-      setUserdata(result.data.users);
+      //filter the information of self
+       const Allusers = result.data.users;
+      const userdata = Allusers.filter(values => values.email !== user.email);
+      setUserdata(userdata);
     }
     fetchUser();
   }, []);
@@ -68,7 +73,9 @@ function TopNavBar() {
 
   const handleProfileClick = (e) => {
     e.preventDefault();
+    //make the value in serach bar empty
     handleClose();
+
     //sending user to profile page
     //get user from local storrge
     const user = JSON.parse(localStorage.getItem('user'));
@@ -78,6 +85,11 @@ function TopNavBar() {
   const handleHomepageClick = (e) => {
     e.preventDefault();
     navigate("/dashboard");
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchPopper(!searchPopper);
   }
 
 
@@ -92,23 +104,27 @@ function TopNavBar() {
           <ThemeProvider theme={theme}>
             <Autocomplete
               freeSolo
-              sx ={{ width: '100%' }}
+              open={searchPopper}
+              sx={{ width: '100%' }}
               autoHighlight
               options={userdata}
               getOptionLabel={(option) => option.userName}
-              renderOption = {(props,option) => (
-                <Usersearch user={option}/>
-             )}
+              renderOption={(props, option) => (
+                <Usersearch key={option.email} user={option} setSearchPopper={setSearchPopper} setSearchText={setSearchText} />
+              )}
               renderInput={(params) => <TextField {...params}
                 fullWidth
+                value={searchText}
                 sx={{
                   width: '100%',
                   fontFamily: 'Roboto',
-                  fontSize: '10px',
+                  fontSize: '4px',
                   fontWeight: '500',
                 }}
+                
                 variant="standard"
                 placeholder="Search for Developers or Communities"
+                onChange={handleSearch}
 
               />}
             />

@@ -1,0 +1,10 @@
+.hackathon {
+    display: flex;
+}
+
+.hackathonRight {
+    flex: 9;
+    justify-content: space-evenly;
+    display: flex;
+    flex-wrap: wrap;
+}

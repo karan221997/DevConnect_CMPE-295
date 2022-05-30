@@ -30,6 +30,11 @@ export default function Sidebar() {
   
   }
   const handleShow = () => setShow(true);
+  
+  const HackathonsClickHandler = () => {
+    navigate("/hackathon");
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -73,7 +78,7 @@ export default function Sidebar() {
           </li>
           <li className="sidebarListItem">
             <Event className="sidebarIcon" />
-            <span className="sidebarListItemText">Hackathons</span>
+            <span className="sidebarListItemText" onClick={HackathonsClickHandler}>Hackathons</span>
           </li>
           <li className="sidebarListItem">
             <School className="sidebarIcon" />

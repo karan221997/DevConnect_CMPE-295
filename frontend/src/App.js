@@ -15,6 +15,7 @@ import Landing from "./Pages/landing/Landing";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./Pages/messenger/Messenger";
 import CreatePost from "./components/CreatePost/CreatePost";
+import Hackathon from "./Pages/hackathon/Hackathon";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -45,6 +46,11 @@ function App() {
             exact
             path="/profile"
             element={<Profile/>}
+          />
+           <Route
+            exact
+            path="/hackathon"
+            element={<Hackathon/>}
           />
                 
           <Route exact path="/messenger" element={<Messenger />} />
