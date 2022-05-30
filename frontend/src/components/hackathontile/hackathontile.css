@@ -1,0 +1,64 @@
+.hackathontile {
+    width: 20%;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+.hackathontile:after {
+    content: "";
+    display: table;
+    padding-bottom: 5%;
+}
+
+
+.hackathontile:hover {
+    background-color: rgb(252, 252, 252);
+    -webkit-box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
+    box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
+}
+
+.hackathontileTop {
+    flex: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
+.hackathontileTopTittle {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+}
+
+.hackathontileMiddle {
+    flex: 50%;
+    margin-left: 3px;
+}
+
+.middleInfo {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+
+.middleInfoText {
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
+
+.hackathontileBottom {
+    flex: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-right: 20px;
+}

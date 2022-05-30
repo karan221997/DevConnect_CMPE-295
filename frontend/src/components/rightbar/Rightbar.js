@@ -46,7 +46,7 @@ export default function Rightbar({profile}) {
                 <span className="rightbarInfoValue">c++ devlopers</span>
             </div>
       </div>
-       <h4 className="rightbarTittle"> User followings</h4>
+       <h4 className="rightbarTittle"> Communities </h4>
            <div className="rightbarFollowings">
                 <div className="rightbarFollowing">
                     <img src="/assets/person/2.jpg" alt="" className="rightbarFollowingImg" />

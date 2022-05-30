@@ -15,6 +15,7 @@
     width: 100%;
     height: 250px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .profileUserImg{
@@ -28,6 +29,21 @@
     margin: auto;
     top :150px;
     border: 5px solid white ;
+    cursor: pointer;
+}
+
+.editButtonCover{
+    position: absolute;
+    bottom: 40px;
+    right:0;
+    cursor: pointer;
+
+}
+.editButtonProfile{
+    position: absolute;
+    bottom: 20px;
+    right: 46%;
+    cursor: pointer;
 }
 
 .profileInfo{
@@ -51,4 +67,8 @@
    display: flex;
 }
 
+.editButtonBio{
+    margin-left: 10px;
+    cursor: pointer;
+}
 
