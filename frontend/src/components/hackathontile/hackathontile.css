@@ -1,5 +1,6 @@
 .hackathontile {
     width: 20%;
+    height: 30%;
     border-radius: 10px;
     -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
     box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
@@ -9,15 +10,11 @@
     align-items: stretch;
     justify-content: space-between;
 }
-.hackathontile:after {
-    content: "";
-    display: table;
-    padding-bottom: 5%;
-}
+
 
 
 .hackathontile:hover {
-    background-color: rgb(252, 252, 252);
+    background-color: rgba(235, 234, 234, 0.849);
     -webkit-box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
     box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
 }
@@ -33,6 +30,7 @@
 .hackathontileTopTittle {
     font-size: 20px;
     font-weight: 500;
+    cursor: pointer;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -47,6 +45,7 @@
     align-items: center;
     margin-top: 2px;
     margin-right: 5px;
+    cursor: pointer;
 }
 
 .middleInfoText {
@@ -60,5 +59,4 @@
     display: flex;
     align-items: center;
     justify-content: end;
-    margin-right: 20px;
 }
