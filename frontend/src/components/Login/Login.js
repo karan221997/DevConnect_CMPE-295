@@ -78,11 +78,13 @@ export default function Login() {
     const setEmailHandler = (e) => {
         setAlertValue(false);
         setAlertMessage("");
+        setErrorMessageEmail("");
         setEmail(e.target.value);
     }
     const setPasswordHandler = (e) => {
         setAlertValue(false);
         setAlertMessage("");
+        setErrorMessagePassword("");
         setPassword(e.target.value);
     }
     const loginHandler =  async () => {

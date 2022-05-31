@@ -8,8 +8,7 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey, red } from '@mui/material/colors';
-import MilitaryTechOutlinedIcon from '@mui/icons-material/MilitaryTechOutlined';
-
+import Tooltip from '@mui/material/Tooltip';
 //creating theme to override material UI colors
 const theme = createTheme({
     palette: {
@@ -30,7 +29,8 @@ export default function Hackathontile() {
                 <ThemeProvider theme={theme}>
                     <div className="hackathontileTop">
                         <span className="hackathontileTopTittle">
-                            Hackathon Tittle .
+                          Java Coding Challenge
+                            <Tooltip title="This Challenge is for Java experts and there will be 3 coding challenges in this hackathon">
                             <InfoOutlinedIcon sx={{
                                 color: '#808080',
                                 fontSize: '1.2rem',
@@ -38,6 +38,7 @@ export default function Hackathontile() {
                                 marginTop: '0.1rem',
                                 cursor: 'pointer'
                             }} />
+                            </Tooltip>
                         </span>
                     </div>
                     <div className="hackathontileMiddle">
@@ -48,7 +49,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                                Hackathon Date .
+                                03/02/2021 at 10:00 AM PST
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -58,7 +59,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                                Hackathon Location.
+                               virtual
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -68,7 +69,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                                Number of people participated
+                               34 contestents
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -78,7 +79,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                                winning points
+                                +1000 points
                             </span>
                         </div>
                     </div>
