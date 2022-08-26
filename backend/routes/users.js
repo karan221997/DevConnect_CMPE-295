@@ -73,6 +73,21 @@ router.get("/:id", async (req, res) => {
 
 });
 
+//get user by email
+router.get("/getUserByEmail/:email", async (req, res) => {
+    try{
+        console.log("get users by email");
+        console.log(req.params.email)
+        const user = await User.find({email:req.params.email});
+        console.log(user);
+        res.status(200).json({user});
+    }
+    catch(err){
+        res.status(500).json({message: err});
+    }
+
+});
+
 //follow a user
 
 router.put("/:id/follow", async (req, res) => {
