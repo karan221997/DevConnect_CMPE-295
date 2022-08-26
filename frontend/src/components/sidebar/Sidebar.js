@@ -35,6 +35,10 @@ export default function Sidebar() {
     navigate("/hackathon");
   };
 
+  const ChatClickHandler = () => {
+    navigate("/messenger");
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -60,7 +64,7 @@ export default function Sidebar() {
 
           <li className="sidebarListItem">
             <Chat className="sidebarIcon" />
-            <span className="sidebarListItemtext">Chats</span>
+            <span className="sidebarListItemtext" onClick={ChatClickHandler}>Chats</span>
           </li>
 
           <li className="sidebarListItem">
