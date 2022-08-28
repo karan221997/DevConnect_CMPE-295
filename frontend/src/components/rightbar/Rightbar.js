@@ -34,37 +34,37 @@ export default function Rightbar({profile}) {
       <h4 className="rightbarTittle"> User Information</h4>
       <div className="rightbarInfo">
             <div className="rightbarInfoItem">
-                <span className="rightbarInfoKey">Expert In :</span>
-                <span className="rightbarInfoValue">c++, java, React</span>
+                <span className="rightbarInfoKey">Areas of Expertise :</span>
+                <span className="rightbarInfoValue">C++, java, React</span>
             </div>
              <div className="rightbarInfoItem">
-                <span className="rightbarInfoKey">location :</span>
+                <span className="rightbarInfoKey">Location :</span>
                 <span className="rightbarInfoValue"><Room className="rightbarInfoValueIcon"/>New york</span>
             </div>
              <div className="rightbarInfoItem">
-                <span className="rightbarInfoKey">looking for :</span>
-                <span className="rightbarInfoValue">c++ devlopers</span>
+                <span className="rightbarInfoKey">Help Required In :</span>
+                <span className="rightbarInfoValue">React Native</span>
             </div>
       </div>
        <h4 className="rightbarTittle"> Communities </h4>
            <div className="rightbarFollowings">
                 <div className="rightbarFollowing">
-                    <img src="/assets/person/2.jpg" alt="" className="rightbarFollowingImg" />
-                    <span className="rightbarFollowingName">Pam Beasly</span>
+                    <img src="https://cdn.vox-cdn.com/thumbor/_AobZZDt_RVStktVR7mUZpBkovc=/0x0:640x427/1200x800/filters:focal(0x0:640x427)/cdn.vox-cdn.com/assets/1087137/java_logo_640.jpg" alt="" className="rightbarFollowingImg" />
+                    <span className="rightbarFollowingName"><b>Java</b></span>
                 </div>
                 <div className="rightbarFollowing">
-                    <img src="/assets/person/3.jpg" alt="" className="rightbarFollowingImg" />
-                    <span className="rightbarFollowingName">Jim Halpert</span>
+                    <img src="https://miro.medium.com/max/722/1*WzqoTtRUpmJR26dzlKdIwg.png" alt="" className="rightbarFollowingImg" />
+                    <span className="rightbarFollowingName"><b>MySQL</b></span>
                 </div>
                 <div className="rightbarFollowing">
-                    <img src="/assets/person/4.jpg" alt="" className="rightbarFollowingImg" />
-                    <span className="rightbarFollowingName">Andy Bernard</span>
+                    <img src="https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png" alt="" className="rightbarFollowingImg" />
+                    <span className="rightbarFollowingName"><b>HTML</b></span>
                 </div>
                 <div className="rightbarFollowing">
-                    <img src="/assets/person/5.jpg" alt="" className="rightbarFollowingImg" />
-                    <span className="rightbarFollowingName">Dwight Schrute</span>
+                    <img src="https://toppng.com//public/uploads/preview/bootstrap-social-media-icons-html-css-js-logo-11563293145uql7yehdq3.png" alt="" className="rightbarFollowingImg" />
+                    <span className="rightbarFollowingName"><b>CSS</b></span>
                 </div>
-                 <div className="rightbarFollowing">
+                 {/* <div className="rightbarFollowing">
                     <img src="/assets/person/6.jpg" alt="" className="rightbarFollowingImg" />
                     <span className="rightbarFollowingName">Stanly Hudson</span>
                 </div>
@@ -79,7 +79,7 @@ export default function Rightbar({profile}) {
                  <div className="rightbarFollowing">
                     <img src="/assets/person/9.jpg" alt="" className="rightbarFollowingImg" />
                     <span className="rightbarFollowingName">Rayan Millers</span>
-                </div>
+                </div> */}
            </div>
             <Addvertisement/>
       </>

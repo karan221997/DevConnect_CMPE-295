@@ -1,0 +1,17 @@
+.CommunityDashboard {
+  display: flex;
+ width: 100%;
+}
+
+.CommunityDashboard_Right {
+  flex: 9;
+  display: block;
+  width: auto;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.CreateNew{
+float: right;
+margin-right: 10px;
+}

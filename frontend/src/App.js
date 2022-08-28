@@ -16,7 +16,7 @@ import { AuthContext } from "./context/AuthContext";
 import Messenger from "./Pages/messenger/Messenger";
 import CreatePost from "./components/CreatePost/CreatePost";
 import Hackathon from "./Pages/hackathon/Hackathon";
-
+import CommunityDashboard from "./Pages/CommunityDashboard/CommunityDashboard";
 function App() {
   const { user } = useContext(AuthContext);
   return (
@@ -51,6 +51,11 @@ function App() {
             exact
             path="/hackathon"
             element={<Hackathon/>}
+          />
+           <Route
+            exact
+            path="/communities"
+            element={<CommunityDashboard/>}
           />
                 
           <Route exact path="/messenger" element={<Messenger />} />
