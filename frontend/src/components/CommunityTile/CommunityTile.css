@@ -1,0 +1,24 @@
+.CardContainer {
+  width: 100%;
+  display: inline-block;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.Card_Desc {
+  width: 100%;
+}
+.CommunityImage {
+  width: 70px;
+  height: 70px;
+}
+.ImgContainer {
+  width: auto;
+  border: 1px;
+  border-radius: 1px;
+  border-color: black;
+}
+.CommunityHeader {
+  margin-right: 15px;
+  cursor: pointer;
+  display: flex;
+}

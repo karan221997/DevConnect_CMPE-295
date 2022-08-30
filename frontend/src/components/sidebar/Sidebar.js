@@ -39,6 +39,10 @@ export default function Sidebar() {
     navigate("/messenger");
   };
 
+  const CommunitiesClickHandler = () => {
+    navigate("/communities");
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -69,7 +73,7 @@ export default function Sidebar() {
 
           <li className="sidebarListItem">
             <Group className="sidebarIcon" />
-            <span className="sidebarListItemText">Communities</span>
+            <span className="sidebarListItemText"onClick={CommunitiesClickHandler}>Communities</span>
           </li>
 
           <li className="sidebarListItem">
