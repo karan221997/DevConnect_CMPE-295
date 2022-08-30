@@ -5,32 +5,54 @@ import { useContext, useEffect, useState, useRef } from "react";
 import {AuthContext} from "../../context/AuthContext";
 import axios from "axios";
 import Message from "../../components/message/Message";
-import io from "socket.io-client"
+import {io} from "socket.io-client";
 
 export default function Messenger() {
     const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [socket, setSocket] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  //const socket = useRef();
+  const socket = useRef();
   const { user } = useContext(AuthContext);
   const scrollRef = useRef();
-console.log(user);
-    console.log(user.email);
+  //console.log(user);
+    //console.log(user.email);
 
-    // useEffect(() => {
-    //   socket.current = io("ws://localhost:8900");
-    //   // socket.current.on("getMessage", (data) => {
-    //   //   setArrivalMessage({
-    //   //     sender: data.senderId,
-    //   //     text: data.text,
-    //   //     createdAt: Date.now(),
-    //   //   });
-    //   // });
-    // }, []);
+    useEffect(()=>{
+      socket.current = io("ws://localhost:8900");
+      console.log("arrival message setting");
+      socket.current.on("getMessage",data=>{
+          setArrivalMessage({
+            sender: data.senderId,
+            text: data.text,
+            createdAt : Date.now(),
+          });
+          console.log(arrivalMessage);
+      });
+    },[]);
+
+    // useEffect(()=>{
+    //   arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
+    //   setMessages((prev)=>[...prev,arrivalMessage])
+    // },[arrivalMessage,currentChat]);
+
+    useEffect(() => {
+      arrivalMessage &&
+        currentChat?.members.includes(arrivalMessage.sender) &&
+        setMessages((prev) => [...prev, arrivalMessage]);
+    }, [arrivalMessage, currentChat]);
+   
+    useEffect(()=>{
+      socket.current.emit("addUser", user.email);
+      socket.current.on("getUsers",users=>{
+        console.log(users);
+        setOnlineUsers(
+          user.followings.filter((f) => users.some((u) => u.userId === f))
+        );
+      });
+    },[user]);
 
     useEffect(() => {
         const getConversations = async () => {
@@ -46,7 +68,7 @@ console.log(user);
         getConversations();
       }, [user.email]);
 
-      console.log(currentChat);
+      //console.log(currentChat);
 
 
       useEffect(() => {
@@ -62,7 +84,7 @@ console.log(user);
         getMessages();
       }, [currentChat]);
 
-      console.log(messages);
+      //console.log(messages);
 
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -72,29 +94,32 @@ console.log(user);
           conversationId: currentChat._id,
         };
         
-    
+    console.log("HERE");
+
         const receiverId = currentChat.members.find(
-          (member) => member !== user._id
+          (member) => member !== user.email
         );
-    
-        // socket.current.emit("sendMessage", {
-        //   senderId: user._id,
-        //   receiverId,
-        //   text: newMessage,
-        // });
+
+    console.log("for socket ---- "+receiverId);
+        socket.current.emit("sendMessage", {
+          senderId: user.email,
+          receiverId,
+          text: newMessage,
+        });
     
         try {
           const res = await axios.post("/api/message", message);
           
           setMessages([...messages, res.data]);
+          setNewMessage("");
           console.log("NEW MESSAGE PRINTED DOWN");
-          setNewMessage(""); //not working text box not getting refreshed.
           console.log(newMessage); 
         } catch (err) {
           console.log(err);
         }
-        setNewMessage("");
       };
+
+     
 
       useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -125,7 +150,7 @@ console.log(user);
                             <>
                                 <div className="chatBoxTop">
                                     {messages.map((m)=>(
-                                      <div ref = {scrollRef}><Message message={m} own={m.sender === user._id}/></div>
+                                      <div ref = {scrollRef}><Message message={m} own={m.sender === user.email}/></div>
                                         
                                     ))}
                                 </div>
@@ -149,11 +174,11 @@ console.log(user);
                 </div>
                 <div className="chatOnline">
                     <div className="chatOnlineWrapper">
-                        {/* <ChatOnline
+                        <ChatOnline
                             onlineUsers={onlineUsers}
-                            currentId={user._id}
+                            currentId={user.email}
                             setCurrentChat={setCurrentChat}
-                        /> */}
+                        />
                     </div>
                 </div>
             </div>
