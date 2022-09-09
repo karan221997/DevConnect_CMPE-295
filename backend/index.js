@@ -14,6 +14,7 @@ const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const messageRoute = require("./routes/messages");
+const hacakthonRoute = require("./routes/hackathon");
 const conversationRoute = require("./routes/conversations");
 
 dotenv.config();
@@ -28,6 +29,7 @@ connectMongo();
   app.use("/api/auth", authRoute);
   app.use("/api/posts", postRoute);
   app.use("/api/message", messageRoute);
+  app.use("/api/hackathon", hacakthonRoute);
   app.use("/api/conversation", conversationRoute);
 
 app.get("/", (req, res) => {

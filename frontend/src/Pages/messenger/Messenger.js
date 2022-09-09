@@ -7,6 +7,7 @@ import {AuthContext} from "../../context/AuthContext";
 import axios from "axios";
 import Message from "../../components/message/Message";
 import {io} from "socket.io-client";
+import ChatOnline from '../../components/chatOnline/ChatOnline';
 
 export default function Messenger() {
     const [conversations, setConversations] = useState([]);

@@ -18,6 +18,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import axios from 'axios';
 
 //creating theme to override material UI colors
 const theme = createTheme({
@@ -36,38 +37,69 @@ export default function Hackathon() {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(Date ? Date : null);
     const [time, setTime] = useState(Date ? Date : null);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [Location, setLocation] = useState("");
+    const [winningPoints, setWinningPoints] = useState("");
+    const [maxTeamSize, setMaxTeamSize] = useState("");
+    const [hackathonData , setHackathonData] = useState([]);
+    
     const handleOpen = () => {
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
+    
+ async function fetchhackathons() {
+       const result =  await axios.get("api/hackathon");
+       setHackathonData(result.data);
+    }
+
+   useEffect(() => {
+    fetchhackathons();
+  }, [open]);
+
+
+    const Submit = () => {
+        const data = {
+            name : title,
+            description : description,
+            location : Location,
+            date : value,
+            time : time,
+            winningPoints : winningPoints,
+            maxTeamSize : maxTeamSize
+        }
+        setOpen(false);
+        //send data to backend
+       const res = axios.post("api/hackathon/", data);
+       if(res.status === 200) {
+             fetchhackathons();
+       }
+       else {
+           console.log("error");
+       }
+        
+    }
+
     return (
         <>
-            <Topbar />
+             <Topbar />
             <div className="hackathon">
                 <Sidebar />
                 <div className="hackathonRight">
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <Hackathontile />
-                    <ThemeProvider theme={theme}>
+                   {hackathonData.map((data) => (
+                        <Hackathontile data={data} />
+                    ))}           
+                </div>
+                 <ThemeProvider theme={theme}>
                         <div className="hackathonFloating">
                             <Fab color="primary" aria-label="add">
                                 <AddIcon onClick={handleOpen} />
                             </Fab>
                         </div>
                     </ThemeProvider>
-                </div>
             </div>
             <ThemeProvider theme={theme}>
                 <Modal
@@ -76,6 +108,7 @@ export default function Hackathon() {
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                     disableEnforceFocus
+                   
                 >
                     <div className='ModalPosition'>
                         <div className="ModalTop">
@@ -89,11 +122,19 @@ export default function Hackathon() {
                             </IconButton>
                         </div>
                         <div className="modalMiddle">
-                            <TextField label="Hackathon Tittle" variant="outlined" margin='dense' />
+                            <TextField label="Hackathon Tittle" variant="outlined" margin='dense' 
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                            }}
+                            />
                             <TextField label="Hackathon Description" variant="outlined"
                                 multiline
                                 rows={4}
                                 margin='dense'
+                                onChange={(e) => {
+                                    setDescription(e.target.value);
+                                }}
+                
                             />
                             <div className='modalMiddleRowSeparation'>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -117,19 +158,34 @@ export default function Hackathon() {
                                     />
                                 </LocalizationProvider>
                             </div>
-                            <TextField label="winning points" variant="outlined" margin='dense' />
+                            <TextField label="winning points" variant="outlined" margin='dense' 
+                            onChange={(e) => {
+                                setWinningPoints(e.target.value);
+                            }}
+                            />
                             <div className='modalMiddleRowSeparation'>
-                                <TextField label="Location" variant="outlined" margin='dense' />
-                                <TextField label="Max Participants" variant="outlined" margin='dense' />
+                                <TextField label="Location" variant="outlined" margin='dense'
+                                onChange={(e) => {
+                                    setLocation(e.target.value);
+                                }}
+                                 />
+                                <TextField label="Max Team Size" variant="outlined" margin='dense' 
+                                onChange={(e) => {
+                                    setMaxTeamSize(e.target.value);
+
+                                }}
+                                />
                             </div>
                         </div>
                         <div className="modalBottom">
-                            <Button variant="outlined"> Submit </Button>
+                            <Button variant="outlined"
+                                onClick={Submit}
+                            > Submit </Button>
                         </div>
                     </div>
                 </Modal>
-            </ThemeProvider>
-
+            </ThemeProvider> 
+           
         </>
     );
 }

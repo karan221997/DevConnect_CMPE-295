@@ -21,7 +21,14 @@ const theme = createTheme({
     },
 });
 
-export default function Hackathontile() {
+export default function Hackathontile({data}) {
+
+const {name, description, date, time, location, maxTeamSize, winningPoints} = data;
+
+//change date format
+
+const date1 = new Date(date).toDateString();
+const time1 = new Date(time).toLocaleTimeString();
 
     return (
         <>
@@ -29,8 +36,8 @@ export default function Hackathontile() {
                 <ThemeProvider theme={theme}>
                     <div className="hackathontileTop">
                         <span className="hackathontileTopTittle">
-                          Java Coding Challenge
-                            <Tooltip title="This Challenge is for Java experts and there will be 3 coding challenges in this hackathon">
+                          {name}
+                            <Tooltip title={description}>
                             <InfoOutlinedIcon sx={{
                                 color: '#808080',
                                 fontSize: '1.2rem',
@@ -49,7 +56,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                                03/02/2021 at 10:00 AM PST
+                               {date1} at {time1}
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -59,7 +66,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                               virtual
+                                {location}
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -69,7 +76,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                               34 contestents
+                                {maxTeamSize} members
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -79,7 +86,7 @@ export default function Hackathontile() {
 
                             }} />
                             <span className="middleInfoText">
-                                +1000 points
+                                +{winningPoints} points
                             </span>
                         </div>
                     </div>
