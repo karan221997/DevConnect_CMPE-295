@@ -36,7 +36,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
       {onlineFriends.map((o) => (
         <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
           <div className="chatOnlineImgContainer">
-            <img
+            {/* <img
               className="chatOnlineImg"
               src={
                 o?.profilePicture
@@ -44,7 +44,7 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
                   : PF + "person/noAvatar.png"
               }
               alt=""
-            />
+            /> */}
             <div className="chatOnlineBadge"></div>
           </div>
           <span className="chatOnlineName">{o?.username}</span>
