@@ -10,10 +10,7 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {  Modal } from "react-bootstrap";
-
-
-
-
+import {useRef} from 'react';
 
 function CreatePost(props) {
   const [type, setType] = React.useState("text");
@@ -26,13 +23,29 @@ function CreatePost(props) {
   const [communityId, setCommunityId] = React.useState(0);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [files, setFiles] = useState('');
+  const inputRef = useRef(null);
 
   const handleClose = () => 
   {
   setShow(false);
   window.location.reload()
-  
   }
+
+  const handleClick = () => {
+    // 👇️ open file input box on click of other element
+    inputRef.current.click();
+  };
+
+  
+  const handleFileUpload = event => {
+    event.preventDefault();
+    setFiles(event.target.files);
+    const bodyFormData = new FormData();
+    console.log("File details should come here",event.target.files);
+    
+  };
+
 
 
 
@@ -114,7 +127,14 @@ function CreatePost(props) {
                   <TextSnippetOutlinedIcon htmlColor="white" />
                   Post
                 </button>
-                <button className="btnCreatePost">
+                <input
+                  multiple
+                  style={{display: 'none'}}
+                  ref={inputRef}
+                  type="file"
+                  onChange={handleFileUpload}
+                />
+                <button className="btnCreatePost" onClick={handleClick}>
                   <LinkOutlinedIcon htmlColor="white" />
                   Images
                 </button>
