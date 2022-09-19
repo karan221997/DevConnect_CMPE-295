@@ -1,0 +1,73 @@
+ .jobs {
+    display: flex;
+}
+
+.jobsRight {
+    flex: 9;
+    justify-content: space-evenly;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.jobsFloating {
+    position: sticky;
+    width: 6%;
+    height: 30%;
+    margin: 10px;
+    display: flex;
+    direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.ModalPosition {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:450px;
+    height: 80vh;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    display: flex;
+    flex-direction: column;
+}
+.ModalTop{
+    flex: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(8, 8, 8);
+}
+.ModalHeader{
+    font-size: 20px;
+    font-weight: 300;
+    margin-left: 30px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+.modalMiddle{
+    flex: 80%;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.modalBottom{
+    flex: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 1px;
+}
+
+.modalMiddleRowSeparation{
+    display: flex;
+    column-gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+

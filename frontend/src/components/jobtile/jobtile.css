@@ -1,0 +1,62 @@
+.jobtile {
+    width: 250px;
+    height: 35vh;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+
+
+.jobtile:hover {
+    background-color: rgba(235, 234, 234, 0.849);
+    -webkit-box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
+    box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
+}
+
+.jobtileTop {
+    flex: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+
+.jobtileTopTitle {
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+}
+
+.jobtileMiddle {
+    flex: 50%;
+    margin-left: 3px;
+}
+
+.middleInfo {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    margin-top: 2px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.middleInfoText {
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
+
+.jobtileButton {
+    flex: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
