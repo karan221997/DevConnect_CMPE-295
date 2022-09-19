@@ -14,6 +14,7 @@ import { useContext } from "react";
 import Landing from "./Pages/landing/Landing";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./Pages/messenger/Messenger";
+import Jobs from "./Pages/jobs/Jobs";
 import CreatePost from "./components/CreatePost/CreatePost";
 import Hackathon from "./Pages/hackathon/Hackathon";
 import CommunityDashboard from "./Pages/CommunityDashboard/CommunityDashboard";
@@ -47,6 +48,11 @@ function App() {
             path="/profile"
             element={<Profile/>}
           />
+          <Route
+            exact
+            path="/jobs"
+            element={<Jobs/>}
+          />  
            <Route
             exact
             path="/hackathon"

@@ -16,6 +16,8 @@ const postRoute = require("./routes/posts");
 const messageRoute = require("./routes/messages");
 const hacakthonRoute = require("./routes/hackathon");
 const conversationRoute = require("./routes/conversations");
+const jobRoute = require("./routes/jobs");
+
 
 dotenv.config();
 
@@ -31,6 +33,7 @@ connectMongo();
   app.use("/api/message", messageRoute);
   app.use("/api/hackathon", hacakthonRoute);
   app.use("/api/conversation", conversationRoute);
+  app.use("/api/job", jobRoute);
 
 app.get("/", (req, res) => {
     res.status(200).send("DevConnect-backend Server Started");
