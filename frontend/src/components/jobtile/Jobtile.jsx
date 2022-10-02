@@ -1,4 +1,4 @@
-import './hackathontile.css';
+import './jobtile.css';
 //material UI icon
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -21,23 +21,19 @@ const theme = createTheme({
     },
 });
 
-export default function Hackathontile({data}) {
-
-const {name, description, date, time, location, maxTeamSize, winningPoints} = data;
+export default function Jobtile() {
 
 //change date format
 
-const date1 = new Date(date).toDateString();
-const time1 = new Date(time).toLocaleTimeString();
 
     return (
         <>
-            <div className="hackathontile">
+            <div className="jobtile">
                 <ThemeProvider theme={theme}>
-                    <div className="hackathontileTop">
-                        <span className="hackathontileTopTittle">
-                          {name}
-                            <Tooltip title={description}>
+                    <div className="jobtileTop">
+                        <span className="jobtileTopTittle">
+                          "name"
+                            <Tooltip title="decribtion">
                             <InfoOutlinedIcon sx={{
                                 color: '#808080',
                                 fontSize: '1.2rem',
@@ -48,7 +44,7 @@ const time1 = new Date(time).toLocaleTimeString();
                             </Tooltip>
                         </span>
                     </div>
-                    <div className="hackathontileMiddle">
+                    <div className="jobtileMiddle">
                         <div className="middleInfo">
                             <AccessTimeOutlinedIcon sx={{
                                 color: '#808080',
@@ -56,7 +52,7 @@ const time1 = new Date(time).toLocaleTimeString();
 
                             }} />
                             <span className="middleInfoText">
-                               {date1} at {time1}
+                                 "date1" at "time1"
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -66,7 +62,7 @@ const time1 = new Date(time).toLocaleTimeString();
 
                             }} />
                             <span className="middleInfoText">
-                                {location}
+                                "location"
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -76,7 +72,7 @@ const time1 = new Date(time).toLocaleTimeString();
 
                             }} />
                             <span className="middleInfoText">
-                                {maxTeamSize} members
+                                "maxTeamSize"
                             </span>
                         </div>
                         <div className="middleInfo">
@@ -86,12 +82,12 @@ const time1 = new Date(time).toLocaleTimeString();
 
                             }} />
                             <span className="middleInfoText">
-                                +{winningPoints} points
+                                "winningPoints"
                             </span>
                         </div>
                     </div>
-                    <div className="hackathontileBottom">
-                        <span className="hackathontileBottomButtons">
+                    <div className="jobtileBottom">
+                        <span className="jobtileBottomButtons">
                             <Button variant="outlined"> Participate </Button>
                         </span>
                     </div>

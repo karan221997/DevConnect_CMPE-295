@@ -1,12 +1,14 @@
 import "./messenger.css";
 import Topbar from "../../components/topbar/Topbar";
 import Conversation from "../../components/conversations/Conversation";
+import ChatOnline from "../../components/chatOnline/ChatOnline";
 import { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import Message from "../../components/message/Message";
 import {io} from "socket.io-client";
-import ChatOnline from "../../components/chatOnline/ChatOnline"
+// import ChatOnline from '../../components/chatOnline/ChatOnline';
+
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -48,10 +50,13 @@ export default function Messenger() {
     useEffect(()=>{
       socket.current.emit("addUser", user.email);
       socket.current.on("getUsers",users=>{
+        console.log(user);
+        console.log(user.following);
         console.log(users);
         setOnlineUsers(
-          user.followings.filter((f) => users.some((u) => u.userId === f))
+          user.following.filter((f) => users.some((u) => u.userId === f))
         );
+        console.log(onlineUsers);
       });
       console.log(arrivalMessage);
     });

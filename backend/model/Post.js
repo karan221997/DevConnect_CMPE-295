@@ -25,8 +25,8 @@ const PostSchema = new mongoose.Schema({
         default: ""
     },
     image: {
-        type: String,
-        default: ""
+        type: Array,
+        default: []
     },
     upVotes: {
         type: Number,

@@ -1,7 +1,7 @@
-import './hackathon.css';
+import './jobs.css';
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Hackathontile from "../../components/hackathontile/Hackathontile";
+import Jobtile from "../../components/jobtile/Jobtile";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -33,16 +33,9 @@ const theme = createTheme({
 });
 
 
-export default function Hackathon() {
+export default function Jobs() {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(Date ? Date : null);
-    const [time, setTime] = useState(Date ? Date : null);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [Location, setLocation] = useState("");
-    const [winningPoints, setWinningPoints] = useState("");
-    const [maxTeamSize, setMaxTeamSize] = useState("");
-    const [hackathonData , setHackathonData] = useState([]);
+   
     
     const handleOpen = () => {
         setOpen(true);
@@ -51,50 +44,24 @@ export default function Hackathon() {
         setOpen(false);
     };
     
- async function fetchhackathons() {
-       const result =  await axios.get("api/hackathon");
-       setHackathonData(result.data);
-    }
 
-   useEffect(() => {
-    fetchhackathons();
-  }, [open]);
-
-
-    const Submit = () => {
-        const data = {
-            name : title,
-            description : description,
-            location : Location,
-            date : value,
-            time : time,
-            winningPoints : winningPoints,
-            maxTeamSize : maxTeamSize
-        }
-        setOpen(false);
-        //send data to backend
-       const res = axios.post("api/hackathon/", data);
-       if(res.status === 200) {
-             fetchhackathons();
-       }
-       else {
-           console.log("error");
-       }
-        
-    }
 
     return (
         <>
              <Topbar />
-            <div className="hackathon">
+            <div className="jobs">
                 <Sidebar />
-                <div className="hackathonRight">
-                   {hackathonData.map((data) => (
-                        <Hackathontile data={data} />
-                    ))}           
+                <div className="jobsRight">
+                  
+                        <Jobtile />
+                          <Jobtile />
+                            <Jobtile />
+                              <Jobtile />
+                                <Jobtile />
+                            
                 </div>
                  <ThemeProvider theme={theme}>
-                        <div className="hackathonFloating">
+                        <div className="jobsFloating">
                             <Fab color="primary" aria-label="add">
                                 <AddIcon onClick={handleOpen} />
                             </Fab>
@@ -122,64 +89,49 @@ export default function Hackathon() {
                             </IconButton>
                         </div>
                         <div className="modalMiddle">
-                            <TextField label="Hackathon Tittle" variant="outlined" margin='dense' 
-                            onChange={(e) => {
-                                setTitle(e.target.value);
-                            }}
+                            <TextField label="Jobs Tittle" variant="outlined" margin='dense' 
+                            
                             />
-                            <TextField label="Hackathon Description" variant="outlined"
+                            <TextField label="Jobs Description" variant="outlined"
                                 multiline
                                 rows={4}
                                 margin='dense'
-                                onChange={(e) => {
-                                    setDescription(e.target.value);
-                                }}
+                               
                 
                             />
                             <div className='modalMiddleRowSeparation'>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DatePicker
                                         label="Start Date"
-                                        value={value}
-                                        onChange={(newValue) => {
-                                            setValue(newValue);
-                                        }}
+                                       
+                                       
                                         renderInput={(params) => <TextField margin='dense' {...params} />}
                                     />
                                 </LocalizationProvider>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <TimePicker
                                         label="Time"
-                                        value={time}
-                                        onChange={(newValue) => {
-                                            setTime(newValue);
-                                        }}
+                                        
+                                       
                                         renderInput={(params) => <TextField margin='dense' {...params} />}
                                     />
                                 </LocalizationProvider>
                             </div>
                             <TextField label="winning points" variant="outlined" margin='dense' 
-                            onChange={(e) => {
-                                setWinningPoints(e.target.value);
-                            }}
+                            
                             />
                             <div className='modalMiddleRowSeparation'>
                                 <TextField label="Location" variant="outlined" margin='dense'
-                                onChange={(e) => {
-                                    setLocation(e.target.value);
-                                }}
+                              
                                  />
                                 <TextField label="Max Team Size" variant="outlined" margin='dense' 
-                                onChange={(e) => {
-                                    setMaxTeamSize(e.target.value);
-
-                                }}
+                               
                                 />
                             </div>
                         </div>
                         <div className="modalBottom">
                             <Button variant="outlined"
-                                onClick={Submit}
+                               
                             > Submit </Button>
                         </div>
                     </div>

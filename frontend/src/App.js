@@ -14,6 +14,7 @@ import { useContext } from "react";
 import Landing from "./Pages/landing/Landing";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./Pages/messenger/Messenger";
+import Jobs from "./Pages/jobs/Jobs";
 import CreatePost from "./components/CreatePost/CreatePost";
 import Hackathon from "./Pages/hackathon/Hackathon";
 import CommunityDashboard from "./Pages/CommunityDashboard/CommunityDashboard";
@@ -40,10 +41,27 @@ function App() {
             path="/dashboard"
             element={user ? <Dashboard /> : <Navigate to="/login" />}
           />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/hackathon" element={<Hackathon />} />
-          <Route exact path="/communities" element={<CommunityDashboard />} />
 
+           <Route
+            exact
+            path="/profile"
+            element={<Profile/>}
+          />
+          <Route
+            exact
+            path="/jobs"
+            element={<Jobs/>}
+          />  
+           <Route
+            exact
+            path="/hackathon"
+            element={<Hackathon/>}
+          />
+           <Route
+            exact
+            path="/communities"
+            element={<CommunityDashboard/>}
+          />
           <Route exact path="/messenger" element={<Messenger />} />
 
           <Route exact path="/communityDetail" element={<CommunityDetail />} />

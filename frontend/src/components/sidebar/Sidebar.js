@@ -43,6 +43,10 @@ export default function Sidebar() {
     navigate("/communities");
   };
 
+  const JobsClickHandler = () => {
+    navigate("/jobs");
+  };
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -82,7 +86,7 @@ export default function Sidebar() {
           </li>
           <li className="sidebarListItem">
             <WorkOutline className="sidebarIcon" />
-            <span className="sidebarListItemText">Jobs</span>
+            <span className="sidebarListItemText" onClick={JobsClickHandler}>Jobs</span>
           </li>
           <li className="sidebarListItem">
             <Event className="sidebarIcon" />
