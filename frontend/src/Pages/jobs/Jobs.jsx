@@ -10,14 +10,9 @@ import { grey, red } from '@mui/material/colors';
 import Modal from '@mui/material/Modal';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import axios from 'axios';
 
 //creating theme to override material UI colors
@@ -35,7 +30,15 @@ const theme = createTheme({
 
 export default function Jobs() {
     const [open, setOpen] = useState(false);
-   
+    const [jobTitle, setJobTitle] = useState("");
+    const [jobDescription, setJobDescription] = useState("");
+    const [jobLocation, setJobLocation] = useState("");
+    const [jobType, setJobType] = useState("");
+    const [jobsalary , setJobsalary] = useState("");
+    const [Company, setCompany] = useState("");
+    const [Skills, setSkills] = useState("");
+    const [experience, setExperience] = useState("");
+    const [jobData , setJobData] = useState([]);
     
     const handleOpen = () => {
         setOpen(true);
@@ -43,7 +46,44 @@ export default function Jobs() {
     const handleClose = () => {
         setOpen(false);
     };
+
+
+    const fetchJobs = async () => {
+        const result = await axios.get("api/job");
+        setJobData(result.data);
+    }
+
+     const Submit = async () => {
+        console.log("submit button pressed");
+        const job = {
+        title: jobTitle,
+        description: jobDescription,
+        location: jobLocation,
+        salary: jobsalary,
+        company: Company,
+        skills: Skills,
+        experience: experience,
+        type: jobType,
+        };
+         setOpen(false);
+        //send data to backend
+       const res = await axios.post("api/job/", job);
+       if(res.status === 200) {
+              console.log("job added successfully");
+             fetchJobs();
+       }
+       else {
+           console.log("error");
+       }
+
+    };
+
+      useEffect(() => {
+    fetchJobs();
+  }, [open]);
+
     
+   
 
 
     return (
@@ -52,13 +92,9 @@ export default function Jobs() {
             <div className="jobs">
                 <Sidebar />
                 <div className="jobsRight">
-                  
-                        <Jobtile />
-                          <Jobtile />
-                            <Jobtile />
-                              <Jobtile />
-                                <Jobtile />
-                            
+                           {jobData.map((data) => (
+                        <Jobtile data={data} />
+                    ))}   
                 </div>
                  <ThemeProvider theme={theme}>
                         <div className="jobsFloating">
@@ -80,7 +116,7 @@ export default function Jobs() {
                     <div className='ModalPosition'>
                         <div className="ModalTop">
                             <span className="ModalHeader">
-                                Create New Hackathon
+                                Create New Job Posting
                             </span>
                             <IconButton onClick={handleClose} >
                                 <CloseRoundedIcon sx={{
@@ -90,48 +126,38 @@ export default function Jobs() {
                         </div>
                         <div className="modalMiddle">
                             <TextField label="Jobs Tittle" variant="outlined" margin='dense' 
-                            
-                            />
+                            onChange={(e) => setJobTitle(e.target.value)} />
                             <TextField label="Jobs Description" variant="outlined"
                                 multiline
-                                rows={4}
+                                rows={2}
                                 margin='dense'
-                               
-                
-                            />
-                            <div className='modalMiddleRowSeparation'>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        label="Start Date"
-                                       
-                                       
-                                        renderInput={(params) => <TextField margin='dense' {...params} />}
-                                    />
-                                </LocalizationProvider>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <TimePicker
-                                        label="Time"
-                                        
-                                       
-                                        renderInput={(params) => <TextField margin='dense' {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </div>
-                            <TextField label="winning points" variant="outlined" margin='dense' 
+                                onChange={(e) => setJobDescription(e.target.value)} />
                             
-                            />
+                             <TextField label="Company" variant="outlined" margin='dense'
+                             onChange={(e) => setCompany(e.target.value)} />
                             <div className='modalMiddleRowSeparation'>
-                                <TextField label="Location" variant="outlined" margin='dense'
-                              
-                                 />
-                                <TextField label="Max Team Size" variant="outlined" margin='dense' 
-                               
+                               <TextField label="Location" variant="outlined" margin='dense' 
+                               onChange={(e) => setJobLocation(e.target.value)} 
+                               />
+                               <TextField label="Salary" variant="outlined" margin='dense' type="number"
+                               onChange={(e) => setJobsalary(e.target.value)} 
+                               />
+                            </div>
+                             <TextField label="Skills Required" variant="outlined" margin='dense'
+                             onChange={(e) => setSkills(e.target.value)}
+                             />
+                            <div className='modalMiddleRowSeparation'>
+                                <TextField label="type" variant="outlined" margin='dense' 
+                                onChange={(e) => setJobType(e.target.value)}
+                                />
+                                <TextField label="Experience" variant="outlined" margin='dense' 
+                                onChange={(e) => setExperience(e.target.value)}
                                 />
                             </div>
                         </div>
                         <div className="modalBottom">
                             <Button variant="outlined"
-                               
+                               onClick={Submit}
                             > Submit </Button>
                         </div>
                     </div>

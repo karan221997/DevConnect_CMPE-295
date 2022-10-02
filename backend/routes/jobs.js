@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
 );
 
 router.post('/', async (req, res) => {
+    console.log(req.body);
     const job = new Job({
         title: req.body.title,
         description: req.body.description,
