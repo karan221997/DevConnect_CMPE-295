@@ -11,14 +11,6 @@
     justify-content: space-between;
 }
 
-
-
-.jobtile:hover {
-    background-color: rgba(235, 234, 234, 0.849);
-    -webkit-box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
-    box-shadow: 13px 7px 6px -3px rgba(92, 92, 92, 0.43);
-}
-
 .jobtileTop {
     flex: 30%;
     display: flex;
@@ -59,4 +51,11 @@
     display: flex;
     align-items: center;
     justify-content: end;
+}
+.jobtileBottom {
+    flex: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-right: 5px;
 }
