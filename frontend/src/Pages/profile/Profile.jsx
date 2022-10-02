@@ -65,7 +65,7 @@ export default function Profile() {
                 </span>
               </span>
             </div>
-
+            
           </div>
           <div className="profileRightBottom">
             <Feed />

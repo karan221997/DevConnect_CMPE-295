@@ -106,7 +106,7 @@ router.put("/:id/follow", async (req, res) => {
             console.log(currentuser[0].email);
             console.log("------------------")
             console.log(user[0].followers.includes(currentuser[0].email));
-            if(!user[0].followers.includes(currentuser[0].email)){
+            if(!user[0].following.includes(currentuser[0].email)){
                 console.log("inside")
                 console.log(req.body.userId);
     console.log(req.params.id);
@@ -116,6 +116,7 @@ router.put("/:id/follow", async (req, res) => {
                 res.status(200).json({message: "User followed successfully"});
             }
             else{
+                console.log("ALREADY FRND");
                res.status(403).json({message: "User already followed"});
             }
         }
@@ -132,15 +133,25 @@ router.put("/:id/follow", async (req, res) => {
 });
 
 //unfollow a user
-router.put("/:id/unfollow", async (req, res) => {
+router.put("/:email/unfollow", async (req, res) => {
+
+    console.log("1"+req.body.email);
+    console.log("2"+req.params.email)
     
-        if(req.body.userId !== req.params.id){
+        if(req.body.email !== req.params.email){
             try{
-                const user = await User.findById(req.params.id);
-                const currentuser = await User.findById(req.body.userId);
-                if(user.followers.includes(currentuser._id)){
-                    await user.updateOne({$pull: {followers: req.body.userId}});
-                    await currentuser.updateOne({$pull: {following: req.params.id}});
+
+                const user = await User.find({email:req.params.email});
+
+
+                const currentuser = await User.find({email:req.body.email});
+
+             
+                if(user[0].following.includes(currentuser[0].email)){
+                   
+                    const abc = await user[0].update({$pull: {following: req.body.email}});
+
+                    await currentuser[0].update({$pull: {following: req.params.email}});
                     res.status(200).json({message: "User unfollowed successfully"});
                 }
                 else{

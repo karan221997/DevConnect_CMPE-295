@@ -4,10 +4,41 @@ import {Users} from "../../dummyData.js";
 import Onlineusers from '../onlineusers/Onlineusers';
 import Addvertisement from '../addvertisement/Addvertisement';
 import {Room} from '@mui/icons-material';
+import Button from 'react-bootstrap/Button';
+import axios from "axios";
+import { useContext, useEffect, useState, useRef } from "react";
+import {AuthContext} from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
 export default function Rightbar({profile}) {
 
-  
+  const location = useLocation();
+  const { user } = useContext(AuthContext);
+  const [friend, setFriend] = useState(location.state.user);
+
+  const addFriend = async (e) => {
+    e.preventDefault();
+    await setFriend(location.state.user);
+    console.log("click add friend");
+    let data=
+        {
+           userId: user.email
+        }
+        console.log(user.email);
+
+        console.log("friend profile "+friend.email);
+
+        
+    try {
+      const addFriend = await axios.put("api/users/"+ friend.email +"/follow" , data);
+      console.log(addFriend);
+     } catch (err) {
+       console.log(err);
+     }
+
+  }
   const HomeRightbar = () => {
+
+    
 
     return (
       <> 
@@ -31,6 +62,10 @@ export default function Rightbar({profile}) {
   const ProfileRightbar = () => {
     return (
       <>
+      <button className='addFriend' onClick={addFriend}>
+  Add Friend
+</button>
+
       <h4 className="rightbarTittle"> User Information</h4>
       <div className="rightbarInfo">
             <div className="rightbarInfoItem">
