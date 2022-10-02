@@ -1,15 +1,17 @@
-import "./messenger.css"
-import Topbar from "../../components/topbar/Topbar"
+import "./messenger.css";
+import Topbar from "../../components/topbar/Topbar";
 import Conversation from "../../components/conversations/Conversation";
 import ChatOnline from "../../components/chatOnline/ChatOnline";
 import { useContext, useEffect, useState, useRef } from "react";
-import {AuthContext} from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import Message from "../../components/message/Message";
 import {io} from "socket.io-client";
+// import ChatOnline from '../../components/chatOnline/ChatOnline';
+
 
 export default function Messenger() {
-    const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -21,18 +23,18 @@ export default function Messenger() {
   //console.log(user);
     //console.log(user.email);
 
-    useEffect(()=>{
-      socket.current = io("ws://localhost:8900");
-      console.log("arrival message setting");
-      socket.current.on("getMessage",data=>{
-          setArrivalMessage({
-            sender: data.senderId,
-            text: data.text,
-            createdAt : Date.now(),
-          });
-          console.log(arrivalMessage);
-      });
-    },[]);
+    // useEffect(()=>{
+    //   socket.current = io("ws://localhost:8900");
+    //   console.log("arrival message setting");
+    //   socket.current.on("getMessage",data=>{
+    //       setArrivalMessage({
+    //         sender: data.senderId,
+    //         text: data.text,
+    //         createdAt : Date.now(),
+    //       });
+    //       console.log(arrivalMessage);
+    //   });
+    // },[]);
 
     // useEffect(()=>{
     //   arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
@@ -56,136 +58,158 @@ export default function Messenger() {
         );
         console.log(onlineUsers);
       });
-    },[user]);
+      console.log(arrivalMessage);
+    });
+  // }, []);
 
-    useEffect(() => {
-        const getConversations = async () => {
-          try {
-            const res = await axios.get("/api/conversation/" + user.email);
-            console.log(res);
-            console.log(res.data);
-            setConversations(res.data);
-          } catch (err) {
-            console.log(err);
-          }
-        };
-        getConversations();
-      }, [user.email]);
+  // useEffect(()=>{
+  //   arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
+  //   setMessages((prev)=>[...prev,arrivalMessage])
+  // },[arrivalMessage,currentChat]);
 
-      //console.log(currentChat);
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat]);
 
+  useEffect(() => {
+    socket.current.emit("addUser", user.email);
+    socket.current.on("getUsers", (users) => {
+      console.log(user);
+      console.log(user.following);
+      console.log(users);
+      setOnlineUsers(
+        user.following.filter((f) => users.some((u) => u.userId === f))
+      );
+      console.log(onlineUsers);
+    });
+  }, [user]);
 
-      useEffect(() => {
-        const getMessages = async () => {
-          try {
-            console.log(currentChat._id);
-            const res = await axios.get("/api/message/" + currentChat?._id);
-            setMessages(res.data);
-          } catch (err) {
-            console.log(err);
-          }
-        };
-        getMessages();
-      }, [currentChat]);
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const res = await axios.get("/api/conversation/" + user.email);
+        console.log(res);
+        console.log(res.data);
+        setConversations(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getConversations();
+  }, [user.email]);
 
-      //console.log(messages);
+  //console.log(currentChat);
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        const message = {
-          sender: user.email,
-          text: newMessage,
-          conversationId: currentChat._id,
-        };
-        
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        console.log(currentChat._id);
+        const res = await axios.get("/api/message/" + currentChat?._id);
+        setMessages(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMessages();
+  }, [currentChat]);
+
+  //console.log(messages);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const message = {
+      sender: user.email,
+      text: newMessage,
+      conversationId: currentChat._id,
+    };
+
     console.log("HERE");
 
-        const receiverId = currentChat.members.find(
-          (member) => member !== user.email
-        );
+    const receiverId = currentChat.members.find(
+      (member) => member !== user.email
+    );
 
-    console.log("for socket ---- "+receiverId);
-        socket.current.emit("sendMessage", {
-          senderId: user.email,
-          receiverId,
-          text: newMessage,
-        });
-    
-        try {
-          const res = await axios.post("/api/message", message);
-          
-          setMessages([...messages, res.data]);
-          setNewMessage("");
-          console.log("NEW MESSAGE PRINTED DOWN");
-          console.log(newMessage); 
-        } catch (err) {
-          console.log(err);
-        }
-      };
+    console.log("for socket ---- " + receiverId);
+    socket.current.emit("sendMessage", {
+      senderId: user.email,
+      receiverId,
+      text: newMessage,
+    });
 
-     
+    try {
+      const res = await axios.post("/api/message", message);
 
-      useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, [messages]);
+      setMessages([...messages, res.data]);
+      setNewMessage("");
+      console.log("NEW MESSAGE PRINTED DOWN");
+      console.log(newMessage);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    return (
-        <div>
-            <Topbar />
-            {/* <div className="chatMenu"></div>
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  return (
+    <div>
+      <Topbar />
+      {/* <div className="chatMenu"></div>
             <div className="chatBox"></div>
             <div className="chatOnline"></div> */}
-            <div className="messenger">
-                <div className="chatMenu">
-                    <div className="chatMenuWrapper">
-                        <input placeholder="Search for friends" className="chatMenuInput" />
-                        {conversations.map((c) => (
+      <div className="messenger">
+        <div className="chatMenu">
+          <div className="chatMenuWrapper">
+            <input placeholder="Search for friends" className="chatMenuInput" />
+            {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
-                
                 <Conversation conversation={c} currentUser={user} />
-                
               </div>
             ))}
-                    </div>
-                </div>
-                <div className="chatBox">
-                    <div className="chatBoxWrapper">
-                        {currentChat ? (
-                            <>
-                                <div className="chatBoxTop">
-                                    {messages.map((m)=>(
-                                      <div ref = {scrollRef}><Message message={m} own={m.sender === user.email}/></div>
-                                        
-                                    ))}
-                                </div>
-                                <div className="chatBoxBottom">
-                                    <textarea
-                                        className="chatMessageInput"
-                                        placeholder="write something..."
-                                        onChange={(e)=>setNewMessage(e.target.value)}
-                                    ></textarea>
-                                    <button className="chatSubmitButton" onClick={handleSubmit}>
-                                        Send
-                                    </button>
-                                </div>
-                            </>
-                        ) : (
-                            <span className="noConversationText">
-                                Open a conversation to start a chat.
-                            </span>
-                        )}
-                    </div>
-                </div>
-                <div className="chatOnline">
-                    <div className="chatOnlineWrapper">
-                        <ChatOnline
-                            onlineUsers={onlineUsers}
-                            currentId={user.email}
-                            setCurrentChat={setCurrentChat}
-                        />
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    )
+        <div className="chatBox">
+          <div className="chatBoxWrapper">
+            {currentChat ? (
+              <>
+                <div className="chatBoxTop">
+                  {messages.map((m) => (
+                    <div ref={scrollRef}>
+                      <Message message={m} own={m.sender === user.email} />
+                    </div>
+                  ))}
+                </div>
+                <div className="chatBoxBottom">
+                  <textarea
+                    className="chatMessageInput"
+                    placeholder="write something..."
+                    onChange={(e) => setNewMessage(e.target.value)}
+                  ></textarea>
+                  <button className="chatSubmitButton" onClick={handleSubmit}>
+                    Send
+                  </button>
+                </div>
+              </>
+            ) : (
+              <span className="noConversationText">
+                Open a conversation to start a chat.
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="chatOnline">
+          <div className="chatOnlineWrapper">
+            <ChatOnline
+              onlineUsers={onlineUsers}
+              currentId={user.email}
+              setCurrentChat={setCurrentChat}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

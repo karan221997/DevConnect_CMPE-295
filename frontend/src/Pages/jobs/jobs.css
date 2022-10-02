@@ -1,15 +1,15 @@
- .hackathon {
+ .jobs {
     display: flex;
 }
 
-.hackathonRight {
+.jobsRight {
     flex: 9;
     justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
 }
 
-.hackathonFloating {
+.jobsFloating {
     position: sticky;
     width: 6%;
     height: 30%;

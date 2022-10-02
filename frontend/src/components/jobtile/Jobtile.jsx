@@ -1,10 +1,12 @@
-import './hackathontile.css';
+import './jobtile.css';
 //material UI icon
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import BusinessIcon from '@mui/icons-material/Business';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
-import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import SchoolIcon from '@mui/icons-material/School';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey, red } from '@mui/material/colors';
@@ -21,22 +23,20 @@ const theme = createTheme({
     },
 });
 
-export default function Hackathontile({data}) {
+export default function Jobtile({data}) {
 
-const {name, description, date, time, location, maxTeamSize, winningPoints} = data;
+const {title,company,salary,description,location,type,skills,experience}=data;
 
 //change date format
 
-const date1 = new Date(date).toDateString();
-const time1 = new Date(time).toLocaleTimeString();
 
     return (
         <>
-            <div className="hackathontile">
+            <div className="jobtile">
                 <ThemeProvider theme={theme}>
-                    <div className="hackathontileTop">
-                        <span className="hackathontileTopTittle">
-                          {name}
+                    <div className="jobtileTop">
+                        <span className="jobtileTopTittle">
+                         {title}
                             <Tooltip title={description}>
                             <InfoOutlinedIcon sx={{
                                 color: '#808080',
@@ -48,18 +48,28 @@ const time1 = new Date(time).toLocaleTimeString();
                             </Tooltip>
                         </span>
                     </div>
-                    <div className="hackathontileMiddle">
+                    <div className="jobtileMiddle">
                         <div className="middleInfo">
-                            <AccessTimeOutlinedIcon sx={{
+                            <BusinessIcon sx={{
                                 color: '#808080',
                                 fontSize: '1.5rem',
 
                             }} />
                             <span className="middleInfoText">
-                               {date1} at {time1}
+                                 {company}
                             </span>
                         </div>
                         <div className="middleInfo">
+                            <AttachMoneyIcon sx={{
+                                color: '#808080',
+                                fontSize: '1.5rem',
+
+                            }} />
+                            <span className="middleInfoText">
+                                 {salary}K offered per year
+                            </span>
+                        </div>
+                         <div className="middleInfo">
                             <LocationOnOutlinedIcon sx={{
                                 color: '#808080',
                                 fontSize: '1.5rem',
@@ -70,29 +80,39 @@ const time1 = new Date(time).toLocaleTimeString();
                             </span>
                         </div>
                         <div className="middleInfo">
-                            <GroupOutlinedIcon sx={{
+                            <SchoolIcon sx={{
                                 color: '#808080',
                                 fontSize: '1.5rem',
 
                             }} />
                             <span className="middleInfoText">
-                                {maxTeamSize} members
+                               {skills}
                             </span>
                         </div>
                         <div className="middleInfo">
-                            <EmojiEventsOutlinedIcon sx={{
+                            <WorkHistoryIcon sx={{
                                 color: '#808080',
                                 fontSize: '1.5rem',
 
                             }} />
                             <span className="middleInfoText">
-                                +{winningPoints} points
+                               {experience} of experience required
+                            </span>
+                        </div>
+                         <div className="middleInfo">
+                            <PendingActionsIcon sx={{
+                                color: '#808080',
+                                fontSize: '1.5rem',
+
+                            }} />
+                            <span className="middleInfoText">
+                               {type} opportunity
                             </span>
                         </div>
                     </div>
-                    <div className="hackathontileBottom">
-                        <span className="hackathontileBottomButtons">
-                            <Button variant="outlined"> Participate </Button>
+                    <div className="jobtileBottom">
+                        <span className="jobtileBottomButtons">
+                            <Button variant="outlined"> Apply</Button>
                         </span>
                     </div>
                 </ThemeProvider>

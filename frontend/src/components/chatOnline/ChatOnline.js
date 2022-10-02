@@ -38,7 +38,7 @@ console.log(onlineFriends);
       {onlineFriends.map((o) => (
         <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
           <div className="chatOnlineImgContainer">
-            <img
+            {/* <img
               className="chatOnlineImg"
               // src={
               //   o?.profilePicture
@@ -46,7 +46,7 @@ console.log(onlineFriends);
               //     : PF + "person/noAvatar.png"
               // }
               alt=""
-            />
+            /> */}
             <div className="chatOnlineBadge"></div>
           </div>
           <span className="chatOnlineName">{o?.email}</span>

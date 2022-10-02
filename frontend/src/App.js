@@ -14,24 +14,23 @@ import { useContext } from "react";
 import Landing from "./Pages/landing/Landing";
 import { AuthContext } from "./context/AuthContext";
 import Messenger from "./Pages/messenger/Messenger";
+import Jobs from "./Pages/jobs/Jobs";
 import CreatePost from "./components/CreatePost/CreatePost";
 import Hackathon from "./Pages/hackathon/Hackathon";
 import CommunityDashboard from "./Pages/CommunityDashboard/CommunityDashboard";
+import CommunityDetail from "./Pages/CommunityDetail/CommunityDetail";
 function App() {
   const { user } = useContext(AuthContext);
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-             <Route
-            exact
-            path="/"
-            element={<Landing/>}
-          />
+          <Route exact path="/" element={<Landing />} />
           <Route
             exact
             path="/login"
-            element={ user ? <Navigate to="/dashboard" /> : <Login />}         />
+            element={user ? <Navigate to="/dashboard" /> : <Login />}
+          />
           <Route
             exact
             path="/signup"
@@ -40,13 +39,19 @@ function App() {
           <Route
             exact
             path="/dashboard"
-            element={user ?<Dashboard/>:<Navigate to="/login" />}
+            element={user ? <Dashboard /> : <Navigate to="/login" />}
           />
+
            <Route
             exact
             path="/profile"
             element={<Profile/>}
           />
+          <Route
+            exact
+            path="/jobs"
+            element={<Jobs/>}
+          />  
            <Route
             exact
             path="/hackathon"
@@ -57,9 +62,9 @@ function App() {
             path="/communities"
             element={<CommunityDashboard/>}
           />
-                
           <Route exact path="/messenger" element={<Messenger />} />
-         
+
+          <Route exact path="/communityDetail" element={<CommunityDetail />} />
         </Routes>
       </BrowserRouter>
     </div>
