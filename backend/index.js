@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = process.env.port || 3001;
 const axios = require("axios");
@@ -17,29 +17,29 @@ const messageRoute = require("./routes/messages");
 const hacakthonRoute = require("./routes/hackathon");
 const conversationRoute = require("./routes/conversations");
 const jobRoute = require("./routes/jobs");
-
+const communityRoute = require("./routes/communities");
 
 dotenv.config();
 
 connectMongo();
 
-
-  app.use(express.json());
-  app.use(helmet());
-  app.use(morgan("common"));
-  app.use("/api/users", userRoute);
-  app.use("/api/auth", authRoute);
-  app.use("/api/posts", postRoute);
-  app.use("/api/message", messageRoute);
-  app.use("/api/hackathon", hacakthonRoute);
-  app.use("/api/conversation", conversationRoute);
-  app.use("/api/job", jobRoute);
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"));
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/message", messageRoute);
+app.use("/api/hackathon", hacakthonRoute);
+app.use("/api/conversation", conversationRoute);
+app.use("/api/job", jobRoute);
+app.use("/api/communities", communityRoute);
 
 app.get("/", (req, res) => {
-    res.status(200).send("DevConnect-backend Server Started");
-  });
+  res.status(200).send("DevConnect-backend Server Started");
+});
 
-  app.listen(port, () => {
+app.listen(port, () => {
   console.log(
     `Express Backend Server for Devconnect started at http://localhost:${port}`
   );

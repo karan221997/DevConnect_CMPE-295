@@ -37,7 +37,7 @@ function CreateCommunity(props) {
             <Button variant="dark">Upload </Button>
           </InputGroup>
         </Form.Group>
-        <Form.Group controlId="CommunityImage" className="mb-3">
+        <Form.Group controlId="CommunityTags" className="mb-3">
           <Form.Label>Tags Associated With Community</Form.Label>
           <Select
             closeMenuOnSelect={false}
@@ -47,8 +47,13 @@ function CreateCommunity(props) {
             options={tagOptions}
           />
           <Form.Text className="text-muted">
-           Keywords that can be used to identify community
+            Keywords that can be used to identify community
           </Form.Text>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="CommunityRules">
+          <Form.Label>Community Rules</Form.Label>
+          <Form.Control type="text" placeholder="Enter Community Description" />
+          <Form.Text className="text-muted">Any ground rules ?</Form.Text>
         </Form.Group>
 
         <Button variant="dark" type="submit">
