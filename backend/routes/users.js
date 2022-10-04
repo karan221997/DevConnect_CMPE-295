@@ -96,26 +96,32 @@ router.put("/:id/follow", async (req, res) => {
     //req.params.id is the id of the other person the logged in user is adding
     
     console.log();
+    const requester = req.body.userId;
+    const requested = req.params.id;
 
-    if(req.body.userId !== req.params.id){
+    if(requester !== requested){
         try{
             
-            const user = await User.find({email:req.params.id});
+            const user = await User.find({email:requested});
             
-            const currentuser = await User.find({email:req.body.userId});
-            console.log(currentuser[0].email);
+            const currentuser = await User.find({email:requester});
+            console.log("requester "+currentuser[0].email);
+            console.log("requested to "+user[0].email)
             console.log("------------------")
-            console.log(user[0].followers.includes(currentuser[0].email));
-            if(!user[0].followers.includes(currentuser[0].email)){
+
+            console.log("added person"+user[0]);
+            console.log("adding person"+currentuser[0]);
+
+            if(!user[0].following.includes(currentuser[0].email)){
                 console.log("inside")
-                console.log(req.body.userId);
-    console.log(req.params.id);
-                await user[0].updateOne({$push: {following: req.body.userId}});
-                await currentuser[0].updateOne({$push: {following: req.params.id}});
-                console.log("SUCCESS");
+                
+                const xyz = await user[0].updateOne({$push: {following: requester}});
+                const abc = await currentuser[0].updateOne({$push: {following: requested}});
+                console.log("SUCCESS"+ abc[0]);
                 res.status(200).json({message: "User followed successfully"});
             }
             else{
+                console.log("ALREADY FRND");
                res.status(403).json({message: "User already followed"});
             }
         }
@@ -132,18 +138,30 @@ router.put("/:id/follow", async (req, res) => {
 });
 
 //unfollow a user
-router.put("/:id/unfollow", async (req, res) => {
+router.put("/:email/unfollow", async (req, res) => {
+
+    console.log("1"+req.body.email);
+    console.log("2"+req.params.email)
     
-        if(req.body.userId !== req.params.id){
+        if(req.body.email !== req.params.email){
             try{
-                const user = await User.findById(req.params.id);
-                const currentuser = await User.findById(req.body.userId);
-                if(user.followers.includes(currentuser._id)){
-                    await user.updateOne({$pull: {followers: req.body.userId}});
-                    await currentuser.updateOne({$pull: {following: req.params.id}});
+
+                const user = await User.find({email:req.params.email});
+
+
+                const currentuser = await User.find({email:req.body.email});
+
+             
+                if(user[0].following.includes(currentuser[0].email)){
+                   
+                    const abc = await user[0].update({$pull: {following: req.body.email}});
+
+                    await currentuser[0].update({$pull: {following: req.params.email}});
+                    console.log("user unfollowed successfully");
                     res.status(200).json({message: "User unfollowed successfully"});
                 }
                 else{
+                    console.log("you dont follow this user");
                      res.status(403).json({message: "You dont follow this user"});
                 }
             }
