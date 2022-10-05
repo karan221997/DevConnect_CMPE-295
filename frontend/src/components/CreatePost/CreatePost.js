@@ -24,7 +24,8 @@ function CreatePost(props) {
   const [communityId, setCommunityId] = React.useState(0);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const [files, setFiles] = useState('');
+  const [files, setFiles] = useState([]);
+  const [countOfFiles, setCountOfFiles] = React.useState(0);
   const inputRef = useRef(null);
 
 
@@ -40,10 +41,17 @@ function CreatePost(props) {
   };
 
   
-  const handleFileUpload = event => {
+  async function handleFileUpload  (event) {
     event.preventDefault();
     setFiles(event.target.files);
-    const bodyFormData = new FormData();
+    let tempFiles = event.target.files;
+    let count = 0;
+    for(let i=0;i<tempFiles.length;i++)
+    {
+      count+=1;
+    }
+    await setCountOfFiles(count);
+    const postImages = new FormData();
     console.log("File details should come here",event.target.files);
     
   };
@@ -148,6 +156,7 @@ function CreatePost(props) {
                   Links
                 </button>
               </ButtonGroup>
+              <center>{(countOfFiles == 0) ? "" : (countOfFiles == 1) ? "1 Image chosen":<div>{countOfFiles}</div>+ " Images chosen" }</center>
               <hr />
 
               {(function () {
