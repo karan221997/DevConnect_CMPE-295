@@ -62,6 +62,8 @@ router.post('/single-image-upload', function(req, res) {
 const multiUpload = upload.array('image',20)
 
 router.post('/multi-image-upload', function(req, res) {
+    console.log("Inside multi-image upload");
+    console.log("Got request body in the form of images",req.body);
     multiUpload(req, res, function(err, some) {
         if (err) {
           return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
