@@ -57,6 +57,36 @@ function CreatePost(props) {
     
   };
 
+  const multipleFileUploadHandler = () => {
+    const data = new FormData();
+    let selectedFiles = files;// If file selected
+    console.log("GOT SELECTED FILES INSIDE FUNCTION",selectedFiles);
+    if ( selectedFiles ) {
+     for ( let i = 0; i < selectedFiles.length; i++ ) {
+      console.log("Displaying selected file name one by one: ",selectedFiles[ i ])
+      data.append( 'image', selectedFiles[ i ], selectedFiles[ i ].name );
+     }
+     axios.post('/api/posts/multi-image-upload', data, {
+      headers: {
+       'accept': 'application/json',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      }
+     })
+      .then( ( response ) => {
+        console.log("Got response status here",response.status)
+        if(response.status === 200)
+        {
+          console.log("Image URL's after uploading images to S3: ",response.data)
+        }
+        else
+        {
+          console.log("Error Uploading images",response.data.error)
+        }
+  })
+  }
+}
+
 
   useEffect(() => {
     let userDetails = localStorage.getItem("user");
@@ -79,11 +109,12 @@ function CreatePost(props) {
     };
     try {
       const response = await axios.post("/api/posts/addPost", data);
-      console.log("ADDED POPS");
+      multipleFileUploadHandler();
+      console.log("ADDED POST");
     } catch (err) {
       console.log(err);
     }
-    handleClose();
+    // handleClose();
     navigate("/dashboard");
   };
 
