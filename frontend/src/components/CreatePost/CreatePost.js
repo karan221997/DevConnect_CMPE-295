@@ -50,6 +50,7 @@ function CreatePost(props) {
     {
       count+=1;
     }
+    console.log(count)
     await setCountOfFiles(count);
     const postImages = new FormData();
     console.log("File details should come here",event.target.files);
@@ -136,13 +137,14 @@ function CreatePost(props) {
                   <TextSnippetOutlinedIcon htmlColor="white" />
                   Post
                 </button>
-                <button
-                  className="btnCreatePost"
-                  onClick={() => {
-                    setType("image");
-                  }}
-                >
-
+                <input
+                  multiple
+                  style={{display: 'none'}}
+                  ref={inputRef}
+                  type="file"
+                  onChange={handleFileUpload}
+                />
+                <button className="btnCreatePost" onClick={handleClick}>
                   <LinkOutlinedIcon htmlColor="white" />
                   Images
                 </button>
@@ -156,7 +158,7 @@ function CreatePost(props) {
                   Links
                 </button>
               </ButtonGroup>
-              <center>{(countOfFiles == 0) ? "" : (countOfFiles == 1) ? "1 Image chosen":<div>{countOfFiles}</div>+ " Images chosen" }</center>
+              <center>{(countOfFiles == 0) ? "" : "No. of images selected: "+countOfFiles}</center>
               <hr />
 
               {(function () {
