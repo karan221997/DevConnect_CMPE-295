@@ -26,6 +26,7 @@ function CreatePost(props) {
   const [show, setShow] = useState(false);
   const [files, setFiles] = useState([]);
   const [countOfFiles, setCountOfFiles] = React.useState(0);
+  const [tempObject, setTempObject] = React.useState(0);
   const inputRef = useRef(null);
 
 
@@ -57,7 +58,7 @@ function CreatePost(props) {
     
   };
 
-  const multipleFileUploadHandler = () => {
+  const multipleFileUploadHandler = async () => {
     const data = new FormData();
     let selectedFiles = files;// If file selected
     console.log("GOT SELECTED FILES INSIDE FUNCTION",selectedFiles);
@@ -65,8 +66,12 @@ function CreatePost(props) {
      for ( let i = 0; i < selectedFiles.length; i++ ) {
       console.log("Displaying selected file name one by one: ",selectedFiles[ i ])
       data.append( 'image', selectedFiles[ i ], selectedFiles[ i ].name );
+      data.append( 'userID', userId );
+      for (var dataItem of data.entries()) {
+        console.log(dataItem[0]+ ', ' + dataItem[1]); 
+    }
      }
-     axios.post('/api/posts/multi-image-upload', data, {
+     await axios.post('/api/posts/multi-image-upload', data, {
       headers: {
        'accept': 'application/json',
        'Accept-Language': 'en-US,en;q=0.8',
