@@ -283,6 +283,9 @@ function CreatePost(props) {
                         className="form-control"
                         style={{ marginTop: "5px" }}
                         placeholder="Enter your Question"
+                        onChange={(e) => {
+                          setPostTitle(e.target.value);
+                        }}
                       ></input>
                       <div
                         className="from-control"

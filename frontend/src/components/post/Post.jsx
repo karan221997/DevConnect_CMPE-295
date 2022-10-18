@@ -65,7 +65,10 @@ if (timeElaspedInWeeksRounded > 0) {
                 <span className="postText">
                    {post.postText}
                 </span>
-                <img src={post.photo} alt="" className="postImg" />
+                {/* <img src={post.image[0]} alt="" className="postImg" /> */}
+                <div>
+                 {(post.image).map((imgSrc, index) => (<img src={imgSrc} key={index} className="postImg" alt="Make sure to include a alt tag, because react might throw an error at build"/>))} 
+                 </div>
           </div>
           <div className="postBottom">
                 <div className="postBottomLeft">
