@@ -30,5 +30,25 @@ router.post('/', async (req, res) => {
 }
 );
 
+//add participants to hackathon
+router.post('/addParticipants', async (req, res) => {
+   try{
+     const hackathon = await Hackathon.findOne({_id:req.body.hackathonId});
+        hackathon.participants.push({
+            userId:req.body.userId,
+            userName:req.body.userName,
+            userEmail:req.body.userEmail
+        });
+        const savedHackathon = await hackathon.save();
+        res.status(200).json(savedHackathon);
+
+   }
+    catch(err){
+        res.status(500).json({message: err});
+    }
+
+});
+
+
 
 module.exports = router;

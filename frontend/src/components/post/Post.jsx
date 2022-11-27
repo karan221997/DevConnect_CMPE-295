@@ -7,7 +7,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import RoomIcon from '@mui/icons-material/Room';
 import { TextField } from '@material-ui/core';
 import InputAdornment from '@mui/material/InputAdornment';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
@@ -18,14 +17,14 @@ export default function Post({post}) {
 const [viewAllComments, setViewAllComments] = useState(false);
 const [commentButtonText, setCommentButtonText] = useState("View all comments");
 
-const [numberofComments,setNumberofComments]=useState(post.comments.length);
+const [numberofComments]=useState(post.comments.length);
 const [comment, setComment] = useState(" ");
 
 const timeElasped = new Date(post.createdAt).getTime() - new Date().getTime();
 const timeElaspedInMinutes = timeElasped / 60000;
 const timeElaspedInMinutesRounded = Math.round(timeElaspedInMinutes)*-1;
 //round to nearest minute and take modulus of 60 to get seconds
-const timeElaspedInSeconds = Math.round(timeElaspedInMinutes % 60) ;
+
 //round to nearest minute and take modulus of 60 to get minutes
 const timeElaspedInSecondsRounded = Math.round(timeElaspedInMinutesRounded % 60)*-1;
 
@@ -111,12 +110,10 @@ if (timeElaspedInWeeksRounded > 0) {
                 </span>
                 <span className="postText">
                    {post.postText}
-                </span>
-                {/* <img src={post.image[0]} alt="" className="postImg" /> */}
-                {/* Commenting this @Danesh -- please check if this is needed 
+                </span>   
                 <div>
                  {(post.image).map((imgSrc, index) => (<img src={imgSrc} key={index} className="postImg" alt="Make sure to include a alt tag, because react might throw an error at build"/>))} 
-                 </div> */}
+                 </div> 
           </div>
           <div className="postBottom">
                 <div className="postBottomLeft">

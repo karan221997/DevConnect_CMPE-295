@@ -78,12 +78,12 @@ router.post("/downVote", async (req, res) => {
 //comment on a post
 router.post("/comment", async (req, res) => {
     try{
-        console.log(req.body);
+    
         const post = await Post.findOne
         ({
             _id:req.body.postId
         });
-        console.log(post);
+       
         post.comments.push({
             userId:req.body.userId,
             commentCreatorEmail:req.body.commentCreatorEmail,
