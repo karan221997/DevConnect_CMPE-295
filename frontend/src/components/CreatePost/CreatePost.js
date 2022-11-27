@@ -26,7 +26,7 @@ function CreatePost(props) {
   const [show, setShow] = useState(false);
   const [files, setFiles] = useState([]);
   const [countOfFiles, setCountOfFiles] = React.useState(0);
-  const [tempObject, setTempObject] = React.useState(0);
+  const [generatedURLS, setGeneratedURLS] = React.useState([]);
   const inputRef = useRef(null);
 
 
@@ -53,12 +53,12 @@ function CreatePost(props) {
     }
     console.log(count)
     await setCountOfFiles(count);
-    const postImages = new FormData();
     console.log("File details should come here",event.target.files);
     
   };
 
   const multipleFileUploadHandler = async () => {
+    
     const data = new FormData();
     let selectedFiles = files;// If file selected
     console.log("GOT SELECTED FILES INSIDE FUNCTION",selectedFiles);
@@ -66,10 +66,9 @@ function CreatePost(props) {
      for ( let i = 0; i < selectedFiles.length; i++ ) {
       console.log("Displaying selected file name one by one: ",selectedFiles[ i ])
       data.append( 'image', selectedFiles[ i ], selectedFiles[ i ].name );
-      data.append( 'userID', userId );
-      for (var dataItem of data.entries()) {
-        console.log(dataItem[0]+ ', ' + dataItem[1]); 
-    }
+    //   for (var dataItem of data.entries()) {
+    //     console.log(dataItem[0]+ ', ' + dataItem[1]); 
+    // }
      }
      await axios.post('/api/posts/multi-image-upload', data, {
       headers: {
@@ -78,11 +77,31 @@ function CreatePost(props) {
        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
       }
      })
-      .then( ( response ) => {
+      .then( async ( response ) => {
         console.log("Got response status here",response.status)
         if(response.status === 200)
         {
           console.log("Image URL's after uploading images to S3: ",response.data)
+          let urls=[]
+          for (let i=0; i<response.data.length; i++)
+          {
+            urls.push(response.data[i].imageUrl);
+
+          }
+          console.log(urls)
+          setGeneratedURLS(urls);
+          if(urls.length>1)
+          {
+            alert("Your images are uploaded successfully!")
+          }
+          else if(urls.length == 0)
+          {
+            alert("Select an image to upload")
+          }
+          else
+          {
+            alert("Image uploaded successfully!")
+          }
         }
         else
         {
@@ -103,6 +122,17 @@ function CreatePost(props) {
   }, []);
 
   const handleAddPost = async (e) => {
+    console.log("Outside loop")
+    // await multipleFileUploadHandler();
+    let Urls=[]
+    console.log("Checking if there is something in URL",generatedURLS.length)
+    for(let i=0;i<generatedURLS.length;i++)
+    {
+      console.log("Inside loop")
+      console.log("Logging here",generatedURLS[i]);
+      Urls.push(generatedURLS[i]);
+    }
+    console.log("URLS REFFERED HERE",Urls);
     let data = {
       userId: userId,
       userName: userName,
@@ -111,15 +141,17 @@ function CreatePost(props) {
       text: postText,
       communityName: selectedCommunity,
       communityId: communityId,
+      S3URL: Urls
     };
+    console.log("Printing data object",data);
     try {
       const response = await axios.post("/api/posts/addPost", data);
-      multipleFileUploadHandler();
+      console.log("Got response for adding post",response)
       console.log("ADDED POST");
     } catch (err) {
       console.log(err);
     }
-    // handleClose();
+    handleClose();
     navigate("/dashboard");
   };
 
@@ -178,9 +210,13 @@ function CreatePost(props) {
                   style={{display: 'none'}}
                   ref={inputRef}
                   type="file"
-                  onChange={handleFileUpload}
+                  // onChange={handleFileUpload}
                 />
-                <button className="btnCreatePost" onClick={handleClick}>
+                {/* <button className="btnCreatePost" onClick={handleClick}> */}
+              <button className="btnCreatePost"
+                onClick={() => {
+                    setType("image");
+                  }}>
                   <LinkOutlinedIcon htmlColor="white" />
                   Images
                 </button>
@@ -247,6 +283,9 @@ function CreatePost(props) {
                         className="form-control"
                         style={{ marginTop: "5px" }}
                         placeholder="Enter your Question"
+                        onChange={(e) => {
+                          setPostTitle(e.target.value);
+                        }}
                       ></input>
                       <div
                         className="from-control"
@@ -267,8 +306,9 @@ function CreatePost(props) {
                           id="file"
                           accept=".png, .jpg, .jpeg"
                           multiple
+                          onChange={handleFileUpload}
                         ></input>
-                        <button className="rounded-pill">Upload</button>
+                        <button className="rounded-pill" onClick={multipleFileUploadHandler}>Upload</button>
                       </div>
                       <div className="center">
                         {/* {console.log(this.state.selectedFile)} */}

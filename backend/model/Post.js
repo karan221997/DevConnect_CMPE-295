@@ -16,8 +16,7 @@ const PostSchema = new mongoose.Schema(
       required: true,
     },
     postTitle: {
-      type: String,
-      required: true,
+        type: String,
     },
     postText: {
       type: String,
@@ -41,11 +40,14 @@ const PostSchema = new mongoose.Schema(
       // required:true
     },
     communityName: {
-      type: String,
-      required: true,
+        type: String,
+        required:true
     },
-  },
-  { timestamps: true }
-);
+    comments: {
+        type: Array,
+        default: []
+    },
+  
+}, {timestamps : true} );
 
 module.exports = mongoose.model("Post", PostSchema);
