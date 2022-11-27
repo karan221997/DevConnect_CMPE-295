@@ -1,0 +1,10 @@
+.communityfeed {
+  flex: 5.5;
+  padding: 10px;
+  margin-top: 5px;
+}
+.ask_question_button {
+  display: flex;
+  justify-content:right;
+  /* outline: 2px dashed blue; */
+}

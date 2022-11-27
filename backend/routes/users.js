@@ -91,17 +91,37 @@ router.get("/getUserByEmail/:email", async (req, res) => {
 //follow a user
 
 router.put("/:id/follow", async (req, res) => {
+    console.log("inside follow");
+    //req.body.userId is the logged in users id
+    //req.params.id is the id of the other person the logged in user is adding
+    
+    console.log();
+    const requester = req.body.userId;
+    const requested = req.params.id;
 
-    if(req.body.userId !== req.params.id){
+    if(requester !== requested){
         try{
-            const user = await User.findById(req.params.id);
-            const currentuser = await User.findById(req.body.userId);
-            if(!user.followers.includes(currentuser._id)){
-                await user.updateOne({$push: {followers: req.body.userId}});
-                await currentuser.updateOne({$push: {following: req.params.id}});
+            
+            const user = await User.find({email:requested});
+            
+            const currentuser = await User.find({email:requester});
+            console.log("requester "+currentuser[0].email);
+            console.log("requested to "+user[0].email)
+            console.log("------------------")
+
+            console.log("added person"+user[0]);
+            console.log("adding person"+currentuser[0]);
+
+            if(!user[0].following.includes(currentuser[0].email)){
+                console.log("inside")
+                
+                const xyz = await user[0].updateOne({$push: {following: requester}});
+                const abc = await currentuser[0].updateOne({$push: {following: requested}});
+                console.log("SUCCESS"+ abc[0]);
                 res.status(200).json({message: "User followed successfully"});
             }
             else{
+                console.log("ALREADY FRND");
                res.status(403).json({message: "User already followed"});
             }
         }
@@ -111,24 +131,37 @@ router.put("/:id/follow", async (req, res) => {
 
     }
     else{
+        console.log("else part");
         res.status(403).json({message: "Unauthorized , you can't follow yourself"});
     }
 
 });
 
 //unfollow a user
-router.put("/:id/unfollow", async (req, res) => {
+router.put("/:email/unfollow", async (req, res) => {
+
+    console.log("1"+req.body.email);
+    console.log("2"+req.params.email)
     
-        if(req.body.userId !== req.params.id){
+        if(req.body.email !== req.params.email){
             try{
-                const user = await User.findById(req.params.id);
-                const currentuser = await User.findById(req.body.userId);
-                if(user.followers.includes(currentuser._id)){
-                    await user.updateOne({$pull: {followers: req.body.userId}});
-                    await currentuser.updateOne({$pull: {following: req.params.id}});
+
+                const user = await User.find({email:req.params.email});
+
+
+                const currentuser = await User.find({email:req.body.email});
+
+             
+                if(user[0].following.includes(currentuser[0].email)){
+                   
+                    const abc = await user[0].update({$pull: {following: req.body.email}});
+
+                    await currentuser[0].update({$pull: {following: req.params.email}});
+                    console.log("user unfollowed successfully");
                     res.status(200).json({message: "User unfollowed successfully"});
                 }
                 else{
+                    console.log("you dont follow this user");
                      res.status(403).json({message: "You dont follow this user"});
                 }
             }
@@ -169,5 +202,38 @@ router.get("/", async (req, res) => {
     }
 }
 );
+
+//get all friends
+router.get("/friends/:email", async (req, res) => {
+    try{
+        console.log("GET ALL FRNDS");
+        const user = await User.find({email:req.params.email});
+        console.log(user);
+        console.log("foll - "+user[0].isAdmin);
+        console.log("foll - "+user[0].following);
+        const friends = await Promise.all(
+            user[0].following.map((friendId)=>{
+                return User.findById(friendId);
+            })
+        );
+        console.log("friends -- "+friends);
+
+        let friendList = [];
+    friends.map((friend) => {
+      const { _id, email, userName, profilePicture } = friend;
+      friendList.push({ _id, email, userName, profilePicture });
+    });
+    res.status(200).json(friendList)
+
+        //res.status(200).json({message: "Users found", user});
+
+    }
+    catch(err){
+        res.status(500).json({message: err});
+    }
+}
+);
+
+
 
 module.exports = router;

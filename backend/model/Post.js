@@ -18,15 +18,14 @@ const PostSchema = new mongoose.Schema({
     },
     postTitle: {
         type: String,
-        required: true
     },
     postText: {
         type: String,
         default: ""
     },
     image: {
-        type: String,
-        default: ""
+        type: Array,
+        default: []
     },
     upVotes: {
         type: Number,
