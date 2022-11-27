@@ -2,9 +2,11 @@
   flex: 5.5;
   padding: 10px;
   margin-top: 5px;
+  overflow-x: "hidden";
+  overflow-y: "scroll";
 }
 .ask_question_button {
   display: flex;
-  justify-content:right;
+  justify-content: right;
   /* outline: 2px dashed blue; */
 }

@@ -14,21 +14,15 @@ import { Button, Modal } from "react-bootstrap";
 
 function CommunityDashboard() {
   const [show, setShow] = useState(false);
-  const [arr, setArr] = useState([]);
-  // const [userId, setUserId] = React.useState("userID");
-  // const [userName, setUserName] = React.useState("userName");
-  const [userEmail, setUserEmail] = useState("");
   const [communitiesData, setCommunitiesData] = useState([]);
-  const [userCommunities, setUserCommunities] = useState([""]);
   const pageCount = 1;
-  const entries = 5;
+  const entries = 20;
 
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("user"));
     console.log("Use effect is being called");
     console.log(userDetails);
     fetchCommunities();
-    fetchUserCommunities(userDetails.email);
   }, []);
 
   const fetchCommunities = async () => {
@@ -41,18 +35,6 @@ function CommunityDashboard() {
       setCommunitiesData(result.data);
     } catch (err) {
       console.log("Unable to fetch communities");
-    }
-  };
-
-  const fetchUserCommunities = async (emailId) => {
-    try {
-      console.log("User email in getUser Community API", emailId);
-      const result = await axios.get(
-        "api/communities/getCommunities/" + emailId
-      );
-      setUserCommunities(result.data[0].followers);
-    } catch (err) {
-      console.log("cannot fetch user communities");
     }
   };
 
@@ -84,6 +66,7 @@ function CommunityDashboard() {
             <Modal show={show} onHide={handleClose}>
               <Modal.Header
                 closeButton
+                closeVariant="white"
                 style={{ background: "black", color: "white" }}
               >
                 <Diversity3OutlinedIcon />
@@ -103,10 +86,7 @@ function CommunityDashboard() {
             />
           ))}
         </div>
-        <RightBar
-          profile={"profile"}
-          userCommunities={userCommunities}
-        />
+        <RightBar profile={"profile"} />
       </div>
     </div>
   );
