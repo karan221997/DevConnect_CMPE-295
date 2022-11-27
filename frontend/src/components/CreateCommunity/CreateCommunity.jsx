@@ -1,12 +1,9 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
 import { InputGroup } from "react-bootstrap";
 
 function CreateCommunity(props) {
-  const animatedComponents = makeAnimated();
   const tagOptions = [
     { value: "Java", label: "Java" },
     { value: "React", label: "React" },
@@ -39,13 +36,6 @@ function CreateCommunity(props) {
         </Form.Group>
         <Form.Group controlId="CommunityTags" className="mb-3">
           <Form.Label>Tags Associated With Community</Form.Label>
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponents}
-            defaultValue={[tagOptions[0]]}
-            isMulti
-            options={tagOptions}
-          />
           <Form.Text className="text-muted">
             Keywords that can be used to identify community
           </Form.Text>
