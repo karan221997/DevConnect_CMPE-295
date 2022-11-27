@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
-
 const communitySchema = new mongoose.Schema({
-  communityId: {
-    type: mongoose.Types.ObjectId,
-    auto: true,
-  },
   communityName: {
     type: String,
     required: true,
@@ -21,7 +16,7 @@ const communitySchema = new mongoose.Schema({
   communityImage: {
     type: String,
     default:
-      "https://www.china-admissions.com/wp-content/uploads/2021/06/Divi-Community-Update-May-2020-scaled-1.jpeg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNx91RRKTVtSj9ZAq7rNTlJHUqmGqcbVgIiA&usqp=CAU",
   },
   creationTime: {
     type: Date,

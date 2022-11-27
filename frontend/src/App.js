@@ -42,29 +42,13 @@ function App() {
             element={user ? <Dashboard /> : <Navigate to="/login" />}
           />
 
-           <Route
-            exact
-            path="/profile"
-            element={<Profile/>}
-          />
-          <Route
-            exact
-            path="/jobs"
-            element={<Jobs/>}
-          />  
-           <Route
-            exact
-            path="/hackathon"
-            element={<Hackathon/>}
-          />
-           <Route
-            exact
-            path="/communities"
-            element={<CommunityDashboard/>}
-          />
+          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/jobs" element={<Jobs />} />
+          <Route exact path="/hackathon" element={<Hackathon />} />
+          <Route exact path="/communities" element={<CommunityDashboard />} />
           <Route exact path="/messenger" element={<Messenger />} />
 
-          <Route exact path="/communityDetail" element={<CommunityDetail />} />
+          <Route exact path="/communitydetail" element={<CommunityDetail />} />
         </Routes>
       </BrowserRouter>
     </div>
