@@ -1,4 +1,5 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
+import axios from "axios";
 import TopBar from "../../components/topbar/Topbar";
 import RightBar from "../../components/rightbar/Rightbar";
 import SideBar from "../../components/sidebar/Sidebar";
@@ -13,6 +14,48 @@ import { Button, Modal } from "react-bootstrap";
 
 function CommunityDashboard() {
   const [show, setShow] = useState(false);
+  const [arr, setArr] = useState([]);
+  // const [userId, setUserId] = React.useState("userID");
+  // const [userName, setUserName] = React.useState("userName");
+  const [userEmail, setUserEmail] = useState("");
+  const [communitiesData, setCommunitiesData] = useState([]);
+  const [userCommunities, setUserCommunities] = useState([""]);
+  const pageCount = 1;
+  const entries = 5;
+
+  useEffect(() => {
+    const userDetails = JSON.parse(localStorage.getItem("user"));
+    console.log("Use effect is being called");
+    console.log(userDetails);
+    fetchCommunities();
+    fetchUserCommunities(userDetails.email);
+  }, []);
+
+  const fetchCommunities = async () => {
+    try {
+      const result = await axios.post("api/communities/getAllCommunities", {
+        page: pageCount,
+        limit: entries,
+      });
+      console.log("Fetch communities result", result.data);
+      setCommunitiesData(result.data);
+    } catch (err) {
+      console.log("Unable to fetch communities");
+    }
+  };
+
+  const fetchUserCommunities = async (emailId) => {
+    try {
+      console.log("User email in getUser Community API", emailId);
+      const result = await axios.get(
+        "api/communities/getCommunities/" + emailId
+      );
+      setUserCommunities(result.data[0].followers);
+    } catch (err) {
+      console.log("cannot fetch user communities");
+    }
+  };
+
   const handleClose = () => {
     setShow(false);
     window.location.reload();
@@ -27,7 +70,6 @@ function CommunityDashboard() {
         <SideBar />
         <div className="CommunityDashboard_Right">
           <h4 style={{ float: "left", marginLeft: "20px" }}>
-            {" "}
             <ExploreTwoToneIcon /> &nbsp;Explore Developer Communities
           </h4>
           <Button
@@ -53,11 +95,18 @@ function CommunityDashboard() {
               </Modal.Body>
             </Modal>
           </div>
-          <CommunityTile variant={"outline-dark"} />
-          <CommunityTile variant={"outline-warning"} />
-          <CommunityTile variant={"outline-success"} />
+          {communitiesData.map((community) => (
+            <CommunityTile
+              variant="outline-dark"
+              key={community._id}
+              community={community}
+            />
+          ))}
         </div>
-        <RightBar profile={"profile"} />
+        <RightBar
+          profile={"profile"}
+          userCommunities={userCommunities}
+        />
       </div>
     </div>
   );

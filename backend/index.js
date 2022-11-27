@@ -18,6 +18,7 @@ const hacakthonRoute = require("./routes/hackathon");
 const conversationRoute = require("./routes/conversations");
 const jobRoute = require("./routes/jobs");
 const communityRoute = require("./routes/communities");
+const communityDetailRoute = require("./routes/communitydetail");
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use("/api/hackathon", hacakthonRoute);
 app.use("/api/conversation", conversationRoute);
 app.use("/api/job", jobRoute);
 app.use("/api/communities", communityRoute);
+app.use("/api/communitydetail", communityDetailRoute);
 
 app.get("/", (req, res) => {
   res.status(200).send("DevConnect-backend Server Started");

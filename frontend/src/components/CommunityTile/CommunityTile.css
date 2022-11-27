@@ -22,3 +22,10 @@
   cursor: pointer;
   display: flex;
 }
+.link-lookalike {
+  cursor: pointer;
+  color: black;
+}
+.link-lookalike:hover {
+  text-decoration: underline;
+}

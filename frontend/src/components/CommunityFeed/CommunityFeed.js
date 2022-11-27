@@ -5,23 +5,39 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-//import {Posts} from "../../dummyData.js";
 
-export default function Feed() {
+export default function CommunityFeed(communityName) {
   //get all the posts and pass it as props
   const [posts, setPosts] = useState([]);
+  const [userCommunities, setUserCommunities] = useState([]);
+  let userComm = [];
+  console.log("infeed", communityName);
 
   useEffect(() => {
     async function fetchPosts() {
       const user = JSON.parse(localStorage.getItem("user"));
-      const result = await axios.post(
-        "api/posts/getAllPost",
-        JSON.stringify(user.email)
-      );
-      setPosts(result.data.posts);
+      console.log(user.email);
+      const result = await axios.post("api/communities/getAllPostInCommunity", {
+        communityName: communityName.communityName,
+      });
+      console.log(result.data);
+      setPosts(result.data);
     }
     fetchPosts();
+   
   }, []);
+
+  
+
+  const fetchUserCommunityNames = (userCommunities) => {
+    for (let i = 0; i < userCommunities.length; i++) {
+      const result = axios.get(
+        "api/communities/getCommunityDetail/" + userCommunities[i]
+      );
+      userComm.push(result.data[0].communityName);
+    }
+  };
+  console.log("This is the user comm array", userComm);
 
   return (
     <div className="communityfeed">

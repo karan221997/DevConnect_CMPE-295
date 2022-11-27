@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Community = require("../model/Community");
 const User = require("../model/User");
+const Post = require("../model/Post");
 
 router.post("/createCommunity", async (req, res) => {
   try {
@@ -26,7 +27,7 @@ router.post("/createCommunity", async (req, res) => {
       if (result) {
         const success1 = await User.findOneAndUpdate(
           { email: req.body.createdBy },
-          { $push: { following: req.body.communityName } }
+          { $push: { followers: req.body.communityName } }
         );
         if (success) {
           res.status(200).json(result);
@@ -41,7 +42,7 @@ router.post("/createCommunity", async (req, res) => {
 router.get("/getCommunities/:user_email", async (req, res) => {
   try {
     const userEmail = req.params.user_email;
-    const result = await User.find({ email: userEmail }, { following: 1 });
+    const result = await User.find({ email: userEmail }, { followers: 1 });
     if (result) {
       res.status(200).json(result);
     }
@@ -85,6 +86,7 @@ router.post("/getAllCommunities", async (req, res) => {
         numberOfMembers: 1,
         numberOfPosts: 1,
         communityMembers: 1,
+        communityImage: 1,
       }
     );
     if (result) {
@@ -96,47 +98,70 @@ router.post("/getAllCommunities", async (req, res) => {
   }
 });
 
-// router.post("/joinCommunity", async (req, res) => {
-//   try {
-//     communityMembers = await Community.find(
-//       { communityName: req.body.communityName },
-//       { communityMembers: 1 }
-//     );
-//     let members = communityMembers[0].communityMembers;
-//     console.log(members);
-//     if (communityMembers) {
-//       const alreadyPartOf = await User.find(
-//         {
-//           email: { $in: members },
-//         },
-//         { limit: 1 }
-//       );
-//       console.log(alreadyPartOf);
-//       if (alreadyPartOf) {
-//         res.status(500).json({ message: "User is already part of Community" });
-//       }
-//     } else {
-//       const check1 = await Community.findOneAndUpdate(
-//         { communityName: req.body.communityName },
-//         {
-//           $push: {
-//             communityMembers: req.body.email,
-//           },
-//           $set: { numberOfMembers: communityMembers.lenght + 1 },
-//         }
-//       );
-//       const check2 = await User.findOneAndUpdate(
-//         { email: req.body.email },
-//         { $push: { following: req.body.communityName } }
-//       );
+router.post("/joinCommunity", async (req, res) => {
+  console.log(req.body.email);
+  console.log(req.body.communityId);
+  try {
+    communityMembers = await Community.find(
+      { communityName: req.body.communityName },
+      { communityMembers: 1 }
+    );
+    let members = communityMembers[0].communityMembers;
+    if (members.includes(req.body.email)) {
+      res.status(409).json({ message: "User is already part of Community" });
+    } else {
+      console.log("idhar 1");
+      const check1 = await Community.findOneAndUpdate(
+        { communityName: req.body.communityName },
+        {
+          $push: {
+            communityMembers: req.body.email,
+          },
+          $inc: { numberOfMembers: +1 },
+        }
+      );
+      console.log("check 1 complete");
+      const check2 = await User.findOneAndUpdate(
+        { email: req.body.email },
+        { $push: { followers: req.body.communityName } }
+      );
+      console.log("check2 complete");
 
-//       if (check1 && check2) {
-//         res.status(200).json({ message: "Successfully joined Community" });
-//       }
-//     }
-//   } catch (err) {
-//     res.status(500).json({ message: err });
-//   }
-// });
+      if (check1 && check2) {
+        res.status(200).json({ message: "Successfully joined Community" });
+      }
+    }
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.post("/getAllPostInCommunity", async (req, res) => {
+  try {
+    const communityName = req.body.communityName;
+    console.log("param", communityName);
+    const result = await Post.find({ communityName: communityName });
+    if (result) {
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.get("/getCommunityDetail/:community_id", async (req, res) => {
+  try {
+    const communityId = req.params.community_id;
+    const result = await Community.find(
+      { _id: communityId },
+      { communityName: 1 }
+    );
+    if (result) {
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
 
 module.exports = router;
