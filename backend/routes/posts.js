@@ -49,26 +49,34 @@ router.post("/getAllPost", async (req, res) => {
 });
 
 
-//upvote a post
+//upvote the post by adding userID to array
 router.post("/upVote", async (req, res) => {
     try{
-        console.log("Inside upvote");
-        console.log(req.body);
-        const post = await Post.findOneAndUpdate({_id:req.body.postId},{$inc:{upVotes:1}});
-        res.status(200).json({post});
+             const post = await Post.findById(req.body.postId);
+             //check if user has already downvoted the post
+                if(post.downVotes.includes(req.body.userId)){
+                    //remove the user from downvotes array
+                    await post.updateOne({$pull: {downVotes: req.body.userId}});
+                }
+            await post.updateOne({$push: {upVotes: req.body.userId}});
+            res.status(200).json("The post has been upvoted");
     }
     catch(err){
         res.status(500).json({message: err});
     }
+    
 });
 
 //downvote a post
 router.post("/downVote", async (req, res) => {
-    try{
-        console.log("Inside downvote");
-        console.log(req.body);
-        const post = await Post.findOneAndUpdate({_id:req.body.postId},{$inc:{downVotes:1}});
-        res.status(200).json({post});
+     try{
+            const post = await Post.findById(req.body.postId);
+            //check if user has already upvoted the post
+            if(post.upVotes.includes(req.body.userId)){
+                await post.updateOne({$pull: {upVotes: req.body.userId}});
+            }
+            await post.updateOne({$push: {downVotes: req.body.userId}});
+            res.status(200).json("The post has been downVoted");
     }
     catch(err){
         res.status(500).json({message: err});

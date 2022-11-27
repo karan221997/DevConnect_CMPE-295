@@ -22,7 +22,7 @@ function CreatePost(props) {
   const [selectedCommunity, setSelectedCommunity] = React.useState("");
   const [communityId] = React.useState(0);
   const navigate = useNavigate();
-  const [ setShow] = useState(false);
+  const [ show, setShow] = useState(false);
   const [files, setFiles] = useState([]);
   const [countOfFiles, setCountOfFiles] = React.useState(0);
   const [generatedURLS, setGeneratedURLS] = React.useState([]);
@@ -109,8 +109,8 @@ function CreatePost(props) {
   }, [Communities]);
 
   const handleAddPost = async (e) => {
-    console.log("Outside loop")
-    // await multipleFileUploadHandler();
+    e.preventDefault();
+    console.log("inside add post clicked ", postTitle);
     let Urls=[]
     console.log("Checking if there is something in URL",generatedURLS.length)
     for(let i=0;i<generatedURLS.length;i++)
