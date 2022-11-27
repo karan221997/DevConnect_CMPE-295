@@ -1,17 +1,14 @@
 import React from "react";
 import "./CreatePost.css";
-import { Button, ButtonGroup } from "react-bootstrap";
+import {  ButtonGroup } from "react-bootstrap";
 import TextSnippetOutlinedIcon from "@mui/icons-material/TextSnippetOutlined";
 import LinkOutlinedIcon from "@mui/icons-material/LinkOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import HelpCenterOutlinedIcon from "@mui/icons-material/HelpCenterOutlined";
-import { textAlign } from "@mui/system";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import {  Modal } from "react-bootstrap";
 import {useRef} from 'react';
-import { Label } from "@mui/icons-material";
 
 
 function CreatePost(props) {
@@ -23,9 +20,9 @@ function CreatePost(props) {
   const [userName, setUserName] = React.useState("");
   const [userEmail, setUserEmail] = React.useState("");
   const [selectedCommunity, setSelectedCommunity] = React.useState("");
-  const [communityId, setCommunityId] = React.useState(0);
+  const [communityId] = React.useState(0);
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
+  const [ show, setShow] = useState(false);
   const [files, setFiles] = useState([]);
   const [countOfFiles, setCountOfFiles] = React.useState(0);
   const [generatedURLS, setGeneratedURLS] = React.useState([]);
@@ -36,13 +33,6 @@ function CreatePost(props) {
     setShow(false);
     window.location.reload();
   };
-
-
-  const handleClick = () => {
-    // 👇️ open file input box on click of other element
-    inputRef.current.click();
-  };
-
   
   async function handleFileUpload  (event) {
     event.preventDefault();
@@ -53,9 +43,7 @@ function CreatePost(props) {
     {
       count+=1;
     }
-    console.log(count)
     await setCountOfFiles(count);
-    console.log("File details should come here",event.target.files);
     
   };
 
@@ -63,14 +51,9 @@ function CreatePost(props) {
     
     const data = new FormData();
     let selectedFiles = files;// If file selected
-    console.log("GOT SELECTED FILES INSIDE FUNCTION",selectedFiles);
     if ( selectedFiles ) {
      for ( let i = 0; i < selectedFiles.length; i++ ) {
-      console.log("Displaying selected file name one by one: ",selectedFiles[ i ])
       data.append( 'image', selectedFiles[ i ], selectedFiles[ i ].name );
-    //   for (var dataItem of data.entries()) {
-    //     console.log(dataItem[0]+ ', ' + dataItem[1]); 
-    // }
      }
      await axios.post('/api/posts/multi-image-upload', data, {
       headers: {
@@ -80,23 +63,20 @@ function CreatePost(props) {
       }
      })
       .then( async ( response ) => {
-        console.log("Got response status here",response.status)
         if(response.status === 200)
         {
-          console.log("Image URL's after uploading images to S3: ",response.data)
           let urls=[]
           for (let i=0; i<response.data.length; i++)
           {
             urls.push(response.data[i].imageUrl);
 
           }
-          console.log(urls)
           setGeneratedURLS(urls);
           if(urls.length>1)
           {
             alert("Your images are uploaded successfully!")
           }
-          else if(urls.length == 0)
+          else if(urls.length === 0)
           {
             alert("Select an image to upload")
           }
@@ -123,15 +103,14 @@ function CreatePost(props) {
       setCommunities(communitiesFromServer.data);
     };
     getCommunities();
-    console.log("---",Communities);
     setUserId(userObject._id);
     setUserName(userObject.userName);
     setUserEmail(userObject.email);
-  }, []);
+  }, [Communities]);
 
   const handleAddPost = async (e) => {
-    console.log("Outside loop")
-    // await multipleFileUploadHandler();
+    e.preventDefault();
+    console.log("inside add post clicked ", postTitle);
     let Urls=[]
     console.log("Checking if there is something in URL",generatedURLS.length)
     for(let i=0;i<generatedURLS.length;i++)

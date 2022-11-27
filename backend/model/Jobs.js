@@ -33,7 +33,12 @@ const JobSchema = new mongoose.Schema(
         type: {
             type: String,
             required: true
-        }
+        },
+        applicants: {
+            type: Array,
+            default: []
+        },
+
     }
     , { timestamps: true }
 );

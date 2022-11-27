@@ -6,11 +6,11 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey, red } from '@mui/material/colors';
+import { useNavigate } from 'react-router-dom';
 //material UI modal
 import Modal from '@mui/material/Modal';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -34,6 +34,7 @@ const theme = createTheme({
 
 
 export default function Hackathon() {
+     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(Date ? Date : null);
     const [time, setTime] = useState(Date ? Date : null);
@@ -90,7 +91,7 @@ export default function Hackathon() {
                 <Sidebar />
                 <div className="hackathonRight">
                    {hackathonData.map((data) => (
-                        <Hackathontile data={data} />
+                             <Hackathontile key={data._id} data={data} />       
                     ))}           
                 </div>
                  <ThemeProvider theme={theme}>

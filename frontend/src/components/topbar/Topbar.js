@@ -38,12 +38,13 @@ function TopNavBar() {
   const [userdata, setUserdata] = useState([]);
   const [searchPopper, setSearchPopper] = useState(false);
   const [searchText, setSearchText] = useState(" ");
-
-
+  const [profilePicture, setProfilePicture] = useState("");
+  
   useEffect(() => {
     async function fetchUser() {
       const user = JSON.parse(localStorage.getItem('user'));
       setUserName(user.userName);
+      setProfilePicture(user.profilePicture);
       const result = await axios.get("api/users/");
       //filter the information of self
        const Allusers = result.data.users;
@@ -151,7 +152,7 @@ function TopNavBar() {
           </div>
         </div>
         <span className="topbarUsername">{userName}</span>
-        <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="topbarImg"
+        <img src={profilePicture} alt="" className="topbarImg"
           aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./User");
 
 const HackathonSchema = new mongoose.Schema(
     {
@@ -30,7 +31,12 @@ const HackathonSchema = new mongoose.Schema(
         time : {
             type: String,
             required: true
-        }
+        },
+        participants: {
+            type : Array,
+            default: []
+        },
+
     }
     , { timestamps: true }
 );
