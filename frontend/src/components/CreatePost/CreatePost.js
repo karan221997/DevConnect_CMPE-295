@@ -11,9 +11,11 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {  Modal } from "react-bootstrap";
 import {useRef} from 'react';
+import { Label } from "@mui/icons-material";
 
 
 function CreatePost(props) {
+  const [Communities, setCommunities] = useState([]);
   const [type, setType] = React.useState("text");
   const [postTitle, setPostTitle] = React.useState("");
   const [postText, setPostText] = React.useState("");
@@ -115,7 +117,13 @@ function CreatePost(props) {
   useEffect(() => {
     let userDetails = localStorage.getItem("user");
     let userObject = JSON.parse(userDetails);
-
+    //get all communities from backed
+    const getCommunities = async () => {
+      const communitiesFromServer = await axios.get("/api/communities/getAllCommunities");
+      setCommunities(communitiesFromServer.data);
+    };
+    getCommunities();
+    console.log("---",Communities);
     setUserId(userObject._id);
     setUserName(userObject.userName);
     setUserEmail(userObject.email);
@@ -128,11 +136,8 @@ function CreatePost(props) {
     console.log("Checking if there is something in URL",generatedURLS.length)
     for(let i=0;i<generatedURLS.length;i++)
     {
-      console.log("Inside loop")
-      console.log("Logging here",generatedURLS[i]);
       Urls.push(generatedURLS[i]);
     }
-    console.log("URLS REFFERED HERE",Urls);
     let data = {
       userId: userId,
       userName: userName,
@@ -143,11 +148,9 @@ function CreatePost(props) {
       communityId: communityId,
       S3URL: Urls
     };
-    console.log("Printing data object",data);
     try {
       const response = await axios.post("/api/posts/addPost", data);
-      console.log("Got response for adding post",response)
-      console.log("ADDED POST");
+     
     } catch (err) {
       console.log(err);
     }
@@ -165,25 +168,20 @@ function CreatePost(props) {
               <div className="create-post-heading">Ask Your Question</div>
               <hr />
               <select
+
                 className="form-control"
                 style={{ marginTop: "10px", marginBottom: "10px" }}
                 onChange={(event, newValue) => {
                   setSelectedCommunity(event.target.value);
-                  console.log(event.target.value);
                 }}
+               
               >
-                <option selected disabled>
+                <option value="" disabled selected>
                   Select Community
                 </option>
-                <option value="ReactJS" id="1">
-                  ReactJS
-                </option>
-                <option value="NodeJS" id="2">
-                  NodeJS
-                </option>
-                <option value="Java" id="3">
-                  Java
-                </option>
+              {Communities.map((community) => (
+                <option value={community.communityName}>{community.communityName}</option>
+              ))}
               </select>
               <hr />
               <ButtonGroup
