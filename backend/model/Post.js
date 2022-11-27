@@ -42,7 +42,11 @@ const PostSchema = new mongoose.Schema({
     communityName: {
         type: String,
         required:true
-    }
+    },
+    comments: {
+        type: Array,
+        default: []
+    },
   
 }, {timestamps : true} );
 
