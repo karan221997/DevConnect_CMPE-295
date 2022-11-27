@@ -27,17 +27,15 @@ const PostSchema = new mongoose.Schema(
       default: [],
     },
     upVotes: {
-      type: Number,
-      default: 0,
+      type: Array,
+      default: [],
     },
     downVotes: {
-      type: Number,
-      default: 0,
+      type: Array,
+      default: [],
     },
     communityId: {
-      //type: mongoose.Types.ObjectId,
       type: String,
-      // required:true
     },
     communityName: {
         type: String,
