@@ -23,18 +23,18 @@ export default function Messenger() {
   //console.log(user);
     //console.log(user.email);
 
-    // useEffect(()=>{
-    //   socket.current = io("ws://localhost:8900");
-    //   console.log("arrival message setting");
-    //   socket.current.on("getMessage",data=>{
-    //       setArrivalMessage({
-    //         sender: data.senderId,
-    //         text: data.text,
-    //         createdAt : Date.now(),
-    //       });
-    //       console.log(arrivalMessage);
-    //   });
-    // },[]);
+    useEffect(()=>{
+      socket.current = io("ws://localhost:8900");
+      console.log("arrival message setting");
+      socket.current.on("getMessage",data=>{
+          setArrivalMessage({
+            sender: data.senderId,
+            text: data.text,
+            createdAt : Date.now(),
+          });
+          console.log(arrivalMessage);
+      });
+    },[]);
 
     // useEffect(()=>{
     //   arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
@@ -48,6 +48,7 @@ export default function Messenger() {
     }, [arrivalMessage, currentChat]);
    
     useEffect(()=>{
+      console.log(user.email);
       socket.current.emit("addUser", user.email);
       socket.current.on("getUsers",users=>{
         console.log(user);
@@ -67,11 +68,11 @@ export default function Messenger() {
   //   setMessages((prev)=>[...prev,arrivalMessage])
   // },[arrivalMessage,currentChat]);
 
-  useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage, currentChat]);
+  // useEffect(() => {
+  //   arrivalMessage &&
+  //     currentChat?.members.includes(arrivalMessage.sender) &&
+  //     setMessages((prev) => [...prev, arrivalMessage]);
+  // }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
     socket.current.emit("addUser", user.email);

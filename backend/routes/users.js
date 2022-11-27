@@ -211,18 +211,22 @@ router.get("/friends/:email", async (req, res) => {
         console.log(user);
         console.log("foll - "+user[0].isAdmin);
         console.log("foll - "+user[0].following);
+        console.log("------------------------------------------------------");
         const friends = await Promise.all(
             user[0].following.map((friendId)=>{
-                return User.findById(friendId);
+                return User.find({email:friendId});
             })
         );
+        console.log("++++++++++++++++++++++++++++++++++++++++++++++++");
+        console.log("hhh");
         console.log("friends -- "+friends);
 
         let friendList = [];
     friends.map((friend) => {
-      const { _id, email, userName, profilePicture } = friend;
-      friendList.push({ _id, email, userName, profilePicture });
+      const { _id, email, userName } = friend;
+      friendList.push({ _id, email, userName });
     });
+    console.log("LIST OF FRNDS "+friendList);
     res.status(200).json(friendList)
 
         //res.status(200).json({message: "Users found", user});
@@ -233,7 +237,6 @@ router.get("/friends/:email", async (req, res) => {
     }
 }
 );
-
 
 
 module.exports = router;

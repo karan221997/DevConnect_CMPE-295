@@ -3,6 +3,7 @@ const Conversation = require('../model/Conversation');
 
 //new conversation
 router.post("/", async (req, res) => {
+  console.log("new convo");
     console.log(req.body.senderId);
     console.log(req.body.receiverId);
     // const newConversation = new Conversation({
@@ -27,6 +28,7 @@ router.post("/", async (req, res) => {
 
 //get conversation of user
 router.get("/:userId", async (req, res) => {
+  console.log("getting conversations");
     try {
       const conversation = await Conversation.find({
         members: { $in: [req.params.userId] },
