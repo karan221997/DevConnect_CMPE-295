@@ -32,4 +32,21 @@ router.post('/', async (req, res) => {
 }
 );
 
+//apply for job
+router.post('/apply', async (req, res) => {
+    try{
+        const job = await Job.findOne({_id:req.body.jobId});
+        job.applicants.push({
+            userId:req.body.userId,
+            userName:req.body.userName,
+            userEmail:req.body.userEmail
+        });
+        const savedJob = await job.save();
+        res.status(200).json(savedJob);
+    }
+    catch(err){
+        res.status(500).json({message: err});
+    }
+});
+
 module.exports = router;
