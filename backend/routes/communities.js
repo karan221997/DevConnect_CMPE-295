@@ -164,4 +164,20 @@ router.get("/getCommunityDetail/:community_id", async (req, res) => {
   }
 });
 
+//get all communities for create post list
+router.get("/getAllCommunities", async (req, res) => {
+  try {
+    const result = await Community.find(
+      {},
+      { communityName: 1}
+    );
+    if (result) {
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+
 module.exports = router;

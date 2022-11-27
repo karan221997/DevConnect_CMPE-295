@@ -17,8 +17,6 @@ import {
 export default function Rightbar({ profile, userCommunities }) {
   const navigate = useNavigate();
   let renderComponent;
-  console.log(userCommunities);
-  console.log(userCommunities);
 
   const communityClickHandler = (community) => {
     const com = JSON.stringify(community);
