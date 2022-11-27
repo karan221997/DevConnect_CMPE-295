@@ -14,12 +14,8 @@ router.post("/createCommunity", async (req, res) => {
       res.status(500).json({ message: "Community Already Exists" });
     } else {
       const newCommunity = await new Community({
-        communityId: req.body.communityId,
         communityName: req.body.communityName,
         communityDescription: req.body.communityDescription,
-        communityRules: req.body.communityRules,
-        communityImage: req.body.communityImage,
-        creationTime: req.body.creationTime,
         createdBy: req.body.createdBy,
         communityMembers: [req.body.createdBy],
       });
@@ -29,7 +25,7 @@ router.post("/createCommunity", async (req, res) => {
           { email: req.body.createdBy },
           { $push: { followers: req.body.communityName } }
         );
-        if (success) {
+        if (success1) {
           res.status(200).json(result);
         }
       }
@@ -167,9 +163,21 @@ router.get("/getCommunityDetail/:community_id", async (req, res) => {
 //get all communities for create post list
 router.get("/getAllCommunities", async (req, res) => {
   try {
+    const result = await Community.find({}, { communityName: 1 });
+    if (result) {
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.get("/getAllMembers/:communityName", async (req, res) => {
+  try {
+    const commName = req.params.communityName;
     const result = await Community.find(
-      {},
-      { communityName: 1}
+      { communityname: commName },
+      { communityMembers: 1 }
     );
     if (result) {
       res.status(200).json(result);
@@ -179,5 +187,15 @@ router.get("/getAllCommunities", async (req, res) => {
   }
 });
 
-
+router.get("/getAllFriends/:emailID", async (req, res) => {
+  try {
+    const emailID = req.params.emailID;
+    const result = await User.find({ email: emailID }, { following: 1 });
+    if (result) {
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
 module.exports = router;

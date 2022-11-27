@@ -11,7 +11,6 @@ const communitySchema = new mongoose.Schema({
   },
   communityRules: {
     type: Array,
-    required: true,
   },
   communityImage: {
     type: String,

@@ -1,20 +1,38 @@
 import React from "react";
+import { useState } from "react";
+import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { InputGroup } from "react-bootstrap";
+function CreateCommunity() {
+  const [communityName, setCommunityName] = useState("");
+  const [communityDescription, setCommunityDescription] = useState("");
+  const [success, setSuccess] = useState();
+  const userDetails = JSON.parse(localStorage.getItem("user"));
 
-function CreateCommunity(props) {
-  const tagOptions = [
-    { value: "Java", label: "Java" },
-    { value: "React", label: "React" },
-    { value: "TypeScript", label: "TypeScript" },
-  ];
+  const createCommunity = async () => {
+    try {
+      const result = await axios.post("api/communities/createCommunity", {
+        communityName: communityName,
+        communityDescription: communityDescription,
+        createdBy: userDetails.email,
+      });
+      if (result) {
+        setSuccess(true);
+      }
+    } catch (err) {}
+  };
   return (
     <div>
       <Form>
         <Form.Group className="mb-3" controlId="CommunityName">
           <Form.Label>Community Name</Form.Label>
-          <Form.Control type="text" placeholder="Enter Community Name" />
+          <Form.Control
+            type="text"
+            onChange={(e) => {
+              setCommunityName(e.target.value);
+            }}
+            placeholder="Enter Community Name"
+          />
           <Form.Text className="text-muted">
             What would you like your community be called ?
           </Form.Text>
@@ -22,33 +40,30 @@ function CreateCommunity(props) {
 
         <Form.Group className="mb-3" controlId="CommunityDescription">
           <Form.Label>Community Description</Form.Label>
-          <Form.Control type="text" placeholder="Enter Community Description" />
+          <Form.Control
+            type="text"
+            onChange={(e) => {
+              setCommunityDescription(e.target.value);
+            }}
+            placeholder="Enter Community Description"
+          />
           <Form.Text className="text-muted">
             What is the community about ?
           </Form.Text>
         </Form.Group>
-        <Form.Group controlId="CommunityImage" className="mb-3">
-          <Form.Label>Community Image</Form.Label>
-          <InputGroup className="mb-3">
-            <Form.Control type="file" />
-            <Button variant="dark">Upload </Button>
-          </InputGroup>
-        </Form.Group>
-        <Form.Group controlId="CommunityTags" className="mb-3">
-          <Form.Label>Tags Associated With Community</Form.Label>
-          <Form.Text className="text-muted">
-            Keywords that can be used to identify community
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="CommunityRules">
-          <Form.Label>Community Rules</Form.Label>
-          <Form.Control type="text" placeholder="Enter Community Description" />
-          <Form.Text className="text-muted">Any ground rules ?</Form.Text>
-        </Form.Group>
-
-        <Button variant="dark" type="submit">
+        <Button
+          variant="dark"
+          onClick={(e) => {
+            createCommunity();
+          }}
+        >
           Create Community
         </Button>
+        {success && (
+          <p style={{ color: "green" }}>
+            <b>Community Created Successfully</b>
+          </p>
+        )}
       </Form>
     </div>
   );

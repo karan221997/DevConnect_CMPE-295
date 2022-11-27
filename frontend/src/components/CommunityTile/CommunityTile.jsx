@@ -1,9 +1,8 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import { Button, Row, Container, Col } from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
-import { Search, Person, Chat, Notifications } from "@mui/icons-material";
 import QuickreplyTwoToneIcon from "@mui/icons-material/QuickreplyTwoTone";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
@@ -19,13 +18,9 @@ import "./CommunityTile.css";
 function CommunityTile({ community }) {
   const navigate = useNavigate();
   const [success, setSuccessful] = useState(false);
+  const [error, setError] = useState(false);
   const userDetails = JSON.parse(localStorage.getItem("user"));
   const email = userDetails.email;
-
-  // const CommunityClickHandler = (communityID) => {
-  //   navigate(`/communityDetail/${communityID}`);
-  // };
-
   const LinkClickHandler = () => {
     localStorage.setItem("communityName", community.communityName);
     navigate("/communitydetail");
@@ -41,12 +36,11 @@ function CommunityTile({ community }) {
       if (result) {
         console.log("idhar in front", result.message);
         setSuccessful(true);
+        window.location.reload();
       }
     } catch (err) {
       {
-        <Alert key="warning" variant="warning">
-          Unable to join community, user is already part of community
-        </Alert>;
+        setError(true);
       }
     }
   };
@@ -108,9 +102,6 @@ function CommunityTile({ community }) {
                 </Col>
                 <Col>
                   <Card.Title>
-                    {/* <Link to={`/communityDetail/${community.communityName}`}>
-                      {community.communityName}
-                    </Link> */}
                     <span className="link-lookalike" onClick={LinkClickHandler}>
                       {community.communityName}
                     </span>
@@ -123,6 +114,13 @@ function CommunityTile({ community }) {
                   >
                     Join
                   </Button>
+                  <br></br>
+                  {error && (
+                    <Alert key="warning" variant="warning">
+                      Unable to join community, user is already part of
+                      community
+                    </Alert>
+                  )}
                 </Col>
               </Row>
             </Card.Body>

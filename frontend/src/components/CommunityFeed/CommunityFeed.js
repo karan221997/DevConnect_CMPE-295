@@ -1,17 +1,13 @@
-import Share from "../share/Share";
 import Post from "../post/Post";
 import "./CommunityFeed.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ExploreTwoToneIcon from "@mui/icons-material/ExploreTwoTone";
 
 export default function CommunityFeed(communityName) {
   //get all the posts and pass it as props
   const [posts, setPosts] = useState([]);
-  const [userCommunities, setUserCommunities] = useState([]);
-  let userComm = [];
-  console.log("infeed", communityName);
+  console.log("infeed", JSON.stringify(communityName));
 
   useEffect(() => {
     async function fetchPosts() {
@@ -24,32 +20,16 @@ export default function CommunityFeed(communityName) {
       setPosts(result.data);
     }
     fetchPosts();
-   
   }, []);
-
-  
-
-  const fetchUserCommunityNames = (userCommunities) => {
-    for (let i = 0; i < userCommunities.length; i++) {
-      const result = axios.get(
-        "api/communities/getCommunityDetail/" + userCommunities[i]
-      );
-      userComm.push(result.data[0].communityName);
-    }
-  };
-  console.log("This is the user comm array", userComm);
 
   return (
     <div className="communityfeed">
-      <div className="ask_question_button">
-        <Button
-          variant="outline-dark"
-          style={{ float: "right", marginBottom: "5px" }}
-        >
-          <HelpOutlineIcon /> Ask in Community
-        </Button>
+      <div>
+        <h4 style={{ float: "left", marginLeft: "20px" }}>
+          <ExploreTwoToneIcon /> &nbsp;Welcome to {communityName.communityName}
+        </h4>
       </div>
-      <div className="feedWrapper">
+      <div>
         {posts.map((p) => (
           <Post key={p._id} post={p} />
         ))}
