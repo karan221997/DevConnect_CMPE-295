@@ -146,6 +146,7 @@ useEffect (() => {
                 </span>
                 <span className="postText">
                    {post.postText}
+
                 </span>   
                 <div>
                  {(post.image).map((imgSrc, index) => (<img src={imgSrc} key={index} className="postImg" alt="Make sure to include a alt tag, because react might throw an error at build"/>))} 
