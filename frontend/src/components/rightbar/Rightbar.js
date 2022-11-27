@@ -6,29 +6,14 @@ import Onlineusers from "../onlineusers/Onlineusers";
 import Addvertisement from "../addvertisement/Addvertisement";
 import Rules from "../Rules/Rules";
 import { Room } from "@mui/icons-material";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Link,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
 export default function Rightbar({ profile, userCommunities }) {
-  const navigate = useNavigate();
-  let renderComponent;
 
-  const communityClickHandler = (community) => {
-    const com = JSON.stringify(community);
-    console.log("in rightbar community", com);
-    localStorage.setItem("communityName", com);
-    navigate("/communitydetail");
-  };
+  let renderComponent;
   const HomeRightbar = () => {
     return (
       <>
         <div className="topjobpostContainer">
-          <WorkIcon htmlColor="#0066ff" className="jobpostImg" />
+          <WorkIcon htmlColor="#0066ff" className="jobpostImg" alt=" " />
           <span className="jobpostText">
             <b>Meta</b> and <b>3 other </b> companies posted job today.
           </span>
@@ -81,7 +66,7 @@ export default function Rightbar({ profile, userCommunities }) {
         >
           <div style={{ overflow: "hidden" }}>
             <ListGroup>
-              {userCommunities.map((community) => (
+              {/* {userCommunities.map((community) => (
                 <ListGroup.Item>
                   <img
                     className="rightbarProfileImg"
@@ -89,7 +74,7 @@ export default function Rightbar({ profile, userCommunities }) {
                   ></img>
                   <span onClick={communityClickHandler}>{community}</span>
                 </ListGroup.Item>
-              ))}
+              ))} */}
             </ListGroup>
           </div>
         </div>
@@ -113,6 +98,7 @@ export default function Rightbar({ profile, userCommunities }) {
               <ListGroup.Item>
                 <img
                   className="rightbarProfileImg"
+                  alt=""
                   src="https://www.creativefabrica.com/wp-content/uploads/2020/08/11/group-people-icon-Graphics-4928818-1.jpg"
                 ></img>
                 {community}

@@ -10,6 +10,7 @@ import Dashboard from "./Pages/dashboard/Dashboard";
 import Profile from "./Pages/profile/Profile";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
+import HackathonPageAfterClicked from "./components/hackathonPageAfterClicked/HackathonPageAfterClicked";
 import { useContext } from "react";
 import Landing from "./Pages/landing/Landing";
 import { AuthContext } from "./context/AuthContext";
@@ -47,6 +48,7 @@ function App() {
           <Route exact path="/hackathon" element={<Hackathon />} />
           <Route exact path="/communities" element={<CommunityDashboard />} />
           <Route exact path="/messenger" element={<Messenger />} />
+          <Route exact path="/hackathonPageAfterClicked" element={<HackathonPageAfterClicked />} />
 
           <Route exact path="/communitydetail" element={<CommunityDetail />} />
         </Routes>
