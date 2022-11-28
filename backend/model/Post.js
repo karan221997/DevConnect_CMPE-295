@@ -15,6 +15,10 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    postCreatorProfilePicture: {
+      type: String,
+      default: "/assets/person/defaultProfilePiture.jpg",
+    },
     postTitle: {
         type: String,
     },

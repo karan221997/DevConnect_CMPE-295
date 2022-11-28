@@ -15,14 +15,14 @@ import Tooltip from '@mui/material/Tooltip';
 
 export default function Post({post}) {
 
+const [currentUser,setcurrentUser] = useState(JSON.parse(localStorage.getItem("user")));
 const [viewAllComments, setViewAllComments] = useState(false);
 const [commentButtonText, setCommentButtonText] = useState("View all comments");
-
 const [numberofComments]=useState(post.comments.length);
 const [numberOfUpvotes] = useState(post.upVotes.length);
 const [numberOfDownvotes] = useState(post.downVotes.length);
 const [comment, setComment] = useState(" ");
-
+const [image , setImage] = useState("/assets/person/defaultProfilePiture.jpg");
 //upvote button disabled if user has already upvoted
 const [upvoteDisabled, setUpvoteDisabled] = useState(false);
 //downvote button disabled if user has already downvoted
@@ -65,6 +65,7 @@ useEffect (() => {
   //get user id from local storage
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user._id;
+  setImage(post.postCreatorProfilePicture);
   //check if user has already upvoted
   post.upVotes.map((upvote) => {
     if (upvote === userId) {
@@ -127,7 +128,7 @@ useEffect (() => {
         <div className="postWrapper">
           <div className="postTop">
                 <div className="postTopLeft">
-                    <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="postProfileImg" />
+                    <img src={image} alt="" className="postProfileImg" />
                     <span className="postUsername">
                     {post.postCreatorUserName}
                     </span>
@@ -204,7 +205,7 @@ useEffect (() => {
                 InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="postProfileImg" />
+                  <img src={currentUser.profilePicture} alt="" className="postProfileImg" />
                 </InputAdornment>
               ),
             }}
@@ -220,6 +221,7 @@ useEffect (() => {
                 commentCreatorUserName: user.userName,
                 commentText: comment,
                 postId: post._id,
+                commentCreatorProfilePicture:user.profilePicture
               };
              
               axios.post("/api/posts/comment", data);
