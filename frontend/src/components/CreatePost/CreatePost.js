@@ -55,6 +55,7 @@ function CreatePost(props) {
      for ( let i = 0; i < selectedFiles.length; i++ ) {
       data.append( 'image', selectedFiles[ i ], selectedFiles[ i ].name );
      }
+     console.log("data to backend is ",data);
      await axios.post('/api/posts/multi-image-upload', data, {
       headers: {
        'accept': 'application/json',

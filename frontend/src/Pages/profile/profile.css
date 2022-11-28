@@ -60,6 +60,11 @@
 
 
 .profileInfoDesc{
+    display: flex;
+    direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
     font-weight: 300;
 }
 
@@ -81,4 +86,3 @@
     margin: 15px 0px;
     cursor: pointer;
   }
-

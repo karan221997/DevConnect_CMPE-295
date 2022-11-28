@@ -1,4 +1,3 @@
-
 import './profile.css';
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -7,10 +6,30 @@ import Rightbar from "../../components/rightbar/Rightbar";
 import Feed from "../../components/feed/Feed";
 import {useContext, useState, useEffect, useReducer } from "react";
 //react components import
+import Button from '@mui/material/Button';
 import { useLocation } from "react-router-dom";
-import { Route } from '@mui/icons-material';
+import { Edit, Route, Upload } from '@mui/icons-material';
 import {AuthContext} from "../../context/AuthContext";
 import axios from "axios";
+import { IconButton } from '@mui/material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { grey } from '@mui/material/colors';
+import { createTheme ,ThemeProvider } from '@mui/material/styles';
+import { editableInputTypes } from '@testing-library/user-event/dist/utils';
+import { upload } from '@testing-library/user-event/dist/upload';
+
+//creating theme to override material UI colors
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: grey[900],
+    },
+    secondary: {
+      main: '#f44336',
+    },
+  },
+});
 
 
 export default function Profile() {
@@ -22,112 +41,59 @@ export default function Profile() {
   const [user, setUser] = useState(location.state.user);
   //get user from local storage that is user that is logged in
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("user")));
-
-  const [addFriendButton, setAddFriendButton] = useState("");
-
-  // const location = useLocation();
   const requester = JSON.parse(localStorage.getItem(true));
-  //const [friend, setFriend] = useState(location.state.user);
+  const [profilePicture, setprofilePicture] = useState(location.state.user.profilePicture);
 
-  
 
   useEffect(() => {
     
     async function fetchData() {
-      console.log("insde use effect for profile");
       await setUser(location.state.user);
       setUserData(JSON.parse(localStorage.getItem("user")));
       const currentuser = JSON.parse(localStorage.getItem("user"));
-      console.log("current user", currentuser.following);
-      console.log("user clicked ", user);
       if (user._id === currentuser._id) {
         setIsEdit(true);
       } else {
         setIsEdit(false);
-      }
-      
-        const friendListofLoggedUser = await axios.get("api/users/getUserByEmail/"+ currentuser.email);
-        //console.log(friendListofLoggedUser.data.user[0].following);
-
-       const arrayLength = friendListofLoggedUser.data.user[0].following.length;
-      var friendsArrayList = [];
-        for(let i = 0; i < arrayLength; i++) {
-          friendsArrayList.push(friendListofLoggedUser.data.user[0].following[i]);
-       }
-console.log(friendsArrayList);
-       console.log(friendsArrayList.includes("h@gmail.com"));
-
-      if(friendsArrayList.includes(user.email)){
-        console.log("you are already frnds");
-        setAddFriendButton("FRIENDS");
-      }
-      else{
-        console.log("you are not friends");
-        if (user.email==currentuser.email){
-          console.log("same email");
-          setAddFriendButton("SAME_EMAIL");
-        }else{
-          setAddFriendButton("NOT_FRIEND");
-        }
-        
-      }
+      }   
     }
     fetchData();
 
-  }, [location.state.user]);
+  }, [location.state.user,profilePicture]);
 
-  const addFriend = async (e) => {
+ const handleChageProfilePicture = async (e) => {
     e.preventDefault();
-    const requester = JSON.parse(localStorage.getItem("user"));
-    console.log("Requested by "+requester.email);
-    //await setFriend(location.state.user);
-    console.log("Requested to - "+user.email);
-    console.log("click add friend");
-    let data=
-        {
-           userId: requester.email
-        }
-        console.log(requester.email);
+    const file = e.target.files[0];
+    const fileName = file.name;
+    const data = new FormData();
+    data.append("image", file,fileName);
 
-        console.log("friend profile "+user.email);
+   const res = await axios.post('/api/posts/single-image-upload', data, {
+      headers: {
+       'accept': 'application/json',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      }
+     })
+     if(res.status === 200){
+      console.log("user is ",user);
+      //set profile picture
+      setprofilePicture(res.data.imageUrl);
+      //updte the user
+      const updatedUser = {
+        ...user,
+        profilePicture: res.data.imageUrl
+      }
+      //send the updated user to the backend
+      const resultFromBackend = await axios.put(`/api/users/${user._id}`, updatedUser);
+      if(resultFromBackend.status === 200){
+      //update the user in local storage
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      }
 
-        
-    try {
-     const addFriend = await axios.put("api/users/"+ user.email +"/follow" , data);
-      console.log(addFriend);
-      setAddFriendButton("FRIENDS");
-     } catch (err) {
-       console.log(err);
      }
-
-  }
-
-  const removeFriend = async (e) => {
-    e.preventDefault();
-    const requester = JSON.parse(localStorage.getItem("user"));
-    console.log("Requested by "+requester.email);
-    //await setFriend(location.state.user);
-    console.log("Requested to - "+user.email);
-    console.log("click add friend");
-    let data=
-        {
-           email: requester.email
-        }
-        console.log(requester.email);
-
-        console.log("friend profile "+user.email);
-
-        
-    try {
-     const removeFriend = await axios.put("api/users/"+ user.email +"/unfollow" , data);
-      console.log(removeFriend);
-      setAddFriendButton("NOT_FRIEND");
-     } catch (err) {
-       console.log(err);
-     }
-
-  }
-
+  
+ }
 
   return (
     <>
@@ -135,46 +101,60 @@ console.log(friendsArrayList);
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
+         <ThemeProvider theme={theme}>
           <div className="profileRightTop">
             <div className="profileCover">
               <img src="/assets/person/defaultCoverPicture.jpg" alt="" className="profileCoverImg" />
-              <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="profileUserImg" />
-              <span className="material-symbols-sharp editButtonCover ">
-                {isEdit ? "drive_file_rename_outline" : ""}
-              </span>
-              <span className="material-symbols-sharp editButtonProfile">
-                {isEdit ? "drive_file_rename_outline" : ""}
-              </span>
+              <img src={profilePicture} alt="" className="profileUserImg" />
+              <div className='editButtonCover'>
+                  {isEdit && <IconButton>
+                    <BorderColorIcon htmlColor='black'/>
+                  </IconButton>}
+              </div>
+              <div className="editButtonProfile">
+                  {isEdit && 
+                  <IconButton
+                   onClick={()=>{
+                    document.getElementById("file").click();
+                   }}
+                  >
+                   <input type="file" id="file" style={{display:"none"}}
+                   accept=".png, .jpg, .jpeg"
+                   multiple={false}
+                    onChange={handleChageProfilePicture}
+                   />
+                    <BorderColorIcon htmlColor='black'/>
+                  </IconButton>}
+              </div>
             </div>
             <div className="profileInfo">
               <h1><span className="profileInfoName">{user.userName}</span></h1>
-              <span className="profileInfoDesc"> My bio goes here
-                <span className="material-symbols-sharp editButtonBio">
-                  {isEdit ? "drive_file_rename_outline" : ""}
-                </span>
-              </span>
-              {/* {addFriendButton ? "":<button className='addFriend' onClick={addFriend}>
-  Add Friend
-</button>} */}
-{(addFriendButton == 'SAME_EMAIL')?null:null }
-{(addFriendButton == 'FRIENDS')?<button className='addFriend' onClick={removeFriend}>
-  Remove Friend
-</button>:null }
-{(addFriendButton == 'NOT_FRIEND')?<button className='addFriend' onClick={addFriend}>
-  Add Friend
-</button>:null }
-              {/* <button className='addFriend' onClick={addFriend}>
-  Add Friend
-</button> */}
+              <div className="profileInfoDesc"> 
+                <span> My bio goes here </span>
+                <div className="editButtonBio">
+                  {isEdit && <IconButton>
+                    <BorderColorIcon htmlColor='black'/>
+                  </IconButton>}
+                </div>
+              </div> 
+              <div>
+                {isEdit && 
+                <Button variant="contained" 
+                color="primary"
+                startIcon={<PersonAddIcon />}>
+                  Add friend
+                </Button>
+               }   
+              </div>  
             </div>
 
-            
             
           </div>
           <div className="profileRightBottom">
             <Feed />
             <Rightbar profile={"profile"} />
           </div>
+          </ThemeProvider>
         </div>
 
       </div>
