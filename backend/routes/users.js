@@ -1,40 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const User = require('../model/User');
-//update users
-router.put("/:id", async (req, res) => {
-   
-   if(req.body.userId === req.params.id || req.body.isAdmin){
-
-       if(req.body.password){
-
-           try{
-                const salt = await bcrypt.genSalt(10);
-                 req.body.password = await bcrypt.hash(req.body.password, salt);
-                
-           }
-              catch(err){
-                    res.status(500).json({message: err});
-                }
-
-       }
-
-       //update user
-         try{
-                const user = await User.findByIdAndUpdate(req.params.id, { $set :req.body});
-                res.status(200).json({message: "User updated successfully", user});
-         }
-            catch(err){
-                res.status(500).json({message: err});
-            }
-
-   }
-    else{
-        res.status(403).json({message: "Unauthorized , only admin can update other users"});
-    }
-
-
-});
 
 //delete user 
 
@@ -233,6 +199,35 @@ router.get("/friends/:email", async (req, res) => {
     }
 }
 );
+
+//updte user
+router.put("/:id", async (req, res) => {
+    if(req.body._id === req.params.id || req.body.isAdmin){
+        if(req.body.password){
+            try{
+                const salt = await bcrypt.genSalt(10);
+                req.body.password = await bcrypt.hash(req.body.password, salt);
+            }
+            catch(err){
+                return res.status(500).json({message: err});
+            }
+        }
+        try{
+            const user = await User.findByIdAndUpdate(req.params.id, {
+                $set: req.body,
+            });
+            res.status(200).json({message: "Account updated successfully"});
+        }
+        catch(err){
+            res.status(500).json({message: err});
+        }
+    }
+    else{
+        res.status(403).json({message: "You can update only your account"});
+    }
+});
+
+
 
 
 

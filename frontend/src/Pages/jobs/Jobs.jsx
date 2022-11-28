@@ -54,7 +54,7 @@ export default function Jobs() {
     }
 
      const Submit = async () => {
-        console.log("submit button pressed");
+       
         const job = {
         title: jobTitle,
         description: jobDescription,
