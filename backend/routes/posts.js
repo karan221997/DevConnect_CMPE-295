@@ -18,6 +18,7 @@ router.post("/addPost", async (req, res) => {
             downVotes:req.body.downVotes,
             communityId:req.body.communityId,
             communityName:req.body.communityName,
+            postCreatorProfilePicture:req.body.postCreatorProfilePicture,
             image: req.body.S3URL
         })
         const savedPost =await post.save();
@@ -97,6 +98,7 @@ router.post("/comment", async (req, res) => {
             commentCreatorEmail:req.body.commentCreatorEmail,
             commentCreatorUserName:req.body.commentCreatorUserName,
             commentText:req.body.commentText,
+            commentCreatorProfilePicture:req.body.commentCreatorProfilePicture,
             createdAt:Date.now()
         });
         const savedPost = await post.save();

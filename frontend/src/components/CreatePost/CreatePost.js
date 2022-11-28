@@ -28,7 +28,6 @@ function CreatePost(props) {
   const [generatedURLS, setGeneratedURLS] = React.useState([]);
   const inputRef = useRef(null);
 
-
   const handleClose = () => {
     setShow(false);
     window.location.reload();
@@ -118,9 +117,11 @@ function CreatePost(props) {
     {
       Urls.push(generatedURLS[i]);
     }
+    
     let data = {
       userId: userId,
       userName: userName,
+      postCreatorProfilePicture : JSON.parse(localStorage.getItem('user')).profilePicture,
       email: userEmail,
       title: postTitle,
       text: postText,

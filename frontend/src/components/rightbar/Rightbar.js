@@ -27,12 +27,12 @@ export default function Rightbar({ profile }) {
 
   const fetchUserCommunities = async (emailId) => {
     try {
-      console.log("User email in getUser Community API", emailId);
+     
       const result = await axios.get(
         "api/communities/getCommunities/" + emailId
       );
       setUserCommunities(result.data[0].followers);
-      console.log("UserCommunities", userCommunities);
+     
     } catch (err) {
       console.log("cannot fetch user communities");
     }
@@ -43,7 +43,7 @@ export default function Rightbar({ profile }) {
       const result = await axios.get(
         "api/communities/getAllMembers/" + communityName
       );
-      console.log(result.data[0]);
+   
       setCommunityMembers(result.data[0].communityMembers);
     } catch (err) {
       console.log("cannot fetch community members");
@@ -55,7 +55,7 @@ export default function Rightbar({ profile }) {
       const result = await axios.get(
         "api/communities/getAllFriends/" + emailID
       );
-      console.log(result.data[0]);
+      
       setFriends(result.data[0].following);
     } catch (err) {
       console.log("cannot fetch community members");
@@ -63,7 +63,7 @@ export default function Rightbar({ profile }) {
   };
 
   const communityClickHandler = (community) => {
-    console.log("in rightbar community", community);
+   
     localStorage.setItem("communityName", community);
     navigate("/communitydetail");
   };

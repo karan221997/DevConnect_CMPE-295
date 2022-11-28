@@ -39,7 +39,7 @@ if (timeElaspedInWeeksRounded > 0) {
         <div className="comment">
            <div className="comment__top">
                 <div className='comment__top_left'>
-                    <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="comment__top__left__image"></img>
+                    <img src={comment.commentCreatorProfilePicture} alt="" className="comment__top__left__image"></img>
                 </div>
                 <div className='comment__top__middle'>
                     <span className="comment__top__middle__username">
