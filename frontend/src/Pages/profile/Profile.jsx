@@ -42,6 +42,8 @@ export default function Profile() {
   //get user from local storage that is user that is logged in
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("user")));
   const requester = JSON.parse(localStorage.getItem(true));
+  const [AddFriendText, setAddFriendText] = useState("Add Friend");
+  const [isFriendDisabled, setIsFriendDisabled] = useState(false);
   const [profilePicture, setprofilePicture] = useState(location.state.user.profilePicture);
 
 
@@ -51,10 +53,23 @@ export default function Profile() {
       await setUser(location.state.user);
       setUserData(JSON.parse(localStorage.getItem("user")));
       const currentuser = JSON.parse(localStorage.getItem("user"));
+      
       if (user._id === currentuser._id) {
         setIsEdit(true);
       } else {
         setIsEdit(false);
+        
+        const currentUserId = currentuser._id;
+        const userId = user._id; // this is the userId of the profile page
+
+    
+        const isFriend = user.friends.some((friend) => friend.userId === currentUserId);
+        console.log("isFriends value --",isFriend);
+        if (isFriend) {
+          setAddFriendText("Already Friends");
+          setIsFriendDisabled(true);
+        }
+
       }   
     }
     fetchData();
@@ -94,6 +109,29 @@ export default function Profile() {
      }
   
  }
+
+ const AddFriendClick = async () => {
+  
+  console.log("Add friend clicked");
+  const currentuser = JSON.parse(localStorage.getItem("user"));
+  const profileUser = user; //location.state.user;
+
+    //add freinds 
+    const data = {
+      profilePageUserId: profileUser._id,
+    }
+    const result = await axios.post(`/api/users/addfriends/${currentuser._id}`, data);
+    if(result.status === 200){
+      //update the user in local storage
+      localStorage.setItem("user", JSON.stringify(result.data));
+      setAddFriendText("Already Friends");
+      setIsFriendDisabled(true);
+    }else{
+      console.log("error adding friend");
+    }
+  }
+
+
 
   return (
     <>
@@ -138,11 +176,13 @@ export default function Profile() {
                 </div>
               </div> 
               <div>
-                {isEdit && 
+                {!isEdit && 
                 <Button variant="contained" 
                 color="primary"
+                onClick={AddFriendClick}
+                disabled={isFriendDisabled}
                 startIcon={<PersonAddIcon />}>
-                  Add friend
+                  {AddFriendText}
                 </Button>
                }   
               </div>  

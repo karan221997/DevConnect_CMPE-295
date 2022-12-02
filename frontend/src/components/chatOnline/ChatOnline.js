@@ -11,7 +11,6 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
   useEffect(() => {
     const getFriends = async () => {
       const res = await axios.get("/api/users/friends/" + currentId);
-      console.log(res.data);
       setFriends(res.data);
     };
 
@@ -32,7 +31,6 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
       console.log(err);
     }
   };
-console.log(onlineFriends);
   return (
     <div className="chatOnline">
       {onlineFriends.map((o) => (

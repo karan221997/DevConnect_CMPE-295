@@ -10,6 +10,7 @@ import {io} from "socket.io-client";
 // import ChatOnline from '../../components/chatOnline/ChatOnline';
 
 
+
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -126,13 +127,11 @@ export default function Messenger() {
       conversationId: currentChat._id,
     };
 
-    console.log("HERE");
-
+   
     const receiverId = currentChat.members.find(
       (member) => member !== user.email
     );
 
-    console.log("for socket ---- " + receiverId);
     socket.current.emit("sendMessage", {
       senderId: user.email,
       receiverId,
@@ -144,8 +143,6 @@ export default function Messenger() {
 
       setMessages([...messages, res.data]);
       setNewMessage("");
-      console.log("NEW MESSAGE PRINTED DOWN");
-      console.log(newMessage);
     } catch (err) {
       console.log(err);
     }
@@ -158,13 +155,10 @@ export default function Messenger() {
   return (
     <div>
       <Topbar />
-      {/* <div className="chatMenu"></div>
-            <div className="chatBox"></div>
-            <div className="chatOnline"></div> */}
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <input placeholder="Search for friends" className="chatMenuInput" />
+            <span className="chatMenuTitle">Conversations</span>
             {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
                 <Conversation conversation={c} currentUser={user} />
@@ -187,6 +181,7 @@ export default function Messenger() {
                   <textarea
                     className="chatMessageInput"
                     placeholder="write something..."
+                    value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                   ></textarea>
                   <button className="chatSubmitButton" onClick={handleSubmit}>

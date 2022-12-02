@@ -16,7 +16,7 @@ export default function Usersearch({user, setSearchPopper, setSearchText}) {
     return (
         <div className="usersearch">
             <div className="usersearchProfile">
-                <img src="/assets/person/defaultProfilePiture.jpg" alt="" className="userserachImg" />
+                <img src={user.profilePicture} alt="" className="userserachImg" />
             </div>
             <div className="userSerachInformation">
                  <div className="userInformationTop">
