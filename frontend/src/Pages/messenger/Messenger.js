@@ -48,20 +48,20 @@ export default function Messenger() {
         setMessages((prev) => [...prev, arrivalMessage]);
     }, [arrivalMessage, currentChat]);
    
-    useEffect(()=>{
-      console.log(user.email);
-      socket.current.emit("addUser", user.email);
-      socket.current.on("getUsers",users=>{
-        console.log(user);
-        console.log(user.following);
-        console.log(users);
-        setOnlineUsers(
-          user.following.filter((f) => users.some((u) => u.userId === f))
-        );
-        console.log(onlineUsers);
-      });
-      console.log(arrivalMessage);
-    });
+    // useEffect(()=>{
+    //   console.log(user.email);
+    //   socket.current.emit("addUser", user.email);
+    //   socket.current.on("getUsers",users=>{
+    //     console.log(user);
+    //     console.log(user.following);
+    //     console.log(users);
+    //     setOnlineUsers(
+    //       user.following.filter((f) => users.some((u) => u.userId === f))
+    //     );
+    //     console.log(onlineUsers);
+    //   });
+    //   console.log(arrivalMessage);
+    // });
   // }, []);
 
   // useEffect(()=>{

@@ -125,7 +125,7 @@ export default function Jobs() {
                             </IconButton>
                         </div>
                         <div className="modalMiddle">
-                            <TextField label="Jobs Tittle" variant="outlined" margin='dense' 
+                            <TextField label="Jobs Title" variant="outlined" margin='dense' 
                             onChange={(e) => setJobTitle(e.target.value)} />
                             <TextField label="Jobs Description" variant="outlined"
                                 multiline

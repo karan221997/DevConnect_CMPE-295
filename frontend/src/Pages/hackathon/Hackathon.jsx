@@ -123,7 +123,7 @@ export default function Hackathon() {
                             </IconButton>
                         </div>
                         <div className="modalMiddle">
-                            <TextField label="Hackathon Tittle" variant="outlined" margin='dense' 
+                            <TextField label="Hackathon Title" variant="outlined" margin='dense' 
                             onChange={(e) => {
                                 setTitle(e.target.value);
                             }}
