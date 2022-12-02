@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        max: 20,
         required: true
     },
     profilePicture: {
@@ -56,7 +55,11 @@ const UserSchema = new mongoose.Schema({
     location: {
         type: String,
         default: ""
-    }
+    },
+    friends: {
+        type: Array,
+        default: []
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);

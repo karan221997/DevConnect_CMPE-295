@@ -3,17 +3,11 @@ const Conversation = require('../model/Conversation');
 
 //new conversation
 router.post("/", async (req, res) => {
-  console.log("new convo");
-    console.log(req.body.senderId);
-    console.log(req.body.receiverId);
-    // const newConversation = new Conversation({
-    //     members: [req.body.senderId, req.body.receiverId],
-    // });
+
     const newConversation = new Conversation({
         members: [req.body.senderId, req.body.receiverId],
       });
-    console.log(newConversation);
-
+    
     try {
         const savedConversation = await newConversation.save();
         res.status(200).json(savedConversation);

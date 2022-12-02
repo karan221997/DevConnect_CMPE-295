@@ -25,7 +25,7 @@ export default function Conversation({ conversation, currentUser }) {
     <div className="conversation">
       <img
         className="conversationImg"
-        src="/assets/person/defaultProfilePiture.jpg"
+        src={user?.profilePicture}
         alt=""
       />
       <span className="conversationName">{user?.userName}</span>

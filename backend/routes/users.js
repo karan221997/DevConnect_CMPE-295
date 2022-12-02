@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const User = require('../model/User');
+const Conversation = require('../model/Conversation');
 
 //delete user 
 
@@ -231,6 +232,41 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+
+// add friends to a user
+router.post("/addfriends/:id", async (req, res) => {
+  console.log("inside add friends");
+  //current user which is logged in
+    const currentUser = await User.findById(req.params.id);
+    console.log("current user "+currentUser);
+    //profile user which is being viewed
+    const profileUser = await User.findById(req.body.profilePageUserId);
+    console.log("profile user "+profileUser);
+
+    //upadte the current user
+    currentUser.friends.push({
+        userId: profileUser._id,
+        userName: profileUser.userName,
+        email: profileUser.email,
+    });
+    const savedCurrentUser = await currentUser.save();
+
+    //update the profile user
+    profileUser.friends.push({
+        userId: currentUser._id,
+        userName: currentUser.userName,
+        email: currentUser.email,
+    });
+    const savedProfileuser = await profileUser.save();
+
+   const newConversation = new Conversation({
+        members: [currentUser.email, profileUser.email],
+      });
+    
+    const savedConversation = await newConversation.save();
+
+    res.status(200).json(savedCurrentUser);
+});
 
 
 

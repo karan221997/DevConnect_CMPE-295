@@ -32,6 +32,14 @@ router.post("/register", async (req, res) => {
     }
 });
 
+const checkPassword = async (password, hashedPassword) => {
+    try{
+        return await bcrypt.compare(password, hashedPassword);
+    }catch(err){
+        res.status(500).send({message: err.message});
+    }
+}
+
 
 //login
 router.post("/login", async (req, res) => {
@@ -47,8 +55,11 @@ router.post("/login", async (req, res) => {
             console.log("user not found");
             res.status(401).json({message: "User not found"});
         }else{
-            const isMatch = await bcrypt.compare(req.body.password, user.password);
-            if(!isMatch){
+            console.log("user found");
+            console.log("incomming password: " + req.body.password);
+            console.log("user password: " + user.password);
+            
+            if(!checkPassword(req.body.password, user.password)){
                 res.status(401).json({message: "Invalid password"});
             }else{
                 res.status(200).json(user);
